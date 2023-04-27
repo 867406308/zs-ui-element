@@ -5,7 +5,7 @@ import router from '@/router';
 import { removeToken, getToken } from '@/utils/token';
 
 const instance = axios.create({
-  baseURL: 'http://39.101.195.100:8085/api',
+  baseURL: 'http://39.101.195.100:8085/api', //'http://localhost:8083/api', //
   timeout: 6000,
   headers: {
     'Content-Type': 'application/json;charset=utf-8',
