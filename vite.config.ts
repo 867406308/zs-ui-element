@@ -1,14 +1,15 @@
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import path from 'path'
-import AutoImport from 'unplugin-auto-import/vite'
-import Components from 'unplugin-vue-components/vite'
-import Icons from 'unplugin-icons/vite'
-import IconsResolver from 'unplugin-icons/resolver'
-import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
-import { FileSystemIconLoader } from 'unplugin-icons/loaders'
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+import path from 'path';
+import AutoImport from 'unplugin-auto-import/vite';
+import Components from 'unplugin-vue-components/vite';
+import Icons from 'unplugin-icons/vite';
+import IconsResolver from 'unplugin-icons/resolver';
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
+import { FileSystemIconLoader } from 'unplugin-icons/loaders';
+import checker from 'vite-plugin-checker';
 
-const pathSrc = path.resolve(__dirname, 'src')
+const pathSrc = path.resolve(__dirname, 'src');
 // https://vitejs.dev/config/
 export default defineConfig({
   resolve: {
@@ -18,9 +19,14 @@ export default defineConfig({
   },
   plugins: [
     vue(),
+    checker({
+      typescript: true,
+      vueTsc: true,
+    }),
     AutoImport({
       // 自动导入 Vue 相关函数，如：ref, reactive, toRef 等
       imports: ['vue', '@vueuse/core', 'vue-router'],
+      dirs: [path.resolve(pathSrc, 'composables')],
       resolvers: [
         ElementPlusResolver(),
         // 自动导入 Element Plus 组件
@@ -30,7 +36,8 @@ export default defineConfig({
           prefix: 'Icon',
         }),
       ],
-      dts: path.resolve(pathSrc, 'plugins', 'auto-imports.d.ts'),
+      vueTemplate: true,
+      dts: path.resolve(pathSrc, 'typings', 'auto-imports.d.ts'),
     }),
     Components({
       // dirs 指定组件所在位置，默认为 src/components
@@ -61,11 +68,11 @@ export default defineConfig({
         // 这里是存放svg图标的文件地址，custom是自定义图标库的名称
         // custom: FileSystemIconLoader('./src/assets/icons'),
         custom: FileSystemIconLoader('./src/assets/icons/svg', (svg) =>
-          svg.replace(/^<svg /, '<svg fill="currentColor" ')
+          svg.replace(/^<svg /, '<svg fill="currentColor" '),
         ),
       },
       iconCustomizer(collection, icon, props) {
-        const name = `${collection}:${icon}`
+        const name = `${collection}:${icon}`;
       },
     }),
   ],
@@ -82,4 +89,4 @@ export default defineConfig({
     open: true, // 服务启动是否自动打开浏览器
     cors: true, // 允许跨域
   },
-})
+});

@@ -4,6 +4,7 @@
   </div>
 </template>
 <script>
+import { ElMessage } from 'element-plus';
 export default defineComponent({
   setup() {
     const state = reactive({

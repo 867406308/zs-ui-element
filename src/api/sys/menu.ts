@@ -8,14 +8,14 @@ export function getList() {
   });
 }
 
-export function getById(id) {
+export function getById(id: string) {
   return request({
     url: `/sys/menu/${id}`,
     method: 'get',
   });
 }
 
-export function save(data) {
+export function save(data: any) {
   return request({
     url: '/sys/menu/save',
     method: 'post',
@@ -23,7 +23,7 @@ export function save(data) {
   });
 }
 
-export function edit(data) {
+export function edit(data: any) {
   return request({
     url: '/sys/menu/update',
     method: 'put',

@@ -2,22 +2,22 @@
   "compilerOptions": {
     "target": "ESNext",
     "useDefineForClassFields": true,
-    "module": "ESNext",
-    "moduleResolution": "Node",
+    "module": "ESNext", // 使用最新的js语法
+    "moduleResolution": "Node", // 导入第三方包时候会使用commonjs规范解析
     "strict": true,
     "jsx": "preserve",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "esModuleInterop": true,
     "lib": ["ESNext", "DOM"],
-    "skipLibCheck": true,
+    "skipLibCheck": true, // 跳过node_modules中的ts检查
     "noEmit": true,
     "allowJs": true, // 是否对 js 文件进行编译，默认是false
     "paths": {
       "@/*": ["./src/*"]
     },
     // volar支持
-    "types": ["element-plus/global"]
+    "types": ["element-plus/global", "node"]
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
   "references": [{ "path": "./tsconfig.node.json" }]
