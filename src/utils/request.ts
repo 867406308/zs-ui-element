@@ -1,6 +1,5 @@
 import axios from 'axios';
-import { ElMessage } from 'element-plus';
-import { useUserStore } from '@/store/modules/sys/user';
+// import { ElMessage } from 'element-plus';
 import router from '@/router';
 import { removeToken, getToken } from '@/utils/token';
 
@@ -39,10 +38,10 @@ instance.interceptors.response.use(
       case 200:
         return response?.data;
       default:
-        ElMessage({
-          message: `${response.data.msg}: ${response.data.data}`,
-          type: 'warning',
-        });
+        // ElMessage({
+        //   message: `${response.data.msg}: ${response.data.data}`,
+        //   type: 'warning',
+        // });
         return;
     }
     return response.data;
@@ -65,7 +64,8 @@ instance.interceptors.response.use(
         504: '网关超时',
         505: 'HTTP版本不受支持',
       }[status] || '网络异常,请检查网络情况。';
-    ElMessage({ message, type: 'error' });
+    console.log(message)
+    // ElMessage({ message, type: 'error' });
     if (status === 401) {
       removeToken();
       router.push('/login');

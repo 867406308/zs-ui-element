@@ -6,48 +6,41 @@
         default-active="2"
         :collapse="collapse"
         :router="true"
+        background-color="#fff"
         text-color="#282c34"
         mode="vertical"
         :collapse-transition="false"
         :style="{ width: !collapse ? '200px' : '64px' }"
       >
-        <SubMenu
-          v-for="(item, index) in menuList"
-          :key="index"
-          :menu="item"
-          :basePath="item.path"
-          :collapse="collapse"
-        ></SubMenu>
+        <SubMenu v-for="(item, index) in menuList" :key="index" :menu="item" :basePath="item.path" :collapse="collapse"></SubMenu>
       </el-menu>
     </el-scrollbar>
   </div>
 </template>
 <script>
-import { useRoutersStore } from '@/store/modules/router';
-import { useSettingStore } from '@/store/modules/setting';
-import { storeToRefs } from 'pinia';
+import { useRoutersStore } from '@/store/modules/router'
+import { useSettingStore } from '@/store/modules/setting'
+import { storeToRefs } from 'pinia'
 export default defineComponent({
   setup() {
     // 路由状态
-    const routersStore = useRoutersStore();
-    console.log(routersStore);
+    const routersStore = useRoutersStore()
     // 设置状态
-    const settingStore = useSettingStore();
-    const { collapse } = storeToRefs(settingStore);
+    const settingStore = useSettingStore()
+    const { collapse } = storeToRefs(settingStore)
     const state = reactive({
       menuList: [],
-    });
+    })
     onMounted(() => {
-      state.menuList = routersStore.menuList;
-      console.log(state.menuList);
-    });
+      state.menuList = routersStore.menuList
+    })
 
     return {
       ...toRefs(state),
       collapse,
-    };
+    }
   },
-});
+})
 </script>
 <style lang="scss" scoped>
 .menu-bar {

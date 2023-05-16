@@ -61,9 +61,13 @@ export default defineComponent({
 </script>
 <style lang="scss" scoped>
 .login-container {
-  background-color: cornflowerblue;
+  // background-color: cornflowerblue;
   // background-image: url('@/assets/bg.jpg');
   // background-repeat: round;
+    background: url('@/assets/789.jpg') no-repeat;
+    background-repeat: round;
+    // background-position: center;
+    background-size: contain;
   height: 100vh;
   .login {
     position: absolute;
@@ -88,11 +92,12 @@ export default defineComponent({
       width: 900px;
       height: 520px;
       background-color: #fff;
-      border-radius: 15px;
+      border-radius: 0px;
 
       .main_left {
         height: 520px;
-        background: url('@/assets/bg6.png') no-repeat;
+        // background: linear-gradient(163.85deg,#1d2129 0%,#00308f 100%);
+        background: url('@/assets/bg5.jpg') no-repeat;
         background-repeat: round;
       }
 

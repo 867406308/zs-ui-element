@@ -13,9 +13,9 @@
         class="username"
         size="large"
       >
-        <template #prepend>
-          <el-icon><User /></el-icon
-        ></template>
+        <template #prefix>
+          <ZsIcon icon="user"></ZsIcon>
+        </template>
       </el-input>
     </el-form-item>
     <el-form-item prop="password">
@@ -26,8 +26,8 @@
         size="large"
         show-password
       >
-        <template #prepend>
-          <el-icon><Lock /></el-icon>
+        <template #prefix>
+          <ZsIcon icon="lock"></ZsIcon>
         </template>
       </el-input>
     </el-form-item>
@@ -141,3 +141,4 @@ export default defineComponent({
   }
 }
 </style>
+[{id: 1ee3fcb132dc4d40a9689bb88cb55ba5, personCode: 20120001020005, personName: 田可为, classCode: 32001, className: 2001, atSchool: 1, residence: 0, dormitoryNo: null, leaveType: 1, applyTime: 2023-05-16 15:54:02, startTime: 2023-05-16 15:53:00, endTime: 2023-05-16 16:53:00, days: 0.5, reason: 测试1111, status: 1, refuseReason: null, leaveSchoolTime: 2023-05-16 15:53:00, leaveStatus: 0, reviewer: null, phone: 18734804116, creater: 115, createDate: 2023-05-16 15:54:02, updater: 115, updateDate: 2023-05-16 15:54:02}]

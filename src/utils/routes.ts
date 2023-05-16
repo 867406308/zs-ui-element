@@ -23,7 +23,7 @@ export function convertRouter(routers: any) {
       if (route.component === 'Layout') {
         route.component = Layout;
       } else {
-        route.component = () => require(`${route.component}.vue`);
+        route.component = () => import(`${route.component}.vue`);
       }
     }
 

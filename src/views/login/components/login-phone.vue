@@ -12,9 +12,9 @@
         class="username"
         size="large"
       >
-        <template #prepend
-          ><el-icon><Iphone /></el-icon
-        ></template>
+        <template #prefix>
+          <ZsIcon icon="iphone"></ZsIcon>
+        </template>
       </el-input>
     </el-form-item>
     <el-form-item prop="password">
@@ -24,8 +24,8 @@
         placeholder="请输入验证码"
         size="large"
       >
-        <template #prepend>
-          <el-icon><Message /></el-icon>
+        <template #prefix>
+          <ZsIcon icon="message"></ZsIcon>
         </template>
       </el-input>
     </el-form-item>

@@ -15,7 +15,8 @@ import { Icon } from '@iconify/vue';
 
     <!-- <icon-park v-for="(item, index) in icons" :key="index" :type="item.name" theme="filled"></icon-park> -->
     <!-- <el-button :plain="true" @click="open3">warning</el-button> -->
-    <ZsIcon />
+    <ZsIcon icon="dish"></ZsIcon>
+    <ZsSelectIcon />
   </div>
 </template>
 <script setup>

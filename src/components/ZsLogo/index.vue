@@ -1,7 +1,7 @@
 <template>
   <div class="system-title">
-    <img src="@/assets/vue.svg" />
-    <div v-if="!collapse" class="title">心心管理系统</div>
+    <img src="@/assets/logo.png" />
+    <div v-if="!collapse" class="title">Zs Admin</div>
   </div>
 </template>
 <script setup>
@@ -17,6 +17,11 @@ const { collapse } = storeToRefs(settingStore);
   display: flex;
   align-items: center;
   justify-content: center;
+
+  img {
+    width: 30px;
+    height: 30px;
+  }
 
   .title {
     margin-left: 10px;

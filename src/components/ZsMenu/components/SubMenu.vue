@@ -1,18 +1,23 @@
 <template>
-  <el-sub-menu v-if="menu.children && menu.children.length >= 1" :index="getPath(menu.path)">
+  <el-sub-menu
+    v-if="menu.children && menu.children.length >= 1"
+    :index="getPath(menu.path)"
+  >
     <template #title>
       <div class="sub-menu-style" v-if="collapse">
         <div class="icon">
           <el-icon>
-            <component :is="menu.meta.icon" class="icon"></component>
+            <!-- <component :is="menu.meta.icon" class="icon"></component> -->
+            <!-- <i :class="menu.meta.icon"></i> -->
+            <ZsIcon :icon="menu.meta.icon"></ZsIcon>
           </el-icon>
         </div>
-        <!-- <IconCustomBug /> -->
-        <!-- <div class="text" v-if="collapse">{{ menu.meta.title }}</div> -->
       </div>
       <div v-else>
         <el-icon>
-          <component :is="menu.meta.icon" class="icon"></component>
+          <!-- <component :is="menu.meta.icon" class="icon"></component> -->
+          <!-- <i :class="menu.meta.icon"></i> -->
+          <ZsIcon :icon="menu.meta.icon"></ZsIcon>
         </el-icon>
         <span>{{ menu.meta.title }}</span>
       </div>
@@ -25,9 +30,15 @@
       :collapse="collapse"
     ></SubMenu>
   </el-sub-menu>
-  <el-menu-item v-else :index="getPath(menu.path)" @click="routerChild(getPath(menu.path))">
+  <el-menu-item
+    v-else
+    :index="getPath(menu.path)"
+    @click="routerChild(getPath(menu.path))"
+  >
     <el-icon>
-      <component :is="menu.meta.icon" class="icon"></component>
+      <!-- <component :is="" class="icon"></component> -->
+      <!-- <i :class="menu.meta.icon"></i> -->
+      <ZsIcon :icon="menu.meta.icon"></ZsIcon>
     </el-icon>
     <template #title>{{ menu.meta.title }}</template></el-menu-item
   >

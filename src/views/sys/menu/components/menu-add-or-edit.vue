@@ -80,7 +80,8 @@
                 <el-input v-model="form.icon" style="width: 100%" placeholder="请选择图标"> </el-input>
               </template>
               <template #default>
-                <ZsIcon @onClick="click"></ZsIcon>
+                <!-- <ZsIcons @onClick="click"></ZsIcons> -->
+                <ZsSelectIcon @onClick="click"></ZsSelectIcon>
               </template>
             </el-popover>
           </el-form-item>

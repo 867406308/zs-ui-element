@@ -1,8 +1,7 @@
-import { getToken, hashToken, removeToken } from '@/utils/token';
+import { hashToken } from '@/utils/token';
 import { createRouter, createWebHistory } from 'vue-router';
 import Layout from '@/layout/index.vue';
 import { useRoutersStore } from '@/store/modules/router';
-import { useUserStore } from '@/store/modules/sys/user';
 import { getList } from '@/api/sys/menu';
 import { convertRouter } from '@/utils/routes';
 import NProgress from 'nprogress';
@@ -35,7 +34,7 @@ const asynRouters = [
     component: Layout,
     meta: {
       title: '首页',
-      icon: 'HomeFilled',
+      icon: 'home-filled',
     },
     children: [
       {
@@ -44,7 +43,7 @@ const asynRouters = [
         component: () => import('@/views/index/index.vue'),
         meta: {
           title: '首页',
-          icon: 'HomeFilled',
+          icon: 'document',
         },
       },
     ],
@@ -55,7 +54,7 @@ const asynRouters = [
     component: Layout,
     meta: {
       title: '系统',
-      icon: 'Setting',
+      icon: 'setting',
     },
     children: [
       {
@@ -64,7 +63,7 @@ const asynRouters = [
         component: () => import('@/views/sys/menu/menu.vue'),
         meta: {
           title: '菜单管理',
-          icon: 'Menu',
+          icon: 'menu',
         },
       },
       {
@@ -73,7 +72,7 @@ const asynRouters = [
         component: () => import('@/views/sys/role/role.vue'),
         meta: {
           title: '角色管理',
-          icon: 'UserFilled',
+          icon: 'user-filled',
         },
       },
       {
@@ -82,7 +81,7 @@ const asynRouters = [
         component: () => import('@/views/sys/user/user.vue'),
         meta: {
           title: '用户管理',
-          icon: 'User',
+          icon: 'user',
         },
       },
     ],
