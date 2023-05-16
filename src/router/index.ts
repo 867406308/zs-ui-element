@@ -1,9 +1,10 @@
 import { getToken, hashToken, removeToken } from '@/utils/token';
 import { createRouter, createWebHistory } from 'vue-router';
 import Layout from '@/layout/index.vue';
-import { useRoutersStore } from '@/store/modules/router.ts';
-import { useUserStore } from '@/store/modules/sys/user.ts';
+import { useRoutersStore } from '@/store/modules/router';
+import { useUserStore } from '@/store/modules/sys/user';
 import { getList } from '@/api/sys/menu';
+import { convertRouter } from '@/utils/routes';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 NProgress.configure({
@@ -99,6 +100,7 @@ router.beforeEach((to, from, next) => {
   // 每次切换页面时，调用进度条
   NProgress.start();
   console.log('to', to);
+  console.log('from', from);
   if (hashToken()) {
     console.log('toekn存在');
     //toekn存在
@@ -111,14 +113,17 @@ router.beforeEach((to, from, next) => {
       if (useRoutersStore().menuList.length == 0) {
         console.log('333');
         getList()
-          .then((res) => {
+          .then((res: any) => {
             console.log('444', res);
+            const routers = convertRouter(res.data);
+            console.log('aaa', routers);
+            console.log('bbbb', asynRouters);
             useRoutersStore().setMenuList(asynRouters);
             addRouter(asynRouters);
             next({ ...to, replace: true }); // hack方法 确保addRoutes已完成
             //token存在，不是login页面
           })
-          .catch((error) => {
+          .catch((error: any) => {
             console.log('error123', error);
             next('/login');
           });
@@ -145,7 +150,7 @@ router.afterEach(() => {
   NProgress.done();
 });
 export function addRouter(routers: any) {
-  routers.map((e) => {
+  routers.map((e: any) => {
     router.addRoute(e);
   });
 }

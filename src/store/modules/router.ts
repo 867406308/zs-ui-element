@@ -1,9 +1,11 @@
 import { defineStore } from 'pinia';
 
 export const useRoutersStore = defineStore('routes', {
-  state: (): RoutersType => ({
-    menuList: [],
-  }),
+  state: () => {
+    return {
+      menuList: [],
+    };
+  },
   getters: {},
   actions: {
     // 设置菜单

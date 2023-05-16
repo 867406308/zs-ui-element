@@ -1,15 +1,17 @@
 import { createApp } from 'vue';
-// import './style.css'
 import App from './App.vue';
-import ElementPlus from 'element-plus';
-// import 'element-plus/dist/index.css';
-import zhCn from 'element-plus/dist/locale/zh-cn.mjs';
+// import ElementPlus from 'element-plus';
+// import zhCn from 'element-plus/dist/locale/zh-cn.mjs';
 import router from './router';
 import pinia from './store';
 import * as ElIcons from '@element-plus/icons-vue'; //element plus图标
 import { IconPark } from '@icon-park/vue-next/es/all';
 import '@icon-park/vue-next/styles/index.css';
+<<<<<<< HEAD
 import '@/assets/styles/scss/global.scss';
+=======
+import 'element-plus/theme-chalk/src/message.scss';
+>>>>>>> dcf35302f1829fc336ea14838f3407846dc10aa2
 
 const app = createApp(App);
 
@@ -19,9 +21,9 @@ for (const name in ElIcons) {
 }
 app.component('IconPark', IconPark);
 app.use(pinia);
-app.use(ElementPlus, {
-  locale: zhCn,
-});
+// app.use(ElementPlus, {
+//   locale: zhCn,
+// });
 app.use(router);
 
 app.mount('#app');

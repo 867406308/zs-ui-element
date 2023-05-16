@@ -5,7 +5,7 @@ import router from '@/router';
 import { removeToken, getToken } from '@/utils/token';
 
 const instance = axios.create({
-  baseURL: 'http://39.101.195.100:8085/api', //'http://localhost:8083/api', //
+  baseURL: 'http://39.101.195.100:8085/api', //'http://localhost:8080/api', //
   timeout: 6000,
   headers: {
     'Content-Type': 'application/json;charset=utf-8',
@@ -50,8 +50,8 @@ instance.interceptors.response.use(
   function (error) {
     // 超出 2xx 范围的状态码都会触发该函数。
     // 对响应错误做点什么
-    const status = error.response?.status;
-    const message =
+    const status: number = error.response?.status;
+    const message: any =
       {
         400: '请求错误',
         401: '未授权，请登录',
