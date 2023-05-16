@@ -1,8 +1,5 @@
 <template>
-  <el-sub-menu
-    v-if="menu.children && menu.children.length >= 1"
-    :index="getPath(menu.path)"
-  >
+  <el-sub-menu v-if="menu.children && menu.children.length >= 1" :index="getPath(menu.path)">
     <template #title>
       <div class="sub-menu-style" v-if="collapse">
         <div class="icon">
@@ -28,11 +25,7 @@
       :collapse="collapse"
     ></SubMenu>
   </el-sub-menu>
-  <el-menu-item
-    v-else
-    :index="getPath(menu.path)"
-    @click="routerChild(getPath(menu.path))"
-  >
+  <el-menu-item v-else :index="getPath(menu.path)" @click="routerChild(getPath(menu.path))">
     <el-icon>
       <component :is="menu.meta.icon" class="icon"></component>
     </el-icon>

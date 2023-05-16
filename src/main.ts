@@ -9,6 +9,7 @@ import pinia from './store';
 import * as ElIcons from '@element-plus/icons-vue'; //element plus图标
 import { IconPark } from '@icon-park/vue-next/es/all';
 import '@icon-park/vue-next/styles/index.css';
+import '@/assets/styles/scss/global.scss';
 
 const app = createApp(App);
 
