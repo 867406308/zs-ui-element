@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Layout from '@/layout/index.vue';
 import { useRoutersStore } from '@/store/modules/router';
 import { getList } from '@/api/sys/menu';
-import { convertRouter } from '@/utils/routes';
+import { convertRouter, generateRoutesFromData } from '@/utils/routes';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 NProgress.configure({
@@ -34,7 +34,7 @@ const asynRouters = [
     component: Layout,
     meta: {
       title: '首页',
-      icon: 'home-filled',
+      icon: 'document',
     },
     children: [
       {
@@ -58,9 +58,18 @@ const asynRouters = [
     },
     children: [
       {
+        path: 'dept',
+        name: 'dept',
+        component: () => import('@/views/sys/dept/index.vue'),
+        meta: {
+          title: '部门管理',
+          icon: 'menu',
+        },
+      },
+      {
         path: 'menu',
         name: 'menu',
-        component: () => import('@/views/sys/menu/menu.vue'),
+        component: () => import('@/views/sys/menu/index.vue'),
         meta: {
           title: '菜单管理',
           icon: 'menu',
@@ -69,7 +78,7 @@ const asynRouters = [
       {
         path: '/role',
         name: 'role',
-        component: () => import('@/views/sys/role/role.vue'),
+        component: () => import('@/views/sys/role/index.vue'),
         meta: {
           title: '角色管理',
           icon: 'user-filled',
@@ -78,7 +87,7 @@ const asynRouters = [
       {
         path: '/user',
         name: 'user',
-        component: () => import('@/views/sys/user/user.vue'),
+        component: () => import('@/views/sys/user/index.vue'),
         meta: {
           title: '用户管理',
           icon: 'user',
@@ -98,27 +107,21 @@ const whiteList = ['/login', '/auth-redirect', '/bind', '/register'];
 router.beforeEach((to, from, next) => {
   // 每次切换页面时，调用进度条
   NProgress.start();
-  console.log('to', to);
   console.log('from', from);
   if (hashToken()) {
-    console.log('toekn存在');
     //toekn存在
     if (to.path == '/login') {
       //token存在，并且是login页面
-      console.log('111');
       next();
     } else {
-      console.log('222', useRoutersStore().menuList.length);
       if (useRoutersStore().menuList.length == 0) {
-        console.log('333');
         getList()
           .then((res: any) => {
-            console.log('444', res);
-            const routers = convertRouter(res.data);
+            const routers = generateRoutesFromData(res.data);
             console.log('aaa', routers);
             console.log('bbbb', asynRouters);
-            useRoutersStore().setMenuList(asynRouters);
-            addRouter(asynRouters);
+            useRoutersStore().setMenuList(routers);
+            addRouter(routers);
             next({ ...to, replace: true }); // hack方法 确保addRoutes已完成
             //token存在，不是login页面
           })
@@ -127,14 +130,11 @@ router.beforeEach((to, from, next) => {
             next('/login');
           });
       } else {
-        console.log('555');
         next();
       }
     }
   } else {
-    console.log('666');
     if (whiteList.indexOf(to.path) !== -1) {
-      console.log('777');
       // 在免登录白名单，直接进入
       next();
     } else {

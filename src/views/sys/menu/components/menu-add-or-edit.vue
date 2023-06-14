@@ -142,7 +142,6 @@ export default defineComponent({
       nextTick(() => {
         getTree();
         if (state.form.sysMenuId) {
-          console.log('3aa', state);
           getInfoById();
         }
       });

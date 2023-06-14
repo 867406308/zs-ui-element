@@ -1,28 +1,34 @@
 <template>
-  <div v-html="form.svg" class="svg-icon"></div>
+  <div v-html="form.svg" :style="{ color: color, fontSize: size }" class="svg-icon"></div>
 </template>
 <script lang="ts" setup>
-import icons from '@/assets/icons.json'
-import lodash from 'lodash'
-import { onBeforeMount, reactive } from 'vue'
+import icons from '@/assets/icons.json';
+import lodash from 'lodash';
+import { onBeforeMount, reactive } from 'vue';
 const props = defineProps({
   icon: {
     type: String,
     required: true,
-    default: 'document'
-  }
-})
+    default: 'document',
+  },
+  color: {
+    type: String,
+    default: 'black',
+  },
+  size: {
+    type: String,
+    default: '16px',
+  },
+});
 const form = reactive({
-   svg: ''
-})
+  svg: '',
+});
 onBeforeMount(() => {
-  console.log('icons', icons)
-  form.svg = lodash.find(icons,  { 'name': props.icon})?.svg ?? '';
-  console.log('form', form)
-})
+  form.svg = lodash.find(icons, { name: props.icon })?.svg ?? '';
+});
 </script>
 <style lang="scss" scoped>
-  .svg-icon{
-    display: flex;
-  }
+.svg-icon {
+  display: flex;
+}
 </style>

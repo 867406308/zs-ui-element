@@ -1,5 +1,5 @@
 <template>
-  <div  class="login-container">
+  <div class="login-container">
     <div class="login-container-left" :span="12"></div>
     <div class="login-container-right" :span="12">
       <div>
@@ -10,25 +10,25 @@
   </div>
 </template>
 <script lang="ts" setup>
-import loginUsername from './components/login-username.vue'
+import loginUsername from './components/login-username.vue';
 </script>
 <style lang="scss" scoped>
-.login-container{
+.login-container {
   background: white;
   display: flex;
   height: calc(100vh);
-  &-left{
+  &-left {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 50%;
     // background-color: #3d7eff;
-    background: url('@/assets/bg4.jpg') no-repeat;
+    background: url('@/assets/bg11.png') no-repeat;
     background-repeat: round;
     // background-position: center;
     background-size: contain;
   }
-  &-right{
+  &-right {
     width: 50%;
     position: relative;
     display: flex;

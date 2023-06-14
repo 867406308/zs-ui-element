@@ -2,8 +2,8 @@
   <div class="nav-bar">
     <div class="left-menu">
       <div @click="clickCollapse" class="nav-collapse">
-        <ZsIcon v-if="!collapse" icon="fold"/>
-        <ZsIcon v-if="collapse" icon="expand"/>
+        <ZsIcon v-if="!collapse" icon="fold" />
+        <ZsIcon v-if="collapse" icon="expand" />
       </div>
       <div class="nav-breadcrumb">
         <el-breadcrumb separator="/">
@@ -16,13 +16,12 @@
         <span class="zs-dropdown-link">
           <el-avatar src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg" />
           <span>{{ username }}</span>
-          <el-dropdown>
-            <i-ep-caret-bottom class="el-icon--right"/>
+          <el-dropdown @command="handleCommand">
+            <ZsIcon icon="setting"></ZsIcon>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item>Action 1</el-dropdown-item>
-                <el-dropdown-item>Action 2</el-dropdown-item>
-                <el-dropdown-item>Action 3</el-dropdown-item>
+                <el-dropdown-item command="personalCenter">个人中心</el-dropdown-item>
+                <el-dropdown-item command="logout">退出登录</el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>
@@ -31,26 +30,33 @@
     </div>
   </div>
 </template>
-<script setup>
-import { useSettingStore } from '@/store/modules/setting'
-import { useUserStore } from '@/store/modules/sys/user'
-import { storeToRefs } from 'pinia'
-import { useRouter, useRoute } from 'vue-router'
-import { onMounted } from 'vue'
+<script lang="ts" setup>
+import { useSettingStore } from '@/store/modules/setting';
+import { useUserStore } from '@/store/modules/sys/user';
+import { storeToRefs } from 'pinia';
+import { useRouter, useRoute } from 'vue-router';
+import { onMounted } from 'vue';
 
-const userStore = useUserStore()
-const { username } = userStore
+const userStore = useUserStore();
+const { username } = userStore;
 
-const settingStore = useSettingStore()
-const { clickCollapse } = settingStore
-const { collapse } = storeToRefs(settingStore)
-const router = useRouter()
-const route = useRoute()
+const settingStore = useSettingStore();
+const { clickCollapse } = settingStore;
+const { collapse } = storeToRefs(settingStore);
+const router = useRouter();
+const route = useRoute();
 
-onMounted(() => {
-  // console.log('1212', route.matched)
-  // console.log(username)
-})
+const handleCommand = (command: string | number | object) => {
+  switch (command) {
+    case 'personalCenter':
+      break;
+    case 'logout':
+      userStore.logOut();
+      break;
+    default:
+      break;
+  }
+};
 </script>
 <style lang="scss" scoped>
 .nav-bar {

@@ -20,8 +20,8 @@ import { Icon } from '@iconify/vue';
   </div>
 </template>
 <script setup>
-import { ElMessage } from 'element-plus'
-import { onMounted } from 'vue'
+import { ElMessage } from 'element-plus';
+import { onMounted } from 'vue';
 // import icons from '@icon-park/vue-next/icons.json'
 // import icons from '../source/icons.json'
 const open3 = () => {
@@ -29,10 +29,10 @@ const open3 = () => {
     showClose: true,
     message: 'Warning, this is a warning message.',
     type: 'warning',
-  })
-}
+  });
+};
 onMounted(() => {
   // const appData = require('@icon-park/vue-next/icons.json');
   // console.log('zszs', icons);
-})
+});
 </script>

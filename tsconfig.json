@@ -15,7 +15,10 @@
       "@/*": ["src/*"]
     },
     "skipLibCheck": true,
-
+    "noEmit": true,
+    "emitDeclarationOnly": true,
+    "allowJs": true,
+    "allowImportingTsExtensions": true,
     "types": ["element-plus/global"]
   },
   "vueCompilerOptions": {

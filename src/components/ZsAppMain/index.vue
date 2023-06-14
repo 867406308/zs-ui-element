@@ -1,5 +1,5 @@
 <template>
-  <section class="app-main">
+  <section class="zs-app-main">
     <router-view v-slot="{ Component, route }">
       <transition name="router-fade" mode="out-in">
         <keep-alive>
@@ -20,15 +20,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.app-main {
+.zs-app-main {
   // width: 100%;
-  padding: $padding;
+  // padding: $base-padding;
   position: relative;
   overflow: hidden;
   height: $app-main-height;
-  background-color: #ffffff;
+  // background-color: #ffffff;
 }
-.fixed-header + .app-main {
+.fixed-header + .zs-app-main {
   /* padding-top: 50px; */
 }
 </style>

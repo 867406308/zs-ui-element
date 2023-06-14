@@ -1,0 +1,9 @@
+// nav-bar高度
+$nav-height: 50px;
+// 左侧菜单栏高度
+$menu-left-height: calc(100vh - $nav-height);
+$nav-bg-color: #fff;// #282c34;
+// padding边距
+$base-padding: 10px;
+$app-main-height: calc(100vh - $nav-height - $base-padding * 2);
+$border-radius: 4px

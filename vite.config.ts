@@ -1,22 +1,16 @@
-import path from 'path'
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import AutoImport from 'unplugin-auto-import/vite'
-import Components from 'unplugin-vue-components/vite'
-import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
-import IconsResolver from 'unplugin-icons/resolver'
+import path from 'path';
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+import AutoImport from 'unplugin-auto-import/vite';
+import Components from 'unplugin-vue-components/vite';
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
+import IconsResolver from 'unplugin-icons/resolver';
 import Icons from 'unplugin-icons/vite';
-import Unocss from 'unocss/vite'
-import { FileSystemIconLoader } from 'unplugin-icons/loaders'
-import {
-  presetAttributify,
-  presetIcons,
-  presetUno,
-  transformerDirectives,
-  transformerVariantGroup,
-} from 'unocss'
-
-const pathSrc = path.resolve(__dirname, 'src')
+import Unocss from 'unocss/vite';
+import { FileSystemIconLoader } from 'unplugin-icons/loaders';
+import { presetAttributify, presetIcons, presetUno, transformerDirectives, transformerVariantGroup } from 'unocss';
+import dynamicImportVars from 'vite-plugin-dynamic-import-vars';
+const pathSrc = path.resolve(__dirname, 'src');
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -35,6 +29,9 @@ export default defineConfig({
   },
   plugins: [
     vue(),
+    dynamicImportVars({
+      include: './src/**/*.vue', // 设置需要匹配的文件路径
+    }),
     AutoImport({
       // 自动导入 Vue 相关函数，如：ref, reactive, toRef 等
       imports: ['vue', '@vueuse/core', 'vue-router'],
@@ -58,7 +55,7 @@ export default defineConfig({
       extensions: ['vue', 'md'],
       include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
       resolvers: [
-          // 自动注册图标组件
+        // 自动注册图标组件
         IconsResolver({
           enabledCollections: ['ep'],
         }),
@@ -97,10 +94,7 @@ export default defineConfig({
           warn: true,
         }),
       ],
-      transformers: [
-        transformerDirectives(),
-        transformerVariantGroup(),
-      ]
+      transformers: [transformerDirectives(), transformerVariantGroup()],
     }),
   ],
   // 服务配置
@@ -108,15 +102,16 @@ export default defineConfig({
     port: 17000, // 端口
     open: true, // 服务启动是否自动打开浏览器
     cors: true, // 允许跨域
-    strictPort: false
+    strictPort: false,
   },
   build: {
     minify: 'terser',
-    terserOptions: { // 清除console和debugger
+    terserOptions: {
+      // 清除console和debugger
       compress: {
         drop_console: true,
         drop_debugger: true,
-      }
+      },
     },
-  }
-})
+  },
+});

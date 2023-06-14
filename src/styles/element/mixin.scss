@@ -1,0 +1,93 @@
+
+// @mixin base-scrollbar {
+//   &::-webkit-scrollbar {
+//     width: 8px;
+//     height: 8px;
+//   }
+//   &::-webkit-scrollbar-thumb {
+//     background-color: mix($base-color-white, $base-menu-background, 90%);
+//     border: 3px solid transparent;
+//     border-radius: 7px;
+//   }
+//   &::-webkit-scrollbar-thumb:hover {
+//     background-color: mix($base-color-white, $base-menu-background, 80%);
+//   }
+// }
+
+  /* 隐藏滚动条的轨道 */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  // /* 定义滚动条轨道背景 */
+  // ::-webkit-scrollbar-track {
+  //   background-color: #f1f1f1;
+  // }
+
+  /* 定义滚动条滑块 */
+  ::-webkit-scrollbar-thumb {
+    background-color: #e4e4e2;
+    border-radius: 4px;
+  }
+
+  /* 当鼠标悬停在滚动条上时的样式 */
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #fff;
+  }
+
+
+html{
+  body{
+    #app{
+      .zs-main{
+        .zs-app-main{
+          > [class*='-container'] {
+            height: $app-main-height;
+
+           
+            .zs-container{
+              .zs-aside{
+                padding: $base-padding;
+                background-color: #fff;
+                margin-right: 10px;
+                border-radius: $border-radius;
+              }
+              .zs-header{
+                padding: $base-padding;
+                background-color: white;
+                margin-bottom: 10px;
+                border-radius: $border-radius;
+                height: 50px;
+
+                .zs-form{
+                  height: 100%;
+                  display: flex;
+                  align-items: center;
+                  .zs-form-item{
+                    margin-bottom: 0px;
+                  }
+                }
+              }
+
+              .zs-main{
+                padding: 6px $base-padding;
+                overflow:hidden;
+                height: calc(#{$app-main-height} - 100px);
+                background-color: white;
+                border-top-right-radius: $border-radius;
+                border-top-left-radius: $border-radius;
+              }
+              .zs-footer{
+                height: 40px;
+                background-color: white;
+                display: inline-flex;
+                align-items: center;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

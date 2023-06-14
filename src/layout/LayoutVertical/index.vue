@@ -28,8 +28,10 @@
     // overflow: auto;
     .zs-header {
       padding: 0px;
+      height: $nav-height;
     }
     .zs-main {
+      padding: $base-padding;
       // overflow: unset;
       height: $app-main-height;
     }

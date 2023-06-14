@@ -40,9 +40,9 @@
 </template>
 
 <script>
-import { reactive, defineComponent, toRefs } from 'vue'
-import loginUsername from './components/login-username.vue'
-import loginPhone from './components/login-phone.vue'
+import { reactive, defineComponent, toRefs } from 'vue';
+import loginUsername from './components/login-username.vue';
+import loginPhone from './components/login-phone.vue';
 export default defineComponent({
   components: {
     loginUsername,
@@ -51,23 +51,23 @@ export default defineComponent({
   setup() {
     const state = reactive({
       activeName: 'first',
-    })
+    });
 
     return {
       ...toRefs(state),
-    }
+    };
   },
-})
+});
 </script>
 <style lang="scss" scoped>
 .login-container {
   // background-color: cornflowerblue;
   // background-image: url('@/assets/bg.jpg');
   // background-repeat: round;
-    background: url('@/assets/789.jpg') no-repeat;
-    background-repeat: round;
-    // background-position: center;
-    background-size: contain;
+  background: url('@/assets/789.jpg') no-repeat;
+  background-repeat: round;
+  // background-position: center;
+  background-size: contain;
   height: 100vh;
   .login {
     position: absolute;

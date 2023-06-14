@@ -25,6 +25,7 @@ export const useUserStore = defineStore('user', {
     },
     async getUserInfo() {
       const { data } = await getUserInfo();
+      console.log('获取个人信息', data);
       this.username = data.sysUser.username;
       this.realName = data.sysUser.realName;
       this.avatar = data.sysUser.avatar;
