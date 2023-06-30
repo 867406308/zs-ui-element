@@ -105,12 +105,27 @@ export default defineConfig({
     strictPort: false,
   },
   build: {
+    emptyOutDir: true, // 打包时先清空上一次构建生成的目录.
     minify: 'terser',
     terserOptions: {
-      // 清除console和debugger
+      // 生产环境时清除console和debugger
       compress: {
         drop_console: true,
         drop_debugger: true,
+      },
+    },
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            return id.toString().split('node_modules/')[1].split('/')[0].toString();
+          }
+        },
+        chunkFileNames: (chunkInfo) => {
+          const facadeModuleId = chunkInfo.facadeModuleId ? chunkInfo.facadeModuleId.split('/') : [];
+          const fileName = facadeModuleId[facadeModuleId.length - 2] || '[name]';
+          return `js/${fileName}/[name].[hash].js`;
+        },
       },
     },
   },

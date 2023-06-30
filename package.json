@@ -3,8 +3,10 @@
   "private": true,
   "version": "0.1.0",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "dev": "vite --mode development",
+    "prod": "vite --mode production",
+    "build": "vite build --mode development",
+    "build:prod": "vite build --mode production",
     "generate": "vite-ssg build",
     "preview": "vite preview",
     "typecheck": "vue-tsc --noEmit"
@@ -17,6 +19,7 @@
     "nprogress": "^0.2.0",
     "path-browserify": "^1.0.1",
     "pinia": "^2.0.36",
+    "terser": "^5.18.1",
     "unplugin-icons": "^0.16.1",
     "vue": "^3.2.47",
     "vue-router": "^4.2.0"
