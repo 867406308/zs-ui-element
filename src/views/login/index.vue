@@ -1,11 +1,22 @@
 <template>
   <div class="login-container">
-    <div class="login-container-left" :span="12"></div>
+    <div class="login-container-left" :span="12">
+      <div></div>
+    </div>
     <div class="login-container-right" :span="12">
-      <div>
-        <div class="right-title">智慧校园报修服务平台</div>
+      <zs-logo />
+      <div class="content">
+        <div class="title">Hi,欢迎登录</div>
+        <div class="sub-title">您的支持是我最大的动力</div>
         <login-username />
       </div>
+      <!-- <div class="footer">
+        <el-divider content-position="center">其他方式登录</el-divider>
+        <div>
+          <img src="@/assets/icons/login/alipay.svg" />
+          <img src="@/assets/icons/login/wechat.svg" />
+        </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -17,29 +28,62 @@ import loginUsername from './components/login-username.vue';
   background: white;
   display: flex;
   height: calc(100vh);
+  background: url('@/assets/bjb.png') no-repeat;
+  // background-repeat: round;
+  background-size: contain;
+  background-position: bottom;
   &-left {
+    // background-color: aliceblue !important;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 50%;
-    // background-color: #3d7eff;
-    background: url('@/assets/bg11.png') no-repeat;
-    background-repeat: round;
-    // background-position: center;
-    background-size: contain;
+    flex: 6;
   }
   &-right {
-    width: 50%;
     position: relative;
     display: flex;
-    flex: 1;
+    flex: 4;
     align-items: center;
     justify-content: center;
     padding-bottom: 40px;
-    .right-title {
-      font-weight: 500;
-      font-size: 24px;
-      line-height: 32px;
+    flex-direction: column;
+
+    .logo {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+    }
+    .content {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 4px;
+      width: 350px;
+
+      .logo {
+        margin-bottom: 40px;
+
+        .system-title {
+          justify-content: flex-start !important;
+        }
+      }
+
+      .title {
+        font-weight: bold;
+        font-size: 20px;
+        margin-bottom: 10px;
+      }
+
+      .sub-title {
+        color: #86909c;
+      }
+    }
+    .footer {
+      img {
+        cursor: pointer;
+        margin-left: 10px;
+        width: 1.5em;
+        height: 1.5em;
+      }
     }
   }
 }

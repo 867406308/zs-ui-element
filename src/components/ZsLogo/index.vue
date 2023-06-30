@@ -1,7 +1,9 @@
 <template>
-  <div class="system-title">
-    <img src="@/assets/logo.png" />
-    <div v-if="!collapse" class="title">Zs Admin</div>
+  <div class="logo">
+    <div class="system-title">
+      <img src="@/assets/logo.png" />
+      <div v-if="!collapse" class="title">Zs Admin</div>
+    </div>
   </div>
 </template>
 <script setup>

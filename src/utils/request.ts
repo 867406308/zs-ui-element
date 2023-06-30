@@ -4,7 +4,7 @@ import router from '@/router';
 import { removeToken, getToken } from '@/utils/token';
 
 const instance = axios.create({
-  baseURL: 'http://localhost:8080/api', //'http://39.101.195.100:8085/api', //
+  baseURL: import.meta.env.VITE_BASE_URL, //'http://39.101.195.100:8085/api', //
   timeout: 60000,
   headers: {
     'Content-Type': 'application/json;charset=utf-8',

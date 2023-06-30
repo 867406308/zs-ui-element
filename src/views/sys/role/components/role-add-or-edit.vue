@@ -9,20 +9,6 @@
       <el-form-item label="角色名称" prop="roleName">
         <el-input v-model="form.roleName" placeholder="请输入角色名称"></el-input>
       </el-form-item>
-      <el-form-item label="所属部门" prop="deptId">
-        <el-tree-select
-          v-model="form.deptId"
-          :data="treeData"
-          check-strictly
-          :props="{
-            label: 'deptName',
-            value: 'sysDeptId',
-            children: 'children',
-          }"
-          style="width: 100%"
-          placeholder="请选择所属部门"
-        />
-      </el-form-item>
       <el-form-item label="排序" prop="sort">
         <el-input-number v-model="form.sort" :min="0"></el-input-number>
       </el-form-item>
@@ -45,28 +31,21 @@
   </el-dialog>
 </template>
 <script lang="ts" setup>
-import { getList, getById, save, edit } from '@/api/sys/role';
-import { getDeptTree } from '@/api/sys/dept';
+import { getById, save, edit } from '@/api/sys/role';
 import type { FormInstance, FormRules } from 'element-plus';
 const emits = defineEmits(['query-data']);
 const dialogFormVisible = ref(false);
 const formRef = ref<FormInstance>();
-let treeData: any[] = [];
 const form = reactive({
   sysRoleId: '',
   roleName: '',
-  deptId: '',
   sort: 0,
-  status: 0,
+  status: 1,
   remark: '',
 });
 const rules = reactive<FormRules>({
-  deptId: [{ required: true, message: '请选择所属部门', trigger: 'change' }],
   roleName: [{ required: true, message: '请输入角色名称', trigger: 'blur' }],
   sort: [{ required: true, message: '请选择排序', trigger: 'blur' }],
-});
-onMounted(() => {
-  selectDeptTree();
 });
 const init = () => {
   dialogFormVisible.value = true;
@@ -80,10 +59,6 @@ const getInfoById = async () => {
   const data = await getById(form.sysRoleId);
   Object.assign(form, data?.data);
   console.log('form', form);
-};
-const selectDeptTree = async () => {
-  const data = await getDeptTree();
-  Object.assign(treeData, data?.data);
 };
 const close = () => {
   formRef.value?.resetFields();

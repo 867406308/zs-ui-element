@@ -18,6 +18,12 @@
             <el-form-item label="岗位名称" prop="postName">
               <el-input v-model="form.postName" placeholder="请输入岗位名称" />
             </el-form-item>
+            <el-form-item label="状态" prop="status">
+              <el-select v-model="form.status" placeholder="请选择">
+                <el-option label="正常" :value="1"></el-option>
+                <el-option label="禁用" :value="0"></el-option>
+              </el-select>
+            </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="queryData()">查询</el-button>
               <el-button @click="resetForm(ruleFormRef)">重置</el-button>
@@ -31,24 +37,31 @@
               <el-button type="primary" @click="handleAddOrEdit">删除</el-button>
             </el-col>
           </el-row>
-          <el-table class="table-style" :stripe="true" :data="tableData" style="width: 100%" row-key="id" border>
+          <el-table
+            class="table-style"
+            :stripe="true"
+            :data="tableData"
+            style="width: 100%"
+            row-key="id"
+            border
+            v-loading="loading"
+          >
             <el-table-column type="selection" width="55" />
             <el-table-column align="center" label="序号" type="index" width="55" />
             <el-table-column prop="postName" label="岗位名称" />
-            <el-table-column prop="sort" label="排序"></el-table-column>
-            <el-table-column prop="status" label="状态">
+            <el-table-column prop="sort" label="排序" align="center" width="100"></el-table-column>
+            <el-table-column prop="status" align="center" label="状态" width="100">
               <template #default="scope">
-                <span v-if="scope.row.status === 0">禁用</span>
-                <span v-if="scope.row.status === 1">启用</span>
+                <el-tag v-if="scope.row.status === 0" type="danger" label="禁用">禁用</el-tag>
+                <el-tag v-if="scope.row.status === 1" type="success" label="启用">启用</el-tag>
               </template>
             </el-table-column>
-            <el-table-column prop="remark" label="备注" />
-            <el-table-column align="center" fixed="right" label="操作" width="150">
+            <el-table-column prop="remark" label="备注" width="200" />
+            <el-table-column align="center" fixed="right" label="操作" width="120">
               <template #default="{ row }">
-                <el-space>
-                  <el-button link type="primary" size="small" @click="handleAddOrEdit(row)">编辑</el-button>
-                  <el-button link type="danger" size="small" @click="handleDelete(row)">删除</el-button>
-                </el-space>
+                <el-button link type="primary" size="small" @click="handleAddOrEdit(row)">编辑</el-button>
+                <el-divider direction="vertical" />
+                <el-button link type="primary" size="small" @click="handleDelete(row)">删除</el-button>
               </template>
             </el-table-column>
             <template #empty>
@@ -68,7 +81,6 @@
         </el-main>
         <el-footer>
           <el-pagination
-            small
             background
             :current-page="form.page"
             layout="total, sizes, prev, pager, next"
@@ -97,6 +109,7 @@ const addEditRef = ref<HTMLFormElement | null>(null);
 const tableData = ref([]);
 const deptTreeData = ref([]);
 const expandedKeys = ref([]);
+const loading = ref(false);
 const defaultProps = {
   children: 'children',
   label: 'deptName',
@@ -106,17 +119,22 @@ const total = ref(10);
 const form = reactive({
   sysDeptId: '',
   postName: '',
+  status: '',
   page: 1,
   size: 20,
+  order: 'asc',
+  orderField: 'sort',
 });
 onMounted(() => {
   console.log('route', route);
   console.log('route', route.meta.title);
 });
 const queryData = async () => {
+  loading.value = true;
   const data = await postPage(form);
   tableData.value = data?.data?.list;
   total.value = data?.data?.total;
+  loading.value = false;
 };
 const handleSizeChange = (val: number) => {
   form.size = val;
@@ -175,6 +193,6 @@ onMounted(() => {
   }
 }
 .table-style {
-  height: calc(#{$app-main-height} - 150px);
+  height: calc(#{$app-main-height} - 160px);
 }
 </style>

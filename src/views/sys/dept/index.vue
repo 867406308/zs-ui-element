@@ -1,22 +1,13 @@
 <template>
   <div class="dept-container">
     <el-container>
-      <el-header height="30px">
-        <el-form ref="ruleFormRef" :inline="true" :model="form" class="demo-form-inline">
-          <el-form-item label="部门名称" prop="deptName">
-            <el-input v-model="form.deptName" placeholder="请输入角色名称" />
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="query">查询</el-button>
-            <el-button @click="resetForm(ruleFormRef)">重置</el-button>
-          </el-form-item>
-        </el-form>
-      </el-header>
       <el-main>
         <el-row justify="space-between" class="action-bar">
-          <el-col :span="12">
+          <el-space wrap>
             <el-button type="primary" @click="handleAddOrEdit">新增</el-button>
-          </el-col>
+            <el-button type="primary" @click="expand = true">全部展开</el-button>
+            <el-button type="warning" @click="expand = false">全部收缩</el-button>
+          </el-space>
         </el-row>
         <el-table
           class="table-style"
@@ -25,7 +16,7 @@
           row-key="id"
           border
           stripe
-          default-expand-all
+          :default-expand-all="expand"
         >
           <el-table-column prop="deptName" label="部门名称" />
           <el-table-column prop="deptHead" label="部门负责人">
@@ -34,24 +25,17 @@
               <span v-else>{{ row.deptHead }}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="status" label="部门状态" align="center">
+          <el-table-column prop="remark" label="备注" />
+          <el-table-column prop="status" label="部门状态" align="center" width="100">
             <template #default="scope">
               <el-tag v-if="scope.row.status === 0" effect="light" type="danger" label="禁用">禁用</el-tag>
               <el-tag v-if="scope.row.status === 1" effect="light" type="success" label="启用">启用</el-tag>
             </template>
           </el-table-column>
-          <el-table-column prop="sort" label="排序" />
-          <el-table-column prop="remark" label="备注" />
+          <el-table-column prop="sort" align="center" label="排序" width="100" />
+
           <el-table-column fixed="right" label="操作" header-align="center" align="center" width="100">
             <template #default="{ row }">
-              <!-- <el-button link type="primary" size="small" @click="handleAddOrEdit(row)">编辑</el-button>
-              <el-button link type="primary" size="small" @click="handleDelete(row)">删除</el-button> -->
-              <!-- <zsIcon icon="edit" color="blue" size="16px" />
-              <zsIcon icon="delete" color="red" /> -->
-              <!-- <el-space :spacer="spacer">
-                <zsIcon icon="edit" color="blue" size="16px" />
-                <zsIcon icon="delete" color="red" />
-              </el-space> -->
               <el-button link type="primary" size="small" @click="handleAddOrEdit(row)">编辑</el-button>
               <el-button link type="danger" size="small" @click="handleDelete(row)">删除</el-button>
             </template>
@@ -68,26 +52,9 @@
 <script lang="ts" setup>
 import { getDeptTree, remove } from '@/api/sys/dept.ts';
 import DeptAddOrEdit from './components/dept-add-or-edit.vue';
-import type { FormInstance } from 'element-plus';
-import { h, ref } from 'vue';
-import { ElDivider } from 'element-plus';
-const spacer = h(ElDivider, { direction: 'vertical' });
-const ruleFormRef = ref<FormInstance>();
 const addEditRef = ref<HTMLFormElement | null>(null);
 const tableData = ref([]);
-const form = reactive({
-  deptName: '',
-  page: 1,
-  size: 20,
-});
-const query = () => {
-  console.log('submit!');
-};
-const resetForm = (formEl: FormInstance | undefined) => {
-  if (!formEl) return;
-  formEl.resetFields();
-  queryData();
-};
+const expand = ref(true);
 const queryData = async () => {
   const data = await getDeptTree();
   tableData.value = data?.data;
@@ -112,6 +79,7 @@ const handleDelete = (row: any) => {
       .catch(() => {});
   }
 };
+
 onMounted(() => {
   queryData();
 });
@@ -136,7 +104,7 @@ onMounted(() => {
   }
 }
 .table-style {
-  // height: calc(#{$app-main-height} - 90px);
+  height: calc(#{$app-main-height} - 60px);
   :deep() {
     .zs-table__inner-wrapper {
       .zs-table__header-wrapper table thead tr th {

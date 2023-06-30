@@ -60,23 +60,37 @@ html{
                 border-radius: $border-radius;
                 height: 50px;
 
-                .zs-form{
-                  height: 100%;
-                  display: flex;
-                  align-items: center;
-                  .zs-form-item{
-                    margin-bottom: 0px;
-                  }
-                }
+                // .zs-form{
+                //   height: 100%;
+                //   display: flex;
+                //   align-items: center;
+                //   .zs-form-item{
+                //     margin-bottom: 0px;
+                //   }
+                // }
               }
 
               .zs-main{
-                padding: 6px $base-padding;
+                padding: 10px $base-padding;
                 overflow:hidden;
                 height: calc(#{$app-main-height} - 100px);
                 background-color: white;
                 border-top-right-radius: $border-radius;
                 border-top-left-radius: $border-radius;
+
+                .zs-table {
+                  :deep() {
+                    .zs-table__inner-wrapper {
+                      .zs-table__header-wrapper table thead tr th {
+                        background-color: #f4f4f5;
+                        color: #303133;
+                        font-weight: bold;
+                        font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑',
+                          Arial, sans-serif;
+                      }
+                    }
+                  }
+                }
               }
               .zs-footer{
                 height: 40px;
