@@ -1,8 +1,5 @@
 <template>
   <div class="login-container">
-    <div class="login-container-left" :span="12">
-      <div></div>
-    </div>
     <div class="login-container-right" :span="12">
       <zs-logo />
       <div class="content">
@@ -18,6 +15,9 @@
         </div>
       </div> -->
     </div>
+    <div class="login-container-left" :span="12">
+      <div></div>
+    </div>
   </div>
 </template>
 <script lang="ts" setup>
@@ -28,10 +28,10 @@ import loginUsername from './components/login-username.vue';
   background: white;
   display: flex;
   height: calc(100vh);
-  background: url('@/assets/bjb.png') no-repeat;
+  background-image: url('@/assets/zbj1.jpg');
   // background-repeat: round;
-  background-size: contain;
-  background-position: bottom;
+  background-size: cover;
+  background-position: 100%;
   &-left {
     // background-color: aliceblue !important;
     display: flex;

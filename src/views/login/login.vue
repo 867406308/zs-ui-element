@@ -6,9 +6,9 @@
       </div> -->
       <div class="login_main">
         <el-row>
-          <el-col class="main_left" :span="13"></el-col>
-          <el-col class="main_right" :span="11">
-            <div class="right_title">智慧校园报修服务平台</div>
+          <el-col class="main_left" :span="12"></el-col>
+          <el-col class="main_right" :span="12">
+            <div class="right_title">张三管理后台系统</div>
             <el-tabs v-model="activeName" class="demo-tabs">
               <el-tab-pane label="账号密码登录" name="first">
                 <login-username />
@@ -97,7 +97,8 @@ export default defineComponent({
       .main_left {
         height: 520px;
         // background: linear-gradient(163.85deg,#1d2129 0%,#00308f 100%);
-        background: url('@/assets/bj44.png') no-repeat;
+        background: linear-gradient(rgba(23, 129, 238, 0.5), rgba(23, 129, 238, 0.5)),
+          url('@/assets/bjz6.jpg') no-repeat;
         background-repeat: round;
       }
 
