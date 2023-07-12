@@ -37,21 +37,23 @@
               <el-button type="primary" @click="handleAddOrEdit">删除</el-button>
             </el-col>
           </el-row>
-          <el-table
-            class="table-style"
-            :stripe="true"
-            :data="tableData"
-            style="width: 100%"
-            row-key="id"
-            border
-            v-loading="loading"
-          >
-            <el-table-column type="selection" width="55" />
+          <el-table class="table-style" :data="tableData" style="width: 100%" row-key="id" border v-loading="loading">
+            <!-- <el-table-column type="selection" width="55" /> -->
             <el-table-column align="center" label="序号" type="index" width="55" />
             <el-table-column prop="postName" label="岗位名称" />
             <el-table-column prop="sort" label="排序" align="center" width="100"></el-table-column>
             <el-table-column prop="status" align="center" label="状态" width="100">
               <template #default="scope">
+                <!-- <el-switch v-model="scope.row.status" :active-value="1" :inactive-value="0" /> -->
+                <!-- <div v-if="scope.row.status === 0" class="status">
+                  <span></span>
+                  <span>禁用</span>
+                </div>
+                <div v-if="scope.row.status === 1" class="status">
+                  <span></span>
+                  <span>正常</span>
+                </div> -->
+
                 <el-tag v-if="scope.row.status === 0" type="danger" label="禁用">禁用</el-tag>
                 <el-tag v-if="scope.row.status === 1" type="success" label="启用">启用</el-tag>
               </template>
@@ -70,14 +72,6 @@
               />
             </template>
           </el-table>
-          <!-- <el-container>
-          <el-header height="40px">
-            <el-button type="primary" @click="handleAddOrEdit">新增</el-button>
-          </el-header>
-          <el-main>
-
-          </el-main>
-        </el-container> -->
         </el-main>
         <el-footer>
           <el-pagination
@@ -194,5 +188,18 @@ onMounted(() => {
 }
 .table-style {
   height: calc(#{$app-main-height} - 160px);
+
+  .status {
+    display: flex;
+    align-items: center;
+    > span:first-child {
+      margin-right: 10px;
+      display: flex;
+      width: 10px;
+      height: 10px;
+      background-color: #67c23a;
+      border-radius: 50%;
+    }
+  }
 }
 </style>

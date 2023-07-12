@@ -30,3 +30,10 @@ export function edit(data: any) {
     data,
   });
 }
+
+export function del(id: string) {
+  return request({
+    url: '/sys/menu/' + id,
+    method: 'delete',
+  });
+}

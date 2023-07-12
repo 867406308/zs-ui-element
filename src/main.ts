@@ -6,7 +6,6 @@ import 'element-plus/theme-chalk/src/message-box.scss';
 import router from './router';
 import pinia from './store';
 
-console.log(import.meta.env);
 const app = createApp(App);
 app.use(pinia);
 app.use(router);

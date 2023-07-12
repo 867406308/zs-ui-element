@@ -1,6 +1,11 @@
 // only scss variables
 
 $--colors: (
+  $bg-color: (
+    'page': #0a0a0a,
+    '': #626aef,
+    'overlay': #1d1e1f,
+  ),
   "primary": (
     "base": #589ef8,
   ),

@@ -23,9 +23,18 @@ const props = defineProps({
 const form = reactive({
   svg: '',
 });
+const iconRef = ref(props.icon);
+
 onBeforeMount(() => {
-  form.svg = lodash.find(icons, { name: props.icon })?.svg ?? '';
+  form.svg = lodash.find(icons, { name: iconRef.value })?.svg ?? '';
 });
+watch(
+  () => props.icon,
+  (newIcon) => {
+    iconRef.value = newIcon;
+    form.svg = lodash.find(icons, { name: newIcon })?.svg ?? '';
+  },
+);
 </script>
 <style lang="scss" scoped>
 .svg-icon {

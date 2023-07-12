@@ -3,11 +3,11 @@
     <el-container>
       <el-header height="30px">
         <el-form ref="ruleFormRef" :inline="true" :model="form" class="demo-form-inline">
-          <el-form-item label="菜单名称" prop="deptName">
+          <el-form-item label="菜单名称" prop="menuName">
             <el-input v-model="form.menuName" placeholder="请输入菜单名称" />
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="query">查询</el-button>
+            <el-button type="primary" @click="queryData">查询</el-button>
             <el-button @click="resetForm(ruleFormRef)">重置</el-button>
           </el-form-item>
         </el-form>
@@ -30,10 +30,11 @@
               <ZsIcon :icon="scope.row.icon"></ZsIcon>
             </template>
           </el-table-column>
-          <el-table-column fixed="right" label="操作" width="120">
+          <el-table-column align="center" fixed="right" label="操作" width="120">
             <template #default="{ row }">
               <el-button link type="primary" size="small" @click="handleAddOrEdit(row)">编辑</el-button>
-              <el-button link type="primary" size="small" @click="handleDetail">删除</el-button>
+              <el-divider direction="vertical" />
+              <el-button link type="danger" size="small" @click="handleDelete(row)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -42,38 +43,47 @@
     <menu-add-or-edit ref="addEditRef" :key="+new Date()" @query-data="queryData" />
   </div>
 </template>
-<script>
-import { getList } from '@/api/sys/menu';
+<script lang="ts" setup>
+import { getList, del } from '@/api/sys/menu';
 import MenuAddOrEdit from './components/menu-add-or-edit.vue';
-export default defineComponent({
-  components: { MenuAddOrEdit },
-  setup() {
-    const state = reactive({
-      tableData: [],
-      addEditRef: null,
-      form: {
-        menuName: '',
-      },
-    });
-    const queryData = async () => {
-      const data = await getList();
-      state.tableData = data?.data;
-    };
-    const handleAddOrEdit = (row) => {
-      state.addEditRef.form.sysMenuId = row.sysMenuId;
-      state.addEditRef.init();
-    };
-    const handleDetail = () => {};
-    onMounted(() => {
-      queryData();
-    });
-    return {
-      ...toRefs(state),
-      queryData,
-      handleAddOrEdit,
-      handleDetail,
-    };
-  },
+import type { FormInstance } from 'element-plus';
+const ruleFormRef = ref<FormInstance>();
+const addEditRef = ref<HTMLFormElement | null>(null);
+const tableData = ref([]);
+const form = reactive({
+  menuName: '',
+});
+const resetForm = (formEl: FormInstance | undefined) => {
+  if (!formEl) return;
+  formEl.resetFields();
+  queryData();
+};
+const queryData = async () => {
+  const data = await getList();
+  tableData.value = data?.data;
+};
+const handleAddOrEdit = (row: any) => {
+  if (addEditRef.value) {
+    addEditRef.value.form.sysMenuId = row.sysMenuId;
+    addEditRef.value.init();
+  }
+};
+const handleDelete = (row: any) => {
+  if (row.sysDeptId) {
+    ElMessageBox.confirm('您将进行删除操作,是否继续?', '温馨提示', {
+      confirmButtonText: '确认',
+      cancelButtonText: '取消',
+      type: 'warning',
+    })
+      .then(async () => {
+        await del(row.sysDeptId);
+        queryData();
+      })
+      .catch(() => {});
+  }
+};
+onMounted(() => {
+  queryData();
 });
 </script>
 <style lang="scss" scoped>

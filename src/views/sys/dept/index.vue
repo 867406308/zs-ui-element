@@ -6,7 +6,7 @@
           <el-space wrap>
             <el-button type="primary" @click="handleAddOrEdit">新增</el-button>
             <el-button type="primary" @click="expand = true">全部展开</el-button>
-            <el-button type="warning" @click="expand = false">全部收缩</el-button>
+            <el-button type="primary" @click="expand = false">全部收缩</el-button>
           </el-space>
         </el-row>
         <el-table
@@ -15,7 +15,6 @@
           style="width: 100%; margin-bottom: 20px"
           row-key="id"
           border
-          stripe
           :default-expand-all="expand"
         >
           <el-table-column prop="deptName" label="部门名称" />
@@ -26,17 +25,16 @@
             </template>
           </el-table-column>
           <el-table-column prop="remark" label="备注" />
-          <el-table-column prop="status" label="部门状态" align="center" width="100">
+          <el-table-column prop="status" label="部门状态" align="center" width="90">
             <template #default="scope">
-              <el-tag v-if="scope.row.status === 0" effect="light" type="danger" label="禁用">禁用</el-tag>
-              <el-tag v-if="scope.row.status === 1" effect="light" type="success" label="启用">启用</el-tag>
+              <el-switch v-model="scope.row.status" :active-value="1" :inactive-value="0" />
             </template>
           </el-table-column>
-          <el-table-column prop="sort" align="center" label="排序" width="100" />
-
-          <el-table-column fixed="right" label="操作" header-align="center" align="center" width="100">
+          <el-table-column prop="sort" align="center" label="排序" width="120" />
+          <el-table-column align="center" fixed="right" label="操作" width="120">
             <template #default="{ row }">
               <el-button link type="primary" size="small" @click="handleAddOrEdit(row)">编辑</el-button>
+              <el-divider direction="vertical" />
               <el-button link type="danger" size="small" @click="handleDelete(row)">删除</el-button>
             </template>
           </el-table-column>
@@ -108,13 +106,19 @@ onMounted(() => {
   :deep() {
     .zs-table__inner-wrapper {
       .zs-table__header-wrapper table thead tr th {
-        background-color: #f5f5f5;
+        background-color: #fafafa;
         color: #333;
         font-weight: bold;
         font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑',
           Arial, sans-serif;
       }
     }
+  }
+  .el-dropdown-link {
+    cursor: pointer;
+    color: var(--el-color-primary);
+    display: flex;
+    align-items: center;
   }
 
   .zs-space {

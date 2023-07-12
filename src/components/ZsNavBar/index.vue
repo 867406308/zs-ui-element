@@ -1,6 +1,6 @@
 <template>
   <div class="nav-bar">
-    <div class="left-menu">
+    <div class="left-side">
       <div @click="clickCollapse" class="nav-collapse">
         <ZsIcon v-if="!collapse" icon="fold" />
         <ZsIcon v-if="collapse" icon="expand" />
@@ -11,22 +11,45 @@
         </el-breadcrumb>
       </div>
     </div>
-    <div class="right-menu">
-      <div>
-        <span class="zs-dropdown-link">
-          <el-avatar src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg" />
-          <span>{{ username }}</span>
-          <el-dropdown @command="handleCommand">
+    <div class="right-side">
+      <el-space :size="15">
+        <!-- <ZsIcon icon="full-screen" />
+        <ZsIcon icon="sunny" />
+        <ZsIcon icon="bell-filled" />
+        <ZsIcon icon="setting" /> -->
+        <el-button circle>
+          <template #icon>
+            <ZsIcon icon="full-screen" />
+          </template>
+        </el-button>
+        <el-button circle @click="toggleDark()">
+          <template #icon>
+            <ZsIcon :icon="isDark ? 'moon' : 'sunny'"></ZsIcon>
+          </template>
+        </el-button>
+        <el-button circle>
+          <template #icon>
+            <ZsIcon icon="bell-filled"></ZsIcon>
+          </template>
+        </el-button>
+        <el-button circle>
+          <template #icon>
             <ZsIcon icon="setting"></ZsIcon>
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item command="personalCenter">个人中心</el-dropdown-item>
-                <el-dropdown-item command="logout">退出登录</el-dropdown-item>
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
-        </span>
-      </div>
+          </template>
+        </el-button>
+        <el-dropdown @command="handleCommand">
+          <div class="userInfo">
+            <el-avatar src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg" :size="30" />
+            <span class="username">{{ username }}</span>
+          </div>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item command="personalCenter">个人中心</el-dropdown-item>
+              <el-dropdown-item command="logout">退出登录</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+      </el-space>
     </div>
   </div>
 </template>
@@ -35,7 +58,7 @@ import { useSettingStore } from '@/store/modules/setting';
 import { useUserStore } from '@/store/modules/sys/user';
 import { storeToRefs } from 'pinia';
 import { useRouter, useRoute } from 'vue-router';
-import { onMounted } from 'vue';
+import { toggleDark, isDark } from '@/composables';
 
 const userStore = useUserStore();
 const { username } = userStore;
@@ -67,7 +90,7 @@ const handleCommand = (command: string | number | object) => {
   background-color: #ffffff;
   border-bottom: 1px solid #e5e6eb;
 
-  .left-menu {
+  .left-side {
     display: flex;
     align-items: center;
     .zs-icon {
@@ -80,15 +103,33 @@ const handleCommand = (command: string | number | object) => {
     margin-left: 10px;
   }
 
-  .right-menu {
+  .right-side {
     margin-right: 20px;
-    .zs-dropdown-link {
+
+    .zs-space {
       display: flex;
-      justify-content: start;
       align-items: center;
 
-      span {
-        margin-left: 10px;
+      // div {
+      //   margin-left: 10px;
+      // }
+      .zs-dropdown {
+        display: flex;
+        justify-content: start;
+        align-items: center;
+
+        .userInfo {
+          display: flex;
+          align-items: center;
+
+          .username {
+            font-size: 15px;
+          }
+        }
+
+        span {
+          margin-left: 10px;
+        }
       }
     }
   }

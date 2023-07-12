@@ -2,6 +2,7 @@ import { hashToken } from '@/utils/token';
 import { createRouter, createWebHistory } from 'vue-router';
 import Layout from '@/layout/index.vue';
 import { useRoutersStore } from '@/store/modules/router';
+import { useUserStore } from '@/store/modules/sys/user';
 import { getList } from '@/api/sys/menu';
 import { convertRouter, generateRoutesFromData } from '@/utils/routes';
 import NProgress from 'nprogress';
@@ -118,17 +119,15 @@ router.beforeEach((to, from, next) => {
         getList()
           .then((res: any) => {
             const routers = generateRoutesFromData(res.data);
-            console.log('aaa', routers);
-            console.log('bbbb', asynRouters);
             useRoutersStore().setMenuList(routers);
             addRouter(routers);
             next({ ...to, replace: true }); // hack方法 确保addRoutes已完成
             //token存在，不是login页面
           })
           .catch((error: any) => {
-            console.log('error123', error);
             next('/login');
           });
+        useUserStore().getUserInfo();
       } else {
         next();
       }

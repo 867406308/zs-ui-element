@@ -1,22 +1,25 @@
 <template>
-  <div class="login-container">
-    <div class="login-container-right" :span="12">
+  <div class="login">
+    <div class="login-header">
       <zs-logo />
+      <!-- <div>
+        <span>app下载</span>
+        <span>联系我们</span>
+      </div> -->
+    </div>
+    <div class="login-container">
       <div class="content">
         <div class="title">Hi,欢迎登录</div>
         <div class="sub-title">您的支持是我最大的动力</div>
         <login-username />
       </div>
-      <!-- <div class="footer">
+      <div class="footer">
         <el-divider content-position="center">其他方式登录</el-divider>
-        <div>
+        <div class="other-ways">
           <img src="@/assets/icons/login/alipay.svg" />
           <img src="@/assets/icons/login/wechat.svg" />
         </div>
-      </div> -->
-    </div>
-    <div class="login-container-left" :span="12">
-      <div></div>
+      </div>
     </div>
   </div>
 </template>
@@ -24,53 +27,45 @@
 import loginUsername from './components/login-username.vue';
 </script>
 <style lang="scss" scoped>
-.login-container {
+.login {
   background: white;
   display: flex;
   height: calc(100vh);
-  background-image: url('@/assets/zbj1.jpg');
+  background-image: url('@/assets/q2.png');
   // background-repeat: round;
   background-size: cover;
   background-position: 100%;
-  &-left {
-    // background-color: aliceblue !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex: 6;
-  }
-  &-right {
-    position: relative;
-    display: flex;
-    flex: 4;
-    align-items: center;
-    justify-content: center;
-    padding-bottom: 40px;
-    flex-direction: column;
 
+  &-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: $nav-height;
+    width: 100%;
     .logo {
-      position: absolute;
-      top: 20px;
-      left: 20px;
+      display: flex;
+      justify-content: flex-start;
+      margin-left: 20px;
     }
+  }
+
+  &-container {
+    position: absolute;
+    top: 22%;
+    left: 5%;
+    min-height: 500px;
+    line-height: 22px;
+
     .content {
       background-color: #fff;
       padding: 30px;
       border-radius: 4px;
       width: 350px;
 
-      .logo {
-        margin-bottom: 40px;
-
-        .system-title {
-          justify-content: flex-start !important;
-        }
-      }
-
       .title {
         font-weight: bold;
-        font-size: 20px;
-        margin-bottom: 10px;
+        font-size: 36px;
+        line-height: 50px;
       }
 
       .sub-title {
@@ -83,6 +78,10 @@ import loginUsername from './components/login-username.vue';
         margin-left: 10px;
         width: 1.5em;
         height: 1.5em;
+      }
+      .other-ways {
+        display: flex;
+        justify-content: center;
       }
     }
   }
