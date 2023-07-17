@@ -31,7 +31,7 @@ import loginUsername from './components/login-username.vue';
   background: white;
   display: flex;
   height: calc(100vh);
-  background-image: url('@/assets/q2.png');
+  background-image: url('@/assets/z23.png');
   // background-repeat: round;
   background-size: cover;
   background-position: 100%;
@@ -52,7 +52,7 @@ import loginUsername from './components/login-username.vue';
   &-container {
     position: absolute;
     top: 22%;
-    left: 5%;
+    left: 10%;
     min-height: 500px;
     line-height: 22px;
 

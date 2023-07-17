@@ -64,7 +64,6 @@ instance.interceptors.response.use(
         504: '网关超时',
         505: 'HTTP版本不受支持',
       }[status] || '网络异常,请检查网络情况。';
-    console.log(message);
     ElMessage({ message, type: 'error' });
     if (status === 401) {
       removeToken();

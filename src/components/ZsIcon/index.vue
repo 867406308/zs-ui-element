@@ -4,7 +4,6 @@
 <script lang="ts" setup>
 import icons from '@/assets/icons.json';
 import lodash from 'lodash';
-import { onBeforeMount, reactive } from 'vue';
 const props = defineProps({
   icon: {
     type: String,

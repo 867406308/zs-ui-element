@@ -37,6 +37,9 @@
               <el-button link type="danger" size="small" @click="handleDelete(row)">删除</el-button>
             </template>
           </el-table-column>
+          <template #empty>
+            <ZsEmpty />
+          </template>
         </el-table>
       </el-main>
     </el-container>

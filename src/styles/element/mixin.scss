@@ -85,8 +85,19 @@ html{
                         background-color: #fafafa;
                         color: #303133;
                         // font-weight: bold;
-                        font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑',
-                          Arial, sans-serif;
+                        // font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑',
+                        //   Arial, sans-serif;
+                      }
+                      .zs-empty{
+                        height: calc(#{$app-main-height} - 100px);
+
+                        .zs-empty__image{
+                          height: 50%;
+                          width: 50%;
+                        }
+                        .zs-empty__description{
+                          font-size: 20px;
+                        }
                       }
                     }
                   }
@@ -96,6 +107,7 @@ html{
                 height: 40px;
                 background-color: white;
                 display: inline-flex;
+                justify-content: flex-start;
                 align-items: center;
               }
             }

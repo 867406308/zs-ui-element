@@ -57,7 +57,6 @@
 import { useSettingStore } from '@/store/modules/setting';
 import { useUserStore } from '@/store/modules/sys/user';
 import { storeToRefs } from 'pinia';
-import { useRouter, useRoute } from 'vue-router';
 import { toggleDark, isDark } from '@/composables';
 
 const userStore = useUserStore();
@@ -66,9 +65,7 @@ const { username } = userStore;
 const settingStore = useSettingStore();
 const { clickCollapse } = settingStore;
 const { collapse } = storeToRefs(settingStore);
-const router = useRouter();
 const route = useRoute();
-
 const handleCommand = (command: string | number | object) => {
   switch (command) {
     case 'personalCenter':

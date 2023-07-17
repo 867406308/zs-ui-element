@@ -35,12 +35,11 @@ export default defineConfig({
     AutoImport({
       // 自动导入 Vue 相关函数，如：ref, reactive, toRef 等
       imports: ['vue', '@vueuse/core', 'vue-router'],
-      dirs: [path.resolve(pathSrc, 'composables')],
+      // dirs: [path.resolve(pathSrc, 'typings', 'auto-imports.d.ts')],
       dts: path.resolve(pathSrc, 'typings', 'auto-imports.d.ts'),
       // 自动导入 Element Plus 相关函数，如：ElMessage, ElMessageBox... (带样式)
       resolvers: [
         ElementPlusResolver(),
-
         // Auto import icon components
         // 自动导入图标组件
         IconsResolver({
@@ -63,7 +62,7 @@ export default defineConfig({
           importStyle: 'sass',
         }),
       ],
-      dts: path.resolve(pathSrc, 'typings', 'auto-imports.d.ts'),
+      dts: path.resolve(pathSrc, 'typings', 'components.d.ts'),
     }),
     Icons({
       autoInstall: true,

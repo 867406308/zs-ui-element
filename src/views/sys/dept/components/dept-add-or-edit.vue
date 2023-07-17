@@ -73,7 +73,6 @@ const rules = reactive<FormRules>({
 const init = async () => {
   dialogFormVisible.value = true;
   await getTree();
-  console.log('11111');
   if (form.sysDeptId) {
     nextTick(async () => {
       await getInfoById();

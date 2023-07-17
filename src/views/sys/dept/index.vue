@@ -2,20 +2,28 @@
   <div class="dept-container">
     <el-container>
       <el-main>
-        <el-row justify="space-between" class="action-bar">
+        <div class="main-bar">
+          <ZsRouter />
           <el-space wrap>
             <el-button type="primary" @click="handleAddOrEdit">新增</el-button>
-            <el-button type="primary" @click="expand = true">全部展开</el-button>
-            <el-button type="primary" @click="expand = false">全部收缩</el-button>
+            <el-button type="primary" @click="toggleExpand">{{ expand ? '收缩' : '展开' }}</el-button>
+            <el-button type="primary" @click="onSubmitForm">
+              <template #icon>
+                <ZsIcon icon="refresh" color="#fff" />
+              </template>
+            </el-button>
           </el-space>
-        </el-row>
+        </div>
         <el-table
           class="table-style"
+          v-if="refreshTable"
           :data="tableData"
           style="width: 100%; margin-bottom: 20px"
           row-key="id"
+          stripe
           border
           :default-expand-all="expand"
+          v-loading="loading"
         >
           <el-table-column prop="deptName" label="部门名称" />
           <el-table-column prop="deptHead" label="部门负责人">
@@ -27,20 +35,29 @@
           <el-table-column prop="remark" label="备注" />
           <el-table-column prop="status" label="部门状态" align="center" width="90">
             <template #default="scope">
-              <el-switch v-model="scope.row.status" :active-value="1" :inactive-value="0" />
+              <el-tag v-if="scope.row.status === 0" type="danger" label="禁用" effect="dark">禁用</el-tag>
+              <el-tag v-if="scope.row.status === 1" type="success" label="启用" effect="dark">启用</el-tag>
             </template>
           </el-table-column>
-          <el-table-column prop="sort" align="center" label="排序" width="120" />
+          <el-table-column prop="sort" align="center" label="排序" width="60" />
           <el-table-column align="center" fixed="right" label="操作" width="120">
             <template #default="{ row }">
-              <el-button link type="primary" size="small" @click="handleAddOrEdit(row)">编辑</el-button>
+              <el-button link type="primary" size="small" @click="handleAddOrEdit(row)">
+                <template #icon>
+                  <ZsIcon icon="edit" color="#409EFF" />
+                </template>
+              </el-button>
               <el-divider direction="vertical" />
-              <el-button link type="danger" size="small" @click="handleDelete(row)">删除</el-button>
+              <el-button link type="danger" size="small" @click="handleDelete(row)">
+                <template #icon>
+                  <ZsIcon icon="delete" color="#F56C6C" />
+                </template>
+              </el-button>
             </template>
           </el-table-column>
-          <!-- <template #empty>
-            <EmptyList />
-          </template> -->
+          <template #empty>
+            <ZsEmpty v-if="!loading" />
+          </template>
         </el-table>
       </el-main>
     </el-container>
@@ -50,12 +67,28 @@
 <script lang="ts" setup>
 import { getDeptTree, remove } from '@/api/sys/dept.ts';
 import DeptAddOrEdit from './components/dept-add-or-edit.vue';
+const reload: any = inject('reload');
+// 刷新页面
+const onSubmitForm = () => {
+  reload();
+};
 const addEditRef = ref<HTMLFormElement | null>(null);
 const tableData = ref([]);
+const refreshTable = ref(true);
 const expand = ref(true);
+const loading = ref(true);
+const toggleExpand = () => {
+  refreshTable.value = false;
+  expand.value = !expand.value;
+  nextTick(() => {
+    refreshTable.value = true;
+  });
+};
 const queryData = async () => {
+  loading.value = true;
   const data = await getDeptTree();
   tableData.value = data?.data;
+  loading.value = false;
 };
 const handleAddOrEdit = (row: any) => {
   if (addEditRef.value) {
@@ -92,43 +125,13 @@ onMounted(() => {
     }
   }
 }
-.action-bar {
+.main-bar {
+  display: flex;
+  justify-content: space-between;
   padding-bottom: 10px;
-
-  &-right {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-  }
 }
+
 .table-style {
   height: calc(#{$app-main-height} - 60px);
-  :deep() {
-    .zs-table__inner-wrapper {
-      .zs-table__header-wrapper table thead tr th {
-        background-color: #fafafa;
-        color: #333;
-        font-weight: bold;
-        font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑',
-          Arial, sans-serif;
-      }
-    }
-  }
-  .el-dropdown-link {
-    cursor: pointer;
-    color: var(--el-color-primary);
-    display: flex;
-    align-items: center;
-  }
-
-  .zs-space {
-    :deep() {
-      span {
-        height: 10px;
-        width: 1px;
-        background-color: #e5e7eb;
-      }
-    }
-  }
 }
 </style>

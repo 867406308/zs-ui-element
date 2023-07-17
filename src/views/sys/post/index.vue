@@ -14,62 +14,58 @@
       </el-aside>
       <el-container>
         <el-header>
-          <el-form ref="ruleFormRef" :inline="true" :model="form" class="demo-form-inline">
-            <el-form-item label="岗位名称" prop="postName">
-              <el-input v-model="form.postName" placeholder="请输入岗位名称" />
-            </el-form-item>
-            <el-form-item label="状态" prop="status">
-              <el-select v-model="form.status" placeholder="请选择">
-                <el-option label="正常" :value="1"></el-option>
-                <el-option label="禁用" :value="0"></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click="queryData()">查询</el-button>
-              <el-button @click="resetForm(ruleFormRef)">重置</el-button>
-            </el-form-item>
-          </el-form>
-        </el-header>
-        <el-main>
-          <el-row justify="space-between" class="action-bar">
-            <el-col :span="12">
-              <el-button type="primary" @click="handleAddOrEdit">新增</el-button>
-              <el-button type="primary" @click="handleAddOrEdit">删除</el-button>
+          <el-row>
+            <el-col>
+              <el-form ref="ruleFormRef" :inline="true" :model="form" class="demo-form-inline">
+                <el-form-item label="岗位名称" prop="postName">
+                  <el-input v-model="form.postName" placeholder="请输入岗位名称" />
+                </el-form-item>
+                <el-form-item label="状态" prop="status">
+                  <el-select v-model="form.status" placeholder="请选择">
+                    <el-option label="正常" :value="1"></el-option>
+                    <el-option label="禁用" :value="0"></el-option>
+                  </el-select>
+                </el-form-item>
+                <el-form-item>
+                  <el-button type="primary" @click="queryData()">查询</el-button>
+                  <el-button @click="resetForm(ruleFormRef)">重置</el-button>
+                </el-form-item>
+              </el-form>
             </el-col>
           </el-row>
+        </el-header>
+        <el-main>
+          <div class="action-bar">
+            <ZsRouter />
+            <el-space wrap>
+              <el-button type="primary" @click="handleAddOrEdit">新增</el-button>
+              <el-button type="primary" @click="onSubmitForm">
+                <template #icon>
+                  <ZsIcon icon="refresh" color="#fff" />
+                </template>
+              </el-button>
+            </el-space>
+          </div>
           <el-table class="table-style" :data="tableData" style="width: 100%" row-key="id" border v-loading="loading">
-            <!-- <el-table-column type="selection" width="55" /> -->
             <el-table-column align="center" label="序号" type="index" width="55" />
             <el-table-column prop="postName" label="岗位名称" />
+            <el-table-column prop="remark" label="备注" width="200" />
             <el-table-column prop="sort" label="排序" align="center" width="100"></el-table-column>
             <el-table-column prop="status" align="center" label="状态" width="100">
               <template #default="scope">
-                <!-- <el-switch v-model="scope.row.status" :active-value="1" :inactive-value="0" /> -->
-                <!-- <div v-if="scope.row.status === 0" class="status">
-                  <span></span>
-                  <span>禁用</span>
-                </div>
-                <div v-if="scope.row.status === 1" class="status">
-                  <span></span>
-                  <span>正常</span>
-                </div> -->
-
-                <el-tag v-if="scope.row.status === 0" type="danger" label="禁用">禁用</el-tag>
-                <el-tag v-if="scope.row.status === 1" type="success" label="启用">启用</el-tag>
+                <el-tag v-if="scope.row.status === 0" type="danger" effect="dark" label="禁用">禁用</el-tag>
+                <el-tag v-if="scope.row.status === 1" type="success" effect="dark" label="启用">启用</el-tag>
               </template>
             </el-table-column>
-            <el-table-column prop="remark" label="备注" width="200" />
             <el-table-column align="center" fixed="right" label="操作" width="120">
               <template #default="{ row }">
-                <el-button link type="primary" size="small" @click="handleAddOrEdit(row)">编辑</el-button>
+                <el-button link type="primary" @click="handleAddOrEdit(row)">编辑</el-button>
                 <el-divider direction="vertical" />
-                <el-button link type="primary" size="small" @click="handleDelete(row)">删除</el-button>
+                <el-button link type="danger" @click="handleDelete(row)">删除</el-button>
               </template>
             </el-table-column>
             <template #empty>
-              <el-empty
-                image="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-              />
+              <ZsEmpty />
             </template>
           </el-table>
         </el-main>
@@ -96,7 +92,12 @@ import PostAddOrEdit from './components/post-add-or-edit.vue';
 import type { FormInstance } from 'element-plus';
 import { useRoute } from 'vue-router';
 import { ElTree } from 'element-plus';
-const route = useRoute();
+const reload: any = inject('reload');
+// 刷新页面
+const onSubmitForm = () => {
+  reload();
+};
+
 const ruleFormRef = ref<FormInstance>();
 const deptRef = ref<InstanceType<typeof ElTree>>();
 const addEditRef = ref<HTMLFormElement | null>(null);
@@ -118,10 +119,6 @@ const form = reactive({
   size: 20,
   order: 'asc',
   orderField: 'sort',
-});
-onMounted(() => {
-  console.log('route', route);
-  console.log('route', route.meta.title);
 });
 const queryData = async () => {
   loading.value = true;
@@ -179,12 +176,8 @@ onMounted(() => {
 <style lang="scss" scoped>
 .action-bar {
   padding-bottom: 10px;
-
-  &-right {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-  }
+  display: flex;
+  justify-content: space-between;
 }
 .table-style {
   height: calc(#{$app-main-height} - 160px);

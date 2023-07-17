@@ -1,6 +1,6 @@
 <template>
   <section class="zs-app-main">
-    <router-view v-slot="{ Component, route }">
+    <router-view v-if="isRouter" v-slot="{ Component, route }">
       <transition name="router-fade" mode="out-in">
         <keep-alive>
           <component :is="Component" :key="route.fullPath" />
@@ -11,30 +11,23 @@
 
   <!-- <div style="height: 100px">授权</div> -->
 </template>
-
-<script>
-export default {
-  name: 'AppMain',
-  computed: {},
+<script setup lang="ts">
+const isRouter = ref(true);
+const reload = () => {
+  isRouter.value = false;
+  nextTick(() => {
+    isRouter.value = true;
+  });
 };
+provide('reload', reload);
 </script>
 
 <style lang="scss" scoped>
 .zs-app-main {
-  // width: 100%;
-  // padding: $base-padding;
   position: relative;
   overflow: hidden;
   height: $app-main-height;
-  // background-color: #ffffff;
 }
-.fixed-header + .zs-app-main {
-  /* padding-top: 50px; */
-}
-</style>
-
-<style lang="scss">
-// fix css style bug in open el-dialog
 .el-popup-parent--hidden {
   .fixed-header {
     padding-right: 15px;
