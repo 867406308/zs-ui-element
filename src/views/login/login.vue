@@ -97,8 +97,7 @@ export default defineComponent({
       .main_left {
         height: 520px;
         // background: linear-gradient(163.85deg,#1d2129 0%,#00308f 100%);
-        background: linear-gradient(rgba(23, 129, 238, 0.5), rgba(23, 129, 238, 0.5)),
-          url('@/assets/bjz6.jpg') no-repeat;
+        // background: linear-gradient(rgba(23, 129, 238, 0.5), rgba(23, 129, 238, 0.5)), url('@/assets/bjz6.jpg') no-repeat;
         background-repeat: round;
       }
 
