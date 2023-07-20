@@ -1,6 +1,6 @@
 <template>
   <div class="route">
-    <ZsIcon :icon="(route.meta.icon as string)" size="23px"></ZsIcon>
+    <ZsIcon :icon="(route.meta.icon as string)" size="22px"></ZsIcon>
     <div class="title">{{ route.meta.title }}</div>
   </div>
 </template>

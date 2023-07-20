@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Layout from '@/layout/index.vue';
 import { useRoutersStore } from '@/store/modules/router';
 import { useUserStore } from '@/store/modules/sys/user';
-import { getList } from '@/api/sys/menu';
+import { getNav } from '@/api/sys/menu';
 import { convertRouter, generateRoutesFromData } from '@/utils/routes';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
@@ -116,8 +116,9 @@ router.beforeEach((to, from, next) => {
       next();
     } else {
       if (useRoutersStore().menuList.length == 0) {
-        getList()
+        getNav()
           .then((res: any) => {
+            console.log(res.data);
             const routers = generateRoutesFromData(res.data);
             useRoutersStore().setMenuList(routers);
             addRouter(routers);

@@ -16,25 +16,34 @@
         <el-row justify="space-between" class="action-bar">
           <el-col :span="12">
             <el-button type="primary" @click="handleAddOrEdit">新增</el-button>
-            <el-button type="primary" @click="handleAddOrEdit">全部展开</el-button>
-            <el-button type="primary" @click="handleAddOrEdit">全部折叠</el-button>
+            <el-button type="primary" @click="toggleExpand">{{ expand ? '收缩' : '展开' }}</el-button>
           </el-col>
         </el-row>
-        <el-table :data="tableData" style="width: 100%; margin-bottom: 20px" row-key="id" border default-expand-all>
+        <el-table
+          v-if="refreshTable"
+          :data="tableData"
+          style="width: 100%; margin-bottom: 20px"
+          row-key="id"
+          stripe
+          border
+          :default-expand-all="expand"
+          v-loading="loading"
+        >
           <el-table-column prop="title" label="菜单名称" />
-          <el-table-column prop="name" label="路由名称" />
-          <el-table-column prop="path" label="路径" />
-          <el-table-column prop="component" label="路由" />
           <el-table-column prop="icon" label="图标">
             <template #default="scope">
               <ZsIcon :icon="scope.row.icon"></ZsIcon>
             </template>
           </el-table-column>
+          <el-table-column prop="name" label="路由名称" />
+          <el-table-column prop="path" label="路径" />
+          <el-table-column prop="component" label="路由" />
+          <el-table-column prop="permissions" label="权限标识" />
           <el-table-column align="center" fixed="right" label="操作" width="120">
             <template #default="{ row }">
-              <el-button link type="primary" size="small" @click="handleAddOrEdit(row)">编辑</el-button>
+              <el-button link type="primary" @click="handleAddOrEdit(row)">编辑</el-button>
               <el-divider direction="vertical" />
-              <el-button link type="danger" size="small" @click="handleDelete(row)">删除</el-button>
+              <el-button link type="danger" @click="handleDelete(row)">删除</el-button>
             </template>
           </el-table-column>
           <template #empty>
@@ -56,14 +65,26 @@ const tableData = ref([]);
 const form = reactive({
   menuName: '',
 });
+const refreshTable = ref(true);
+const expand = ref(true);
+const loading = ref(true);
+const toggleExpand = () => {
+  refreshTable.value = false;
+  expand.value = !expand.value;
+  nextTick(() => {
+    refreshTable.value = true;
+  });
+};
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();
   queryData();
 };
 const queryData = async () => {
+  loading.value = true;
   const data = await getList();
   tableData.value = data?.data;
+  loading.value = false;
 };
 const handleAddOrEdit = (row: any) => {
   if (addEditRef.value) {

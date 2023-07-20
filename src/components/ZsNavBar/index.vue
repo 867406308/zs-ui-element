@@ -1,10 +1,10 @@
 <template>
   <div class="nav-bar">
     <div class="left-side">
-      <div @click="clickCollapse" class="nav-collapse">
+      <!-- <div @click="clickCollapse" class="nav-collapse">
         <ZsIcon v-if="!collapse" icon="fold" />
         <ZsIcon v-if="collapse" icon="expand" />
-      </div>
+      </div> -->
       <div class="nav-breadcrumb">
         <el-breadcrumb separator="/">
           <el-breadcrumb-item v-for="item in route.matched">{{ item.meta.title }}</el-breadcrumb-item>
@@ -13,11 +13,14 @@
     </div>
     <div class="right-side">
       <el-space :size="15">
-        <!-- <ZsIcon icon="full-screen" />
-        <ZsIcon icon="sunny" />
-        <ZsIcon icon="bell-filled" />
-        <ZsIcon icon="setting" /> -->
-        <el-button circle>
+        <ZsIcon icon="search" />
+        <!-- <ZsIcon icon="sunny" /> -->
+        <el-badge is-dot>
+          <ZsIcon icon="bell-filled" />
+        </el-badge>
+
+        <ZsIcon icon="setting" />
+        <!-- <el-button circle>
           <template #icon>
             <ZsIcon icon="full-screen" />
           </template>
@@ -36,7 +39,7 @@
           <template #icon>
             <ZsIcon icon="setting"></ZsIcon>
           </template>
-        </el-button>
+        </el-button> -->
         <el-dropdown @command="handleCommand">
           <div class="userInfo">
             <el-avatar src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg" :size="30" />
@@ -101,31 +104,45 @@ const handleCommand = (command: string | number | object) => {
   }
 
   .right-side {
-    margin-right: 20px;
+    margin-right: 10px;
+    height: 100%;
+    display: flex;
+    align-items: center;
 
     .zs-space {
       display: flex;
       align-items: center;
+      height: 100%;
 
-      // div {
-      //   margin-left: 10px;
-      // }
-      .zs-dropdown {
-        display: flex;
-        justify-content: start;
-        align-items: center;
-
-        .userInfo {
+      :deep() {
+        .zs-space__item {
+          height: 100%;
           display: flex;
           align-items: center;
+          padding: 0px 12px;
+          margin-right: 0px !important;
+          .zs-dropdown {
+            display: flex;
+            justify-content: start;
+            align-items: center;
 
-          .username {
-            font-size: 15px;
+            .userInfo {
+              display: flex;
+              align-items: center;
+
+              .username {
+                font-size: 15px;
+              }
+            }
+
+            span {
+              margin-left: 5px;
+            }
           }
         }
-
-        span {
-          margin-left: 10px;
+        .zs-space__item:hover {
+          background-color: #e9e9eb;
+          cursor: pointer;
         }
       }
     }

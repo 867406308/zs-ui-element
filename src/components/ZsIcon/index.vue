@@ -38,5 +38,11 @@ watch(
 <style lang="scss" scoped>
 .svg-icon {
   display: flex;
+  :deep() {
+    svg {
+      height: 1em;
+      width: 1em;
+    }
+  }
 }
 </style>

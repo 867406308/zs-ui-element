@@ -36,7 +36,6 @@
         </el-header>
         <el-main>
           <div class="action-bar">
-            <ZsRouter />
             <el-space wrap>
               <el-button type="primary" @click="handleAddOrEdit">新增</el-button>
               <el-button type="primary" @click="onSubmitForm">

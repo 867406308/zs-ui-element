@@ -1,38 +1,80 @@
-<!-- <template>
-  <Icon icon="mdi-light:home" />
-  <Icon icon="bi:bell-slash" :inline="true" />
-  <Icon icon="icon-park:add-four" :inline="true" />
+<template>
+  <div class="index-box">
+    <StatisticCard></StatisticCard>
+    <!-- <el-row :gutter="16">
+      <el-col :span="14">
+        <notice />
+      </el-col>
+      <el-col :span="10">
+        <el-row :gutter="16">
+          <el-col :span="12">
+            <el-card shadow="never">
+              <template #header>
+                <el-divider direction="vertical" />
+                <span>手机APP</span>
+              </template>
+              <el-image
+                style="width: 100px; height: 100px"
+                :src="appUrl"
+                :zoom-rate="1.2"
+                :preview-src-list="[appUrl]"
+                :initial-index="4"
+                fit="cover"
+              />
+            </el-card>
+          </el-col>
+          <el-col :span="12">
+            <el-card shadow="never">
+              <div>
+                <el-divider direction="vertical" />
+                <span>小程序</span>
+              </div>
+              <el-image
+                style="width: 100px; height: 100px"
+                :src="miniProgramUrl"
+                :zoom-rate="1.2"
+                :preview-src-list="[miniProgramUrl]"
+                :initial-index="4"
+                fit="cover"
+              />
+            </el-card>
+          </el-col>
+        </el-row>
+      </el-col>
+    </el-row> -->
+    <el-row :gutter="16">
+      <el-col :span="18">
+        <RealTimeStatistic />
+        <div style="height: 10px"></div>
+        <Test />
+      </el-col>
+      <el-col :span="6">
+        <QuickAccess />
+        <div style="height: 10px"></div>
+        <Notice />
+        <div style="height: 10px"></div>
+        <QrCode />
+      </el-col>
+    </el-row>
+  </div>
 </template>
 
 <script lang="ts" setup>
-import { Icon } from '@iconify/vue';
+import avatarUrl from '@/assets/logo.png';
 
-</script> -->
-<template>
-  <div>
-    <!-- <icon-park type="add-user" theme="outline" />
-    <icon-park type="add-text" theme="filled" /> -->
-
-    <!-- <icon-park v-for="(item, index) in icons" :key="index" :type="item.name" theme="filled"></icon-park> -->
-    <!-- <el-button :plain="true" @click="open3">warning</el-button> -->
-    <ZsIcon icon="dish"></ZsIcon>
-    <ZsSelectIcon />
-  </div>
-</template>
-<script setup>
-import { ElMessage } from 'element-plus';
-import { onMounted } from 'vue';
-// import icons from '@icon-park/vue-next/icons.json'
-// import icons from '../source/icons.json'
-const open3 = () => {
-  ElMessage({
-    showClose: true,
-    message: 'Warning, this is a warning message.',
-    type: 'warning',
-  });
-};
-onMounted(() => {
-  // const appData = require('@icon-park/vue-next/icons.json');
-  // console.log('zszs', icons);
-});
+import StatisticCard from './components/statistic-card.vue';
+import RealTimeStatistic from './components/real-time-statistic.vue';
+import Notice from './components/notice.vue';
+import QuickAccess from './components/quick-access.vue';
+import TodoToday from './components/todo-today.vue';
+import QrCode from './components/qr-code.vue';
+import Test from './components/test.vue';
 </script>
+
+<style lang="scss" scoped>
+.index-box {
+  .welcome {
+    margin-bottom: 10px;
+  }
+}
+</style>
