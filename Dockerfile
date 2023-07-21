@@ -1,6 +1,9 @@
 FROM nginx:latest
 # 删除基础镜像中的 Nginx 配置文件
-RUN rm /etc/nginx/conf.d/default.conf
+#RUN rm /etc/nginx/conf.d/default.conf
 # 配置文件替换成自己写的
-ADD ./zs-vue.conf /etc/nginx/conf.d/
+#ADD ./zs-vue.conf /etc/nginx/conf.d/
+# 替换镜像里的配置文件为项目配置文件
+COPY /mydata/nginx/conf/conf.d/zs.conf /etc/nginx/conf.d/
+# 打包文件放置docker目录下
 COPY ./dist /usr/share/nginx/html/
