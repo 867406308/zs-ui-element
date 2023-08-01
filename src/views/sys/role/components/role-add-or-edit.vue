@@ -1,40 +1,80 @@
 <template>
-  <el-dialog
-    v-model="dialogFormVisible"
-    :title="!form.sysRoleId ? '新增' : '修改'"
-    @close="close"
-    :close-on-click-modal="false"
-  >
-    <el-form :model="form" ref="formRef" label-width="auto" :rules="rules">
-      <el-form-item label="角色名称" prop="roleName">
-        <el-input v-model="form.roleName" placeholder="请输入角色名称"></el-input>
-      </el-form-item>
-      <el-form-item label="排序" prop="sort">
-        <el-input-number v-model="form.sort" :min="0"></el-input-number>
-      </el-form-item>
-      <el-form-item label="状态" prop="status">
-        <el-radio-group v-model="form.status">
-          <el-radio :label="0">停用</el-radio>
-          <el-radio :label="1">正常</el-radio>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item label="备注" prop="remark">
-        <el-input v-model="form.remark" :rows="2" type="textarea"></el-input>
-      </el-form-item>
-    </el-form>
+  <el-drawer v-model="dialogFormVisible" :direction="direction" size="50%">
+    <template #header="{ close, titleId, titleClass }">
+      <h4 :id="titleId" :class="titleClass">{{ !form.sysRoleId ? '新增' : '编辑' }}</h4>
+      <el-button type="danger" @click="close">
+        <el-icon class="el-icon--left"><CircleCloseFilled /></el-icon>
+        Close
+      </el-button>
+    </template>
+    <template #default>
+      <el-form :model="form" ref="formRef" label-width="auto" :rules="rules">
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="角色名称" prop="roleName">
+              <el-input v-model="form.roleName" placeholder="请输入角色名称"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="角色标识" prop="roleName">
+              <el-input v-model="form.roleName" placeholder="请输入角色名称"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="排序" prop="sort">
+              <el-input-number v-model="form.sort" :min="0"></el-input-number>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="状态" prop="status">
+              <el-radio-group v-model="form.status">
+                <el-radio :label="0">停用</el-radio>
+                <el-radio :label="1">正常</el-radio>
+              </el-radio-group>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="备注" prop="remark">
+              <el-input v-model="form.remark" :rows="2" type="textarea"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+      <el-divider content-position="left">菜单权限</el-divider>
+      <el-tree
+        ref="treeRef"
+        :data="menuData"
+        show-checkbox
+        default-expand-all
+        node-key="id"
+        highlight-current
+        :props="defaultProps"
+      />
+    </template>
     <template #footer>
-      <span class="dialog-footer">
+      <div style="flex: auto">
         <el-button @click="close">取消</el-button>
         <el-button type="primary" @click="submit(formRef)">保存</el-button>
-      </span>
+      </div>
     </template>
-  </el-dialog>
+  </el-drawer>
 </template>
 <script lang="ts" setup>
 import { getById, save, edit } from '@/api/sys/role';
+import { getList } from '@/api/sys/menu';
 import type { FormInstance, FormRules } from 'element-plus';
+const menuData = ref([]);
+const defaultProps = {
+  children: 'children',
+  label: 'title',
+};
 const emits = defineEmits(['query-data']);
 const dialogFormVisible = ref(false);
+const direction = ref('rtl' as any);
 const formRef = ref<FormInstance>();
 const form = reactive({
   sysRoleId: '',
@@ -55,10 +95,17 @@ const init = () => {
     });
   }
 };
+onMounted(async () => {
+  await getMenuTree();
+});
 const getInfoById = async () => {
   const data = await getById(form.sysRoleId);
   Object.assign(form, data?.data);
   console.log('form', form);
+};
+const getMenuTree = async () => {
+  const data = await getList();
+  menuData.value = data?.data ?? [];
 };
 const close = () => {
   formRef.value?.resetFields();

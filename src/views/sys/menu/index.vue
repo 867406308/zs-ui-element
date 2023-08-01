@@ -13,13 +13,19 @@
         </el-form>
       </el-header>
       <el-main>
-        <el-row justify="space-between" class="action-bar">
-          <el-col :span="12">
+        <div class="main-bar">
+          <el-space wrap>
             <el-button type="primary" @click="handleAddOrEdit">新增</el-button>
             <el-button type="primary" @click="toggleExpand">{{ expand ? '收缩' : '展开' }}</el-button>
-          </el-col>
-        </el-row>
+            <el-button type="primary" @click="onSubmitForm">
+              <template #icon>
+                <ZsIcon icon="refresh" color="#fff" />
+              </template>
+            </el-button>
+          </el-space>
+        </div>
         <el-table
+          class="table-style"
           v-if="refreshTable"
           :data="tableData"
           style="width: 100%; margin-bottom: 20px"
@@ -28,6 +34,7 @@
           border
           :default-expand-all="expand"
           v-loading="loading"
+          :fit="true"
         >
           <el-table-column prop="title" label="菜单名称" />
           <el-table-column prop="icon" label="图标">
@@ -35,10 +42,17 @@
               <ZsIcon :icon="scope.row.icon"></ZsIcon>
             </template>
           </el-table-column>
+          <el-table-column prop="type" label="菜单类型">
+            <template #default="scope">
+              <el-tag v-if="scope.row.type == 1" type="" effect="dark">目录</el-tag>
+              <el-tag v-if="scope.row.type == 2" type="success" effect="dark">菜单</el-tag>
+              <el-tag v-if="scope.row.type == 3" type="warning" effect="dark">按钮</el-tag>
+            </template>
+          </el-table-column>
           <el-table-column prop="name" label="路由名称" />
           <el-table-column prop="path" label="路径" />
           <el-table-column prop="component" label="路由" />
-          <el-table-column prop="permissions" label="权限标识" />
+          <el-table-column prop="permissions" label="权限标识" show-overflow-tooltip width="300" />
           <el-table-column align="center" fixed="right" label="操作" width="120">
             <template #default="{ row }">
               <el-button link type="primary" @click="handleAddOrEdit(row)">编辑</el-button>
@@ -59,6 +73,11 @@
 import { getList, del } from '@/api/sys/menu';
 import MenuAddOrEdit from './components/menu-add-or-edit.vue';
 import type { FormInstance } from 'element-plus';
+const reload: any = inject('reload');
+// 刷新页面
+const onSubmitForm = () => {
+  reload();
+};
 const ruleFormRef = ref<FormInstance>();
 const addEditRef = ref<HTMLFormElement | null>(null);
 const tableData = ref([]);
@@ -66,7 +85,7 @@ const form = reactive({
   menuName: '',
 });
 const refreshTable = ref(true);
-const expand = ref(true);
+const expand = ref(false);
 const loading = ref(true);
 const toggleExpand = () => {
   refreshTable.value = false;
@@ -93,14 +112,14 @@ const handleAddOrEdit = (row: any) => {
   }
 };
 const handleDelete = (row: any) => {
-  if (row.sysDeptId) {
+  if (row.sysMenuId) {
     ElMessageBox.confirm('您将进行删除操作,是否继续?', '温馨提示', {
       confirmButtonText: '确认',
       cancelButtonText: '取消',
       type: 'warning',
     })
       .then(async () => {
-        await del(row.sysDeptId);
+        await del(row.sysMenuId);
         queryData();
       })
       .catch(() => {});
@@ -115,21 +134,25 @@ onMounted(() => {
   .zs-container {
     :deep() {
       .zs-main {
-        height: calc(calc(100vh - 50px - 20px) - 0px) !important;
+        height: 100% !important;
+        min-height: calc(calc(100vh - 50px - 20px) - 60px) !important;
       }
     }
   }
 }
-.action-bar {
+.main-bar {
+  display: flex;
+  justify-content: space-between;
   padding-bottom: 10px;
+}
+// .table-style {
+//   :deep() {
+//     .zs-table__expand-icon > .zs-icon {
+//       display: none !important;
+//     }
+//     .zs-table__expand-icon{
 
-  &-right {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-  }
-}
-.table-style {
-  height: calc(#{$app-main-height} - 90px);
-}
+//     }
+//   }
+// }
 </style>

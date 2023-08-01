@@ -37,3 +37,10 @@ export function edit(data: any) {
     data,
   });
 }
+
+export function del(id: String) {
+  return request({
+    url: '/sys/post/' + id,
+    method: 'delete',
+  });
+}

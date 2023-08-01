@@ -4,7 +4,7 @@ import router from '@/router';
 import { removeToken, getToken } from '@/utils/token';
 
 const instance = axios.create({
-  baseURL: 'http://39.101.195.100:8085/api', //import.meta.env.VITE_BASE_URL, //
+  baseURL: import.meta.env.VITE_BASE_URL, //'http://39.101.195.100:8085/api', //
   timeout: 60000,
   headers: {
     'Content-Type': 'application/json;charset=utf-8',
@@ -38,6 +38,7 @@ instance.interceptors.response.use(
       case 200:
         return response?.data;
       default:
+        console.log('***************');
         ElMessage({
           message: `${response.data.msg}: ${response.data.data}`,
           type: 'warning',
@@ -46,7 +47,7 @@ instance.interceptors.response.use(
     }
     return response.data;
   },
-  function (error) {
+  (error) => {
     // 超出 2xx 范围的状态码都会触发该函数。
     // 对响应错误做点什么
     const status: number = error.response?.status;
@@ -64,11 +65,13 @@ instance.interceptors.response.use(
         504: '网关超时',
         505: 'HTTP版本不受支持',
       }[status] || '网络异常,请检查网络情况。';
+
     ElMessage({ message, type: 'error' });
     if (status === 401) {
       removeToken();
       router.push('/login');
     }
+
     return Promise.reject(error);
   },
 );

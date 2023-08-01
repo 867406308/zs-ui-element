@@ -32,6 +32,7 @@ export const useUserStore = defineStore('user', {
     },
     logOut() {
       // 清除token
+      console.log(router.getRoutes());
       removeToken();
       router.push('/login');
     },

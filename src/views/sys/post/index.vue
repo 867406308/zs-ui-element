@@ -71,7 +71,7 @@
         <el-footer>
           <el-pagination
             background
-            :current-page="form.page"
+            :currentPage="form.page"
             layout="total, sizes, prev, pager, next"
             :page-size="form.size"
             :total="total"
@@ -85,7 +85,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { postPage } from '@/api/sys/post.ts';
+import { postPage, del } from '@/api/sys/post.ts';
 import { getDeptTree } from '@/api/sys/dept.ts';
 import PostAddOrEdit from './components/post-add-or-edit.vue';
 import type { FormInstance } from 'element-plus';
@@ -109,7 +109,7 @@ const defaultProps = {
   label: 'deptName',
   value: 'sysPostId',
 };
-const total = ref(10);
+const total = ref(0);
 const form = reactive({
   sysDeptId: '',
   postName: '',
@@ -119,11 +119,15 @@ const form = reactive({
   order: 'asc',
   orderField: 'sort',
 });
+onMounted(() => {
+  getDeptList();
+  queryData();
+});
 const queryData = async () => {
   loading.value = true;
   const data = await postPage(form);
   tableData.value = data?.data?.list;
-  total.value = data?.data?.total;
+  total.value = data?.data?.total ?? 0;
   loading.value = false;
 };
 const handleSizeChange = (val: number) => {
@@ -140,16 +144,26 @@ const handleAddOrEdit = (row: any) => {
     addEditRef.value.init();
   }
 };
-const handleDelete = (row: any) => {};
-const onSubmit = () => {
-  console.log('submit!');
+const handleDelete = (row: any) => {
+  if (row.sysPostId) {
+    ElMessageBox.confirm('您将进行删除操作,是否继续?', '温馨提示', {
+      confirmButtonText: '确认',
+      cancelButtonText: '取消',
+      type: 'warning',
+    })
+      .then(async () => {
+        await del(row.sysPostId);
+        queryData();
+      })
+      .catch(() => {});
+  }
 };
+
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();
   queryData();
 };
-const handleDetail = () => {};
 /**
  * 获取部门树型结构
  */
@@ -159,18 +173,12 @@ const getDeptList = async () => {
   treeData.forEach((element: any) => {
     expandedKeys.value.push(element.sysDeptId as never);
   });
-
   Object.assign(deptTreeData.value, treeData);
 };
 const handleNodeClick = (data: any) => {
-  console.log(data);
   form.sysDeptId = data.sysDeptId;
   queryData();
 };
-onMounted(() => {
-  getDeptList();
-  queryData();
-});
 </script>
 <style lang="scss" scoped>
 .action-bar {

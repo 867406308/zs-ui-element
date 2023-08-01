@@ -26,7 +26,7 @@ provide('reload', reload);
 .zs-app-main {
   position: relative;
   overflow: hidden;
-  // height: $app-main-height;
+  min-height: $app-main-height;
 }
 .el-popup-parent--hidden {
   .fixed-header {

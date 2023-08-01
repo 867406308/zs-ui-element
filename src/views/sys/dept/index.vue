@@ -40,7 +40,7 @@
           </el-table-column>
           <el-table-column prop="sort" align="center" label="排序" width="60" />
           <el-table-column align="center" fixed="right" label="操作" width="120">
-            <template #default="{ row }">
+            <!-- <template #default="{ row }">
               <el-button link type="primary" size="small" @click="handleAddOrEdit(row)">
                 <template #icon>
                   <ZsIcon icon="edit" color="#409EFF" />
@@ -52,6 +52,11 @@
                   <ZsIcon icon="delete" color="#F56C6C" />
                 </template>
               </el-button>
+            </template> -->
+            <template #default="{ row }">
+              <el-button link type="primary" @click="handleAddOrEdit(row)">编辑</el-button>
+              <el-divider direction="vertical" />
+              <el-button link type="danger" @click="handleDelete(row)">删除</el-button>
             </template>
           </el-table-column>
           <template #empty>

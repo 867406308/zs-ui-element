@@ -43,7 +43,8 @@ html{
       .zs-main{
         .zs-app-main{
           > [class*='-container'] {
-            height: $app-main-height;
+            // height: $app-main-height;
+            height: 100%;
 
            
             .zs-container{

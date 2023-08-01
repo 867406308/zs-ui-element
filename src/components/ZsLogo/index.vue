@@ -14,7 +14,7 @@ const { collapse } = storeToRefs(settingStore);
 </script>
 <style lang="scss" scoped>
 .system-title {
-  background-color: $nav-bg-color;
+  // background-color: $nav-bg-color;
   height: $nav-height;
   display: flex;
   align-items: center;

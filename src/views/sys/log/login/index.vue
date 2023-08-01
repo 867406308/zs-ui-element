@@ -1,10 +1,10 @@
 <template>
-  <div class="role-container">
+  <div class="log-container">
     <el-container>
       <el-header>
         <el-form ref="ruleFormRef" :inline="true" :model="form" class="demo-form-inline">
-          <el-form-item label="角色名称" prop="roleName">
-            <el-input v-model="form.roleName" placeholder="请输入角色名称" />
+          <el-form-item label="日志名称" prop="roleName">
+            <el-input placeholder="请输入角色名称" />
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="queryData()">查询</el-button>
@@ -15,7 +15,7 @@
       <el-main>
         <el-row justify="space-between" class="action-bar">
           <el-col :span="12">
-            <el-button type="primary" @click="handleAddOrEdit">新增</el-button>
+            <el-button type="primary">导出</el-button>
             <el-button type="primary" @click="onSubmitForm">
               <template #icon>
                 <ZsIcon icon="refresh" color="#fff" />
@@ -23,30 +23,36 @@
             </el-button>
           </el-col>
         </el-row>
-        <el-table class="table-style" :stripe="true" :data="tableData" style="width: 100%" row-key="id" border>
+        <el-table class="table-style" :data="tableData" row-key="id" border v-loading="loading">
           <el-table-column align="center" label="序号" type="index" width="55" />
-          <el-table-column prop="roleName" label="角色名称" />
-          <el-table-column prop="roleName" label="角色标识" />
-          <el-table-column prop="roleName" label="数据范围" />
-          <el-table-column prop="remark" label="备注" />
-          <el-table-column prop="sort" label="排序" align="center" width="100"></el-table-column>
-          <el-table-column prop="status" label="状态" width="80">
+          <el-table-column align="center" prop="username" label="登录用户名" width="120" />
+          <el-table-column align="center" prop="loginTime" label="登录时间" width="180" />
+          <el-table-column align="center" prop="ipAddress" label="登录IP" width="150" />
+          <el-table-column align="center" prop="city" label="登录地址" />
+          <el-table-column align="center" prop="loginMethod" label="登录方式">
             <template #default="scope">
-              <el-tag v-if="scope.row.status === 0" type="danger" effect="dark" label="禁用">禁用</el-tag>
-              <el-tag v-if="scope.row.status === 1" type="success" effect="dark" label="启用">启用</el-tag>
+              <span v-if="scope.row.loginMethod == 1">用户密码登录</span>
             </template>
           </el-table-column>
-          <!-- <el-table-column align="center" prop="createTime" label="创建时间" width="160" />
-          <el-table-column align="center" prop="updateTime" label="修改时间" width="160" /> -->
-          <el-table-column align="center" fixed="right" label="操作" width="170">
-            <template #default="{ row }">
-              <el-button link type="primary" @click="handleAddOrEdit(row)">编辑</el-button>
-              <el-divider direction="vertical" />
-              <el-button link type="primary" @click="handleDetail">授权</el-button>
-              <el-divider direction="vertical" />
-              <el-button link type="danger" @click="handleDetail">删除</el-button>
+          <el-table-column align="center" prop="loginStatus" label="登录状态">
+            <template #default="scope">
+              <el-tag v-if="scope.row.loginStatus == 1" type="success" effect="dark">成功</el-tag>
+              <el-tag v-if="scope.row.loginStatus == 2" type="danger" effect="dark">失败</el-tag>
             </template>
           </el-table-column>
+          <el-table-column prop="userAgent" label="代理" show-overflow-tooltip />
+          <el-table-column align="center" prop="failureReason" label="登录失败原因" show-overflow-tooltip>
+            <template #default="scope">
+              <span v-if="scope.row.loginStatus == 1">——</span>
+              <span v-if="scope.row.loginStatus == 2">{{ scope.row.failureReason ?? '' }}</span>
+            </template>
+          </el-table-column>
+          <!-- <el-table-column prop="failureReason" label="登录原因" show-overflow-tooltip />
+          <el-table-column prop="loginMethod" label="登录方式" show-overflow-tooltip />
+          <el-table-column prop="loginSource" label="登录来源" show-overflow-tooltip />
+          <el-table-column align="center" prop="os" label="操作系统" show-overflow-tooltip width="260" />
+          <el-table-column align="center" prop="browser" label="浏览器" />
+          <el-table-column prop="userAgent" label="代理" show-overflow-tooltip /> -->
           <template #empty>
             <ZsEmpty />
           </template>
@@ -64,38 +70,32 @@
         />
       </el-footer>
     </el-container>
-    <role-add-or-edit ref="addEditRef" :key="+new Date()" @query-data="queryData" />
   </div>
 </template>
 <script lang="ts" setup>
-import { rolePage } from '@/api/sys/role.ts';
-import RoleAddOrEdit from './components/role-add-or-edit.vue';
+import { logLoginPage } from '@/api/sys/log.ts';
 import type { FormInstance } from 'element-plus';
-import { useRoute } from 'vue-router';
-import { ElTree } from 'element-plus';
 const reload: any = inject('reload');
 // 刷新页面
 const onSubmitForm = () => {
   reload();
 };
-const route = useRoute();
 const ruleFormRef = ref<FormInstance>();
-const addEditRef = ref<HTMLFormElement | null>(null);
+const loading = ref(false);
 const tableData = ref([]);
-const total = ref(10);
+const total = ref(0);
 const form = reactive({
-  roleName: '',
   page: 1,
   size: 20,
-});
-onMounted(() => {
-  console.log('route', route);
-  console.log('route', route.meta.title);
+  order: 'desc',
+  orderField: 'login_time',
 });
 const queryData = async () => {
-  const data = await rolePage(form);
+  loading.value = true;
+  const data = await logLoginPage(form);
   tableData.value = data?.data?.list;
   total.value = data?.data?.total;
+  loading.value = false;
 };
 const handleSizeChange = (val: number) => {
   form.size = val;
@@ -104,12 +104,6 @@ const handleSizeChange = (val: number) => {
 const handleCurrentChange = (val: number) => {
   form.page = val;
   queryData();
-};
-const handleAddOrEdit = (row: any) => {
-  if (addEditRef.value) {
-    addEditRef.value.form.sysRoleId = row?.sysRoleId;
-    addEditRef.value.init();
-  }
 };
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;

@@ -74,6 +74,7 @@ const handleCommand = (command: string | number | object) => {
     case 'personalCenter':
       break;
     case 'logout':
+      console.log('退出登录');
       userStore.logOut();
       break;
     default:

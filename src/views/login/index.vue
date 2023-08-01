@@ -9,7 +9,7 @@
     </div>
     <div class="login-container">
       <div class="content">
-        <div class="title">Hi,欢迎登录</div>
+        <div class="title">Hi,欢迎登录！</div>
         <div class="sub-title">您的支持是我最大的动力</div>
         <login-username />
       </div>
@@ -31,8 +31,8 @@ import loginUsername from './components/login-username.vue';
   background: white;
   display: flex;
   height: calc(100vh);
-  background-image: url('@/assets/z23.png');
-  // background-repeat: round;
+  background-image: url('@/assets/z22.png');
+  background-repeat: round;
   background-size: cover;
   background-position: 100%;
 
@@ -52,9 +52,9 @@ import loginUsername from './components/login-username.vue';
   &-container {
     position: absolute;
     top: 22%;
-    left: 10%;
+    right: 10%;
     min-height: 500px;
-    line-height: 22px;
+    line-height: 30px;
 
     .content {
       background-color: #fff;
