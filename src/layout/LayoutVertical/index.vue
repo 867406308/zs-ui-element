@@ -24,15 +24,12 @@
     width: var(--zs-aside-width, 300px) important;
   }
   .zs-container {
-    // height: 100vh;
-    // overflow: auto;
     .zs-header {
       padding: 0px;
       height: $nav-height;
     }
     .zs-main {
       padding: $base-padding;
-      // overflow: unset;
       height: $app-main-height;
     }
   }

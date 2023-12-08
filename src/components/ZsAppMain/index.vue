@@ -1,6 +1,6 @@
 <template>
   <section class="zs-app-main">
-    <router-view v-if="isRouter" v-slot="{ Component, route }">
+    <router-view v-slot="{ Component, route }">
       <transition name="router-fade" mode="out-in">
         <keep-alive>
           <component :is="Component" :key="route.fullPath" />
@@ -11,22 +11,15 @@
 
   <!-- <div style="height: 100px">授权</div> -->
 </template>
-<script setup lang="ts">
-const isRouter = ref(true);
-const reload = () => {
-  isRouter.value = false;
-  nextTick(() => {
-    isRouter.value = true;
-  });
-};
-provide('reload', reload);
-</script>
+<script setup lang="ts"></script>
 
 <style lang="scss" scoped>
 .zs-app-main {
+  // background-color: $bg-color;
   position: relative;
   overflow: hidden;
-  min-height: $app-main-height;
+  // min-height: $app-main-height;
+  // height: 100%;
 }
 .el-popup-parent--hidden {
   .fixed-header {

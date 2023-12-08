@@ -1,7 +1,7 @@
 import { hashToken } from '@/utils/token';
 import { createRouter, createWebHistory } from 'vue-router';
 import Layout from '@/layout/index.vue';
-import { useRoutersStore } from '@/store/modules/router';
+import { routersStore } from '@/store/modules/router';
 import { useUserStore } from '@/store/modules/sys/user';
 import { getNav } from '@/api/sys/menu';
 import { convertRouter, generateRoutesFromData } from '@/utils/routes';
@@ -25,6 +25,11 @@ const routers = [
     // name: 'NotFound',
     component: () => import('@/views/error/404.vue'),
     hidden: true,
+  },
+  {
+    path: '/nav',
+    name: 'nav',
+    component: () => import('@/views/nav/index.vue'),
   },
 ];
 
@@ -109,21 +114,25 @@ router.beforeEach((to, from, next) => {
   // 每次切换页面时，调用进度条
   NProgress.start();
   console.log('from', from);
+  console.log('to', to);
   if (hashToken()) {
     //toekn存在
     if (to.path == '/login') {
       //token存在，并且是login页面
       next();
     } else {
-      if (useRoutersStore().menuList.length == 0) {
+      if (routersStore().menuList.length == 0) {
         getNav()
           .then((res: any) => {
-            console.log(res.data);
-            const routers = generateRoutesFromData(res.data);
-            useRoutersStore().setMenuList(routers);
-            addRouter(routers);
-            next({ ...to, replace: true }); // hack方法 确保addRoutes已完成
-            //token存在，不是login页面
+            if (res.data.length > 0) {
+              const routers = generateRoutesFromData(res.data);
+              routersStore().setMenuList(routers);
+              addRouter(routers);
+              next({ ...to, replace: true }); // hack方法 确保addRoutes已完成
+              //token存在，不是login页面
+            } else {
+              next();
+            }
           })
           .catch((error: any) => {
             next('/login');

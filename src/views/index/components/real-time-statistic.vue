@@ -6,7 +6,6 @@ import * as echarts from 'echarts';
 const echarsDom: Ref<HTMLElement | any> = ref(null);
 onMounted(() => {
   const myChart = echarts.init(echarsDom.value);
-  console.log(myChart);
   myChart.setOption({
     title: {
       text: '访问实时数据',
@@ -64,7 +63,10 @@ onMounted(() => {
         stack: 'Total',
         showSymbol: false,
         smooth: true,
-        data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 20, 30, 40, 35, 40, 20, 25, 15, 0, 15, 10, 0, 0, 0, 0],
+        data: [
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 20, 30, 40, 35, 40, 20, 25, 15, 0, 15,
+          10, 0, 0, 0, 0,
+        ],
       },
       {
         name: '1天前',
@@ -72,7 +74,10 @@ onMounted(() => {
         stack: 'Total',
         showSymbol: false,
         smooth: true,
-        data: [0, 0, 0, 0, 0, 0, 95, 0, 98, 15, 50, 0, 85, 54, 45, 36, 45, 56, 0, 79, 85, 91, 97, 102, 0],
+        data: [
+          0, 0, 0, 0, 0, 0, 95, 0, 98, 15, 50, 0, 85, 54, 45, 36, 45, 56, 0, 79,
+          85, 91, 97, 102, 0,
+        ],
       },
       {
         name: '7天前',
@@ -80,7 +85,10 @@ onMounted(() => {
         stack: 'Total',
         showSymbol: false,
         smooth: true,
-        data: [0, 0, 0, 0, 0, 0, 48, 0, 103, 0, 105, 0, 32, 39, 0, 102, 0, 114, 0, 52, 39, 0, 35, 39, 0],
+        data: [
+          0, 0, 0, 0, 0, 0, 48, 0, 103, 0, 105, 0, 32, 39, 0, 102, 0, 114, 0,
+          52, 39, 0, 35, 39, 0,
+        ],
       },
     ],
   });

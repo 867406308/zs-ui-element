@@ -1,11 +1,16 @@
 <template>
-  <el-dialog
+  <el-drawer
     v-model="dialogFormVisible"
     :title="!form.sysMenuId ? '新增' : '修改'"
-    @close="close"
+    @close="useMenuAddOrEditStore.close"
     :close-on-click-modal="false"
   >
-    <el-form :model="form" ref="formRef" label-width="auto" :rules="rules">
+    <el-form
+      :model="form"
+      ref="formRef"
+      label-width="auto"
+      :rules="useMenuAddOrEditStore.rules"
+    >
       <el-row>
         <el-col>
           <el-form-item label="菜单类型">
@@ -37,14 +42,20 @@
       <el-row>
         <el-col>
           <el-form-item label="菜单名称" prop="title">
-            <el-input v-model="form.title" placeholder="请输入菜单名称"></el-input> </el-form-item
+            <el-input
+              v-model="form.title"
+              placeholder="请输入菜单名称"
+            ></el-input> </el-form-item
         ></el-col>
       </el-row>
 
       <el-row>
         <el-col v-if="form.type === 1 || form.type === 2">
           <el-form-item label="路由名" prop="name">
-            <el-input v-model="form.name" placeholder="请输入路由名，如: sys/menu"></el-input>
+            <el-input
+              v-model="form.name"
+              placeholder="请输入路由名，如: sys/menu"
+            ></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -52,7 +63,10 @@
       <el-row>
         <el-col v-if="form.type === 1 || form.type === 2">
           <el-form-item label="路由路径" prop="path">
-            <el-input v-model="form.path" placeholder="请输入路由地址，如: /sys/menu"></el-input>
+            <el-input
+              v-model="form.path"
+              placeholder="请输入路由地址，如: /sys/menu"
+            ></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -60,7 +74,11 @@
       <el-row>
         <el-col v-if="form.type === 2">
           <el-form-item label="组件路径" prop="component">
-            <el-input v-model="form.component" placeholder="前端组件路径,如: @/views/sys/role/index"> </el-input>
+            <el-input
+              v-model="form.component"
+              placeholder="前端组件路径,如: @/views/sys/role/index"
+            >
+            </el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -77,10 +95,17 @@
               trigger="click"
             >
               <template #reference>
-                <el-input v-model="form.icon" style="width: 100%" placeholder="请选择图标"> </el-input>
+                <el-input
+                  v-model="form.icon"
+                  style="width: 100%"
+                  placeholder="请选择图标"
+                >
+                </el-input>
               </template>
               <template #default>
-                <ZsSelectIcon @onClick="click"></ZsSelectIcon>
+                <ZsSelectIcon
+                  @onClick="useMenuAddOrEditStore.click"
+                ></ZsSelectIcon>
               </template>
             </el-popover>
           </el-form-item>
@@ -97,116 +122,37 @@
           ></el-form-item>
         </el-col>
       </el-row>
+      <el-row>
+        <el-col>
+          <el-form-item label="排序" prop="sort">
+            <el-input-number v-model="form.sort" placeholder="请输入排序" />
+          </el-form-item>
+        </el-col>
+      </el-row>
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="close">取消</el-button>
-        <el-button type="primary" @click="submit(formRef)">保存</el-button>
+        <el-button @click="useMenuAddOrEditStore.close">取消</el-button>
+        <el-button
+          type="primary"
+          @click="useMenuAddOrEditStore.submit(formRef, emits)"
+          >确定</el-button
+        >
       </span>
     </template>
-  </el-dialog>
+  </el-drawer>
 </template>
-<script>
-import { getList, getById, save, edit } from '@/api/sys/menu';
-export default defineComponent({
-  emits: ['query-data'],
-  setup(props, { emit }) {
-    const state = reactive({
-      dialogFormVisible: false,
-      formRef: null,
-      popoverRef: null,
-      form: {
-        sysMenuId: '',
-        type: 1,
-        name: '',
-        path: '',
-        title: '',
-        component: '',
-        icon: '',
-        permissions: '',
-      },
-      treeData: [],
-      rules: {
-        pid: [{ required: true, message: '请选择父级菜单', trigger: 'change' }],
-        name: [{ required: true, message: '请输入路由名', trigger: 'blur' }],
-        path: [{ required: true, message: '请输入路由路径', trigger: 'blur' }],
-        title: [{ required: true, message: '请输入路由名称', trigger: 'blur' }],
-        component: [{ required: true, message: '请输入vue组件路劲', trigger: 'blur' }],
-        icon: [{ required: true, message: '请选着图标', trigger: 'change' }],
-        permissions: [{ required: true, message: '请输入权限字符', trigger: 'blur' }],
-      },
-    });
-    const init = async () => {
-      state.dialogFormVisible = true;
-      nextTick(() => {
-        getTree();
-        if (state.form.sysMenuId) {
-          getInfoById();
-        }
-      });
-    };
-    const click = (val) => {
-      state.form.icon = val;
-      state['popoverRef'].hide();
-    };
-    const getInfoById = async () => {
-      const data = await getById(state.form.sysMenuId);
-      state.form = {
-        ...data?.data,
-      };
-    };
-    const getTree = async () => {
-      const data = await getList();
-      state.treeData = [
-        {
-          title: '主类目',
-          sysMenuId: 0,
-          children: data?.data,
-        },
-      ];
-    };
-    const close = () => {
-      state.formRef.resetFields();
-      state.dialogFormVisible = false;
-      state.form = {
-        sysMenuId: '',
-        type: 1,
-        name: '',
-        path: '',
-        title: '',
-        component: '',
-        icon: '',
-        permissions: '',
-      };
-    };
-    const submit = (formRef) => {
-      if (!formRef) return;
-      state['formRef'].validate(async (valid, fields) => {
-        if (valid) {
-          if (!state.form.sysMenuId) {
-            console.log('保存!');
-            await save(state.form);
-          } else {
-            console.log('修改!');
-            await edit(state.form);
-          }
-          state.dialogFormVisible = false;
-          emit('query-data');
-        } else {
-          console.log('error submit!', fields);
-        }
-      });
-    };
-    return {
-      ...toRefs(state),
-      init,
-      getTree,
-      getInfoById,
-      close,
-      submit,
-      click,
-    };
-  },
+<script lang="ts" setup>
+import { menuAddOrEditStore } from '@/store/modules/sys/menu/menuAddOrEditStore';
+import { storeToRefs } from 'pinia';
+const useMenuAddOrEditStore = menuAddOrEditStore();
+const { dialogFormVisible, formRef, popoverRef, form, treeData } = storeToRefs(
+  useMenuAddOrEditStore,
+);
+const emits = defineEmits(['query-data']);
+defineExpose({
+  form,
+  init: useMenuAddOrEditStore.init,
 });
 </script>
 

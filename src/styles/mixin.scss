@@ -1,0 +1,110 @@
+
+// @mixin base-scrollbar {
+//   &::-webkit-scrollbar {
+//     width: 8px;
+//     height: 8px;
+//   }
+//   &::-webkit-scrollbar-thumb {
+//     background-color: mix($base-color-white, $base-menu-background, 90%);
+//     border: 3px solid transparent;
+//     border-radius: 7px;
+//   }
+//   &::-webkit-scrollbar-thumb:hover {
+//     background-color: mix($base-color-white, $base-menu-background, 80%);
+//   }
+// }
+
+  /* 隐藏滚动条的轨道 */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  // /* 定义滚动条轨道背景 */
+  // ::-webkit-scrollbar-track {
+  //   background-color: #f1f1f1;
+  // }
+
+  /* 定义滚动条滑块 */
+  ::-webkit-scrollbar-thumb {
+    background-color: #e4e4e2;
+    border-radius: 4px;
+  }
+
+  /* 当鼠标悬停在滚动条上时的样式 */
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #fff;
+  }
+
+
+
+ 
+      .zs-main{
+        .zs-app-main{
+          > [class*='-container'] {
+            height: 100%;
+            
+
+           
+            .zs-container{
+              height: 100%;
+              .zs-aside{
+                padding: $base-padding;
+                background-color: #fff;
+                margin-right: 10px;
+                border-radius: $border-radius;
+              }
+              .zs-header{
+                padding: $base-padding;
+                background-color: white;
+                border-radius: $border-radius;
+                min-height: 50px;
+                height: auto;
+
+              }
+
+              .zs-main{
+                height: 100%;
+                padding: 0px $base-padding 10px $base-padding;
+                overflow: hidden;
+                background-color: white;
+                border-top-right-radius: $border-radius;
+                border-top-left-radius: $border-radius;
+                
+                .table-body-header {
+                  display: flex;
+                  justify-content: space-between;
+                  padding-bottom: 8px;
+                }
+                .table-style {
+                  height: calc(#{$app-main-height} - 160px);
+                
+                  .zs-scrollbar__view{
+                    height: 100%;
+                  }
+                  .status {
+                    display: flex;
+                    align-items: center;
+                    > span:first-child {
+                      margin-right: 10px;
+                      display: flex;
+                      width: 10px;
+                      height: 10px;
+                      background-color: #67c23a;
+                      border-radius: 50%;
+                    }
+                  }
+                }
+              }
+              .zs-footer{
+                height: 40px;
+                background-color: white;
+                display: inline-flex;
+                justify-content: flex-start;
+                align-items: center;
+              }
+            }
+          }
+        }
+      }
+   

@@ -1,14 +1,11 @@
 <template>
   <div class="login-container">
     <div class="login">
-      <!-- <div class="login_title">
-        <p>智慧校园报修服务平台</p>
-      </div> -->
       <div class="login_main">
         <el-row>
           <el-col class="main_left" :span="12"></el-col>
           <el-col class="main_right" :span="12">
-            <div class="right_title">张三管理后台系统</div>
+            <div class="right_title">ZS后台管理系统</div>
             <el-tabs v-model="activeName" class="demo-tabs">
               <el-tab-pane label="账号密码登录" name="first">
                 <login-username />
@@ -32,9 +29,6 @@
           </el-col>
         </el-row>
       </div>
-      <!-- <div class="login_footer">
-        <p>建议浏览器：IE9以上、Firefox v22</p>
-      </div> -->
     </div>
   </div>
 </template>
@@ -61,19 +55,19 @@ export default defineComponent({
 </script>
 <style lang="scss" scoped>
 .login-container {
-  background-color: cornflowerblue;
-  // background-image: url('@/assets/bg.jpg');
-  // background-repeat: round;
-  // background: url('@/assets/789.jpg') no-repeat;
-  // background-repeat: round;
-  // // background-position: center;
-  // background-size: contain;
-  height: 100vh;
+  // background-color: cornflowerblue;
+  background-image: url('@/assets/6.png');
+  background-repeat: round;
+  background-size: contain;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   .login {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    // position: absolute;
+    // left: 50%;
+    // top: 50%;
+    // transform: translate(-50%, -50%);
 
     .login_title {
       height: 80px;
@@ -92,13 +86,14 @@ export default defineComponent({
       width: 900px;
       height: 520px;
       background-color: #fff;
-      border-radius: 0px;
+      border-radius: 8px;
 
       .main_left {
         height: 520px;
-        // background: linear-gradient(163.85deg,#1d2129 0%,#00308f 100%);
-        // background: linear-gradient(rgba(23, 129, 238, 0.5), rgba(23, 129, 238, 0.5)), url('@/assets/bjz6.jpg') no-repeat;
-        background-repeat: round;
+        background-image: url('@/assets/14.png');
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: cover;
       }
 
       .main_right {

@@ -1,11 +1,16 @@
 <template>
-  <el-dialog
+  <el-drawer
     v-model="dialogFormVisible"
     :title="!form.sysDeptId ? '新增' : '修改'"
-    @close="close"
+    @close="useDeptAddOrEditStore.close"
     :close-on-click-modal="false"
   >
-    <el-form :model="form" ref="formRef" label-width="auto" :rules="rules">
+    <el-form
+      :model="form"
+      ref="formRef"
+      label-width="auto"
+      :rules="useDeptAddOrEditStore.rules"
+    >
       <el-form-item label="父级菜单" prop="pid">
         <el-tree-select
           v-model="form.pid"
@@ -21,11 +26,24 @@
         />
       </el-form-item>
       <el-form-item label="部门名称" prop="deptName">
-        <el-input v-model="form.deptName"></el-input>
+        <el-input
+          v-model="form.deptName"
+          placeholder="请输入部门名称"
+        ></el-input>
       </el-form-item>
-      <!-- <el-form-item label="部门负责人" prop="deptHead">
-        <el-input v-model="form.deptHead"></el-input>
-      </el-form-item> -->
+      <el-form-item label="部门负责人" prop="sysUserId">
+        <el-select
+          v-model="deptHeadName"
+          ref="deptHeadRef"
+          placeholder="请选择部门负责人"
+          style="width: 100%"
+          clearable
+        >
+          <template #empty>
+            <dept-head @on-click="useDeptAddOrEditStore.handleOnClick" />
+          </template>
+        </el-select>
+      </el-form-item>
       <el-form-item label="状态" prop="status">
         <el-radio-group v-model="form.status">
           <el-radio :label="0">停用</el-radio>
@@ -41,84 +59,35 @@
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="close">取消</el-button>
-        <el-button type="primary" @click="submit(formRef)">保存</el-button>
+        <el-button @click="useDeptAddOrEditStore.close">取消</el-button>
+        <el-button
+          type="primary"
+          @click="useDeptAddOrEditStore.submit(formRef, emits)"
+          >确定</el-button
+        >
       </span>
     </template>
-  </el-dialog>
+  </el-drawer>
 </template>
 <script lang="ts" setup>
-import { getDeptTree, getById, save, edit } from '@/api/sys/dept';
-import type { FormInstance, FormRules } from 'element-plus';
-const emits = defineEmits(['query-data']);
-const dialogFormVisible = ref(false);
-const formRef = ref<FormInstance>();
-const treeData = ref([{}]);
-const form = reactive({
-  sysDeptId: '',
-  pid: '',
-  deptName: '',
-  deptHead: '',
-  status: 1,
-  remark: '',
-  sort: 0,
-});
-const rules = reactive<FormRules>({
-  pid: [{ required: true, message: '请选择父级菜单', trigger: 'change' }],
-  deptName: [{ required: true, message: '请输入部门名称', trigger: 'blur' }],
-});
-// onBeforeMount(() => {
-//   getTree();
-// });
-const init = async () => {
-  dialogFormVisible.value = true;
-  await getTree();
-  if (form.sysDeptId) {
-    nextTick(async () => {
-      await getInfoById();
-    });
-  }
-};
-const getInfoById = async () => {
-  const data = await getById(form.sysDeptId);
-  Object.assign(form, data?.data);
-};
-const getTree = async () => {
-  const data = await getDeptTree();
-  treeData.value = [
-    {
-      sysDeptId: '0',
-      deptName: '主类目',
-      pid: 0,
-      children: data?.data,
-    },
-  ];
-};
-const close = () => {
-  formRef.value?.resetFields();
-  dialogFormVisible.value = false;
-};
-const submit = (formRef: any) => {
-  if (!formRef) return;
-  formRef.validate(async (valid: any, fields: any) => {
-    if (valid) {
-      if (!form.sysDeptId) {
-        console.log('保存!');
-        await save(form);
-      } else {
-        console.log('修改!');
-        await edit(form);
-      }
-      dialogFormVisible.value = false;
-      emits('query-data');
-    } else {
-      console.log('error submit!', fields);
-    }
-  });
-};
-defineExpose({
-  init,
+import { deptAddOrEditStore } from '@/store/modules/sys/dept/deptAddOrEditStore';
+import DeptHead from './dept-head.vue';
+import { storeToRefs } from 'pinia';
+const useDeptAddOrEditStore = deptAddOrEditStore();
+const {
   form,
+  formRef,
+  deptHeadName,
+  deptHeadRef,
+  dialogFormVisible,
+  treeData,
+} = storeToRefs(useDeptAddOrEditStore);
+
+const emits = defineEmits(['query-data']);
+
+defineExpose({
+  form,
+  init: useDeptAddOrEditStore.init,
 });
 </script>
 

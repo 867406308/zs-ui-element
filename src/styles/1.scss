@@ -1,0 +1,62 @@
+:root {
+  --zs-border-radius-base: 2.5px;
+  // --zs-text-color-regular: #262930;
+  // --zs-color-primary: #1677ff;
+  // --zs-color-primary-light-3: #1677ff
+}
+.zs-button {
+}
+.zs-input {
+  --zs-input-hover-border: transparent !important;
+  --zs-input-border-color: transparent !important;
+  --zs-input-hover-border-color: transparent !important;
+
+  .zs-input__wrapper {
+    background-color: #f2f3f5;
+    border-radius: 1px;
+    border: none; 
+  }
+  .zs-input__wrapper:focus{
+    background-color: #fff !important;
+  }
+  .zs-input__wrapper.is-focus {
+    background-color: #fff !important;
+  }
+  .zs-input__wrapper:hover {
+    background-color: #dedfe0;
+    border: none;
+  }
+
+}
+
+
+.zs-textarea{
+  --zs-input-hover-border: transparent !important;
+  --zs-input-border-color: transparent !important;
+  --zs-input-hover-border-color: transparent !important;
+
+  .zs-textarea__inner{
+    background-color: #f2f3f5;
+    border-radius: 1px;
+    border: none;
+  }
+
+  .zs-textarea__inner:focus{
+    background-color: #fff !important;
+  }
+  .zs-textarea__inner.is-focus {
+    background-color: #fff !important;
+  }
+  .zs-textarea__inner:hover {
+    background-color: #e9e9eb;
+    border: none;
+  }
+
+
+}
+.zs-tag {
+  --zs-tag-border-radius: 2px !important;
+}
+.zs-select__tags .zs-tag--info {
+  background-color: #ffffff !important;
+}

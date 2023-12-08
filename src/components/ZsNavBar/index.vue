@@ -1,18 +1,21 @@
 <template>
   <div class="nav-bar">
     <div class="left-side">
-      <!-- <div @click="clickCollapse" class="nav-collapse">
+      <div @click="clickCollapse" class="nav-collapse">
         <ZsIcon v-if="!collapse" icon="fold" />
         <ZsIcon v-if="collapse" icon="expand" />
-      </div> -->
+      </div>
       <div class="nav-breadcrumb">
         <el-breadcrumb separator="/">
-          <el-breadcrumb-item v-for="item in route.matched">{{ item.meta.title }}</el-breadcrumb-item>
+          <el-breadcrumb-item v-for="item in route.matched">{{
+            item.meta.title
+          }}</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
     </div>
     <div class="right-side">
       <el-space :size="15">
+        <ZsIcon icon="refresh" @click="onSubmitForm" />
         <ZsIcon icon="search" />
         <!-- <ZsIcon icon="sunny" /> -->
         <el-badge is-dot>
@@ -20,6 +23,7 @@
         </el-badge>
 
         <ZsIcon icon="setting" />
+
         <!-- <el-button circle>
           <template #icon>
             <ZsIcon icon="full-screen" />
@@ -42,12 +46,17 @@
         </el-button> -->
         <el-dropdown @command="handleCommand">
           <div class="userInfo">
-            <el-avatar src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg" :size="30" />
+            <el-avatar
+              src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"
+              :size="30"
+            />
             <span class="username">{{ username }}</span>
           </div>
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item command="personalCenter">个人中心</el-dropdown-item>
+              <el-dropdown-item command="personalCenter"
+                >个人中心</el-dropdown-item
+              >
               <el-dropdown-item command="logout">退出登录</el-dropdown-item>
             </el-dropdown-menu>
           </template>
@@ -74,12 +83,16 @@ const handleCommand = (command: string | number | object) => {
     case 'personalCenter':
       break;
     case 'logout':
-      console.log('退出登录');
       userStore.logOut();
       break;
     default:
       break;
   }
+};
+const reload: any = inject('reload');
+// 刷新页面
+const onSubmitForm = () => {
+  reload();
 };
 </script>
 <style lang="scss" scoped>
@@ -89,14 +102,19 @@ const handleCommand = (command: string | number | object) => {
   justify-content: space-between;
   align-items: center;
   background-color: #ffffff;
-  border-bottom: 1px solid #e5e6eb;
+  box-sizing: border-box;
+  border-bottom: 1px solid rgb(229, 230, 235);
+  // filter: drop-shadow(1px 2px 4px hsl(225, 7%, 88%));
 
   .left-side {
     display: flex;
     align-items: center;
-    .zs-icon {
-      margin-left: 10px;
-      cursor: pointer;
+    .nav-collapse {
+      padding-left: 20px;
+      .zs-icon {
+        margin-left: 10px;
+        cursor: pointer;
+      }
     }
   }
 

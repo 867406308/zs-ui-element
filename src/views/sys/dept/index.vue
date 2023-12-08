@@ -1,62 +1,106 @@
 <template>
   <div class="dept-container">
     <el-container>
+      <el-header height="30px">
+        <el-form
+          ref="ruleFormRef"
+          :inline="true"
+          :model="form"
+          class="demo-form-inline"
+        >
+          <el-form-item label="部门名称" prop="deptName">
+            <el-input v-model="form.deptName" placeholder="请输入部门名称" />
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="useDeptStore.queryData()"
+              >查询</el-button
+            >
+            <el-button @click="useDeptStore.resetForm(ruleFormRef)"
+              >重置</el-button
+            >
+          </el-form-item>
+        </el-form>
+      </el-header>
       <el-main>
-        <div class="main-bar">
-          <el-space wrap>
-            <el-button type="primary" @click="handleAddOrEdit">新增</el-button>
-            <el-button type="primary" @click="toggleExpand">{{ expand ? '收缩' : '展开' }}</el-button>
-            <el-button type="primary" @click="onSubmitForm">
-              <template #icon>
-                <ZsIcon icon="refresh" color="#fff" />
-              </template>
+        <div class="table-body-header">
+          <div>
+            <el-button
+              v-permission="'sys:dept:save'"
+              type="primary"
+              @click="useDeptStore.handleAddOrEdit($event)"
+            >
+              新增
             </el-button>
-          </el-space>
+            <el-button type="primary" @click="useDeptStore.toggleExpand">{{
+              expand ? '收缩' : '展开'
+            }}</el-button>
+          </div>
         </div>
         <el-table
-          class="table-style"
           v-if="refreshTable"
           :data="tableData"
-          style="width: 100%; margin-bottom: 20px"
           row-key="id"
-          stripe
           border
           :default-expand-all="expand"
           v-loading="loading"
         >
           <el-table-column prop="deptName" label="部门名称" />
-          <el-table-column prop="deptHead" label="部门负责人">
-            <template #default="{ row }">
-              <span v-if="row.deptHead === 0"></span>
-              <span v-else>{{ row.deptHead }}</span>
-            </template>
+          <el-table-column prop="deptHeadName" label="部门负责人">
           </el-table-column>
           <el-table-column prop="remark" label="备注" />
-          <el-table-column prop="status" label="部门状态" align="center" width="90">
+          <el-table-column
+            prop="status"
+            label="部门状态"
+            align="center"
+            width="90"
+          >
             <template #default="scope">
-              <el-tag v-if="scope.row.status === 0" type="danger" label="禁用" effect="dark">禁用</el-tag>
-              <el-tag v-if="scope.row.status === 1" type="success" label="启用" effect="dark">启用</el-tag>
+              <el-tag
+                v-if="scope.row.status === 0"
+                type="danger"
+                label="禁用"
+                effect="dark"
+                >禁用</el-tag
+              >
+              <el-tag
+                v-if="scope.row.status === 1"
+                type="success"
+                label="启用"
+                effect="dark"
+                >启用</el-tag
+              >
             </template>
           </el-table-column>
           <el-table-column prop="sort" align="center" label="排序" width="60" />
-          <el-table-column align="center" fixed="right" label="操作" width="120">
-            <!-- <template #default="{ row }">
-              <el-button link type="primary" size="small" @click="handleAddOrEdit(row)">
-                <template #icon>
-                  <ZsIcon icon="edit" color="#409EFF" />
-                </template>
-              </el-button>
-              <el-divider direction="vertical" />
-              <el-button link type="danger" size="small" @click="handleDelete(row)">
-                <template #icon>
-                  <ZsIcon icon="delete" color="#F56C6C" />
-                </template>
-              </el-button>
-            </template> -->
+          <el-table-column
+            align="center"
+            fixed="right"
+            label="操作"
+            width="200"
+          >
             <template #default="{ row }">
-              <el-button link type="primary" @click="handleAddOrEdit(row)">编辑</el-button>
+              <el-button
+                link
+                type="primary"
+                @click="useDeptStore.handleAddOrEdit(row)"
+                >部门成员</el-button
+              >
               <el-divider direction="vertical" />
-              <el-button link type="danger" @click="handleDelete(row)">删除</el-button>
+              <el-button
+                link
+                v-permission="'sys:dept:update'"
+                type="primary"
+                @click="useDeptStore.handleAddOrEdit(row)"
+                >编辑</el-button
+              >
+              <el-divider direction="vertical" />
+              <el-button
+                link
+                v-permission="'sys:dept:delete'"
+                type="danger"
+                @click="useDeptStore.handleDelete(row)"
+                >删除</el-button
+              >
             </template>
           </el-table-column>
           <template #empty>
@@ -65,77 +109,29 @@
         </el-table>
       </el-main>
     </el-container>
-    <dept-add-or-edit ref="addEditRef" :key="+new Date()" @query-data="queryData" />
+    <dept-add-or-edit
+      ref="addEditRef"
+      :key="+new Date()"
+      @query-data="useDeptStore.queryData()"
+    />
   </div>
 </template>
 <script lang="ts" setup>
-import { getDeptTree, remove } from '@/api/sys/dept.ts';
 import DeptAddOrEdit from './components/dept-add-or-edit.vue';
-const reload: any = inject('reload');
-// 刷新页面
-const onSubmitForm = () => {
-  reload();
-};
-const addEditRef = ref<HTMLFormElement | null>(null);
-const tableData = ref([]);
-const refreshTable = ref(true);
-const expand = ref(true);
-const loading = ref(true);
-const toggleExpand = () => {
-  refreshTable.value = false;
-  expand.value = !expand.value;
-  nextTick(() => {
-    refreshTable.value = true;
-  });
-};
-const queryData = async () => {
-  loading.value = true;
-  const data = await getDeptTree();
-  tableData.value = data?.data;
-  loading.value = false;
-};
-const handleAddOrEdit = (row: any) => {
-  if (addEditRef.value) {
-    addEditRef.value.form.sysDeptId = row?.sysDeptId;
-    addEditRef.value.init();
-  }
-};
-const handleDelete = (row: any) => {
-  if (row.sysDeptId) {
-    ElMessageBox.confirm('您将进行删除操作,是否继续?', '温馨提示', {
-      confirmButtonText: '确认',
-      cancelButtonText: '取消',
-      type: 'warning',
-    })
-      .then(async () => {
-        await remove(row.sysDeptId);
-        queryData();
-      })
-      .catch(() => {});
-  }
-};
+import { deptStore } from '@/store/modules/sys/dept/deptStore';
+import { storeToRefs } from 'pinia';
+const useDeptStore = deptStore();
+const {
+  form,
+  addEditRef,
+  ruleFormRef,
+  refreshTable,
+  expand,
+  loading,
+  tableData,
+} = storeToRefs(useDeptStore);
 
 onMounted(() => {
-  queryData();
+  useDeptStore.queryData();
 });
 </script>
-<style lang="scss" scoped>
-.dept-container {
-  .zs-container {
-    :deep() {
-      .zs-main {
-        height: calc(calc(100vh - 50px - 20px) - 0px) !important;
-      }
-    }
-  }
-}
-.main-bar {
-  display: flex;
-  justify-content: space-between;
-  padding-bottom: 10px;
-}
-
-.table-style {
-  height: calc(#{$app-main-height} - 60px);
-}
-</style>

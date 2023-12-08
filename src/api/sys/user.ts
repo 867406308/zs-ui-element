@@ -1,9 +1,54 @@
-import request from '@/utils/request'
+import request from '@/utils/request';
 
 // 获取用户信息
 export function getUserInfo() {
   return request({
-    url: '/sys/user/getUserInfo',
+    url: '/system/sys/user/getUserInfo',
     method: 'get',
-  })
+  });
+}
+
+export function userPage(params: any) {
+  return request({
+    url: '/system/sys/user/page',
+    method: 'get',
+    params,
+  });
+}
+
+export function getById(id: string) {
+  return request({
+    url: `/system/sys/user/${id}`,
+    method: 'get',
+  });
+}
+
+export function save(data: any) {
+  return request({
+    url: '/system/sys/user/save',
+    method: 'post',
+    data,
+  });
+}
+
+export function edit(data: any) {
+  return request({
+    url: '/system/sys/user/update',
+    method: 'put',
+    data,
+  });
+}
+
+export function resetPassword(data: any) {
+  return request({
+    url: '/system/sys/user/resetPassword',
+    method: 'put',
+    data,
+  });
+}
+export function del(id: string) {
+  return request({
+    url: '/system/sys/user/' + id,
+    method: 'delete',
+  });
 }

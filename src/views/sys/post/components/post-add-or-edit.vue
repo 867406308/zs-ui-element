@@ -1,13 +1,16 @@
 <template>
-  <el-dialog
+  <el-drawer
     v-model="dialogFormVisible"
     :title="!form.sysPostId ? '新增' : '修改'"
-    @close="close"
+    @close="usePostAddOrEditStore.close"
     :close-on-click-modal="false"
   >
     <el-form :model="form" ref="formRef" label-width="auto" :rules="rules">
       <el-form-item label="岗位名称" prop="postName">
-        <el-input v-model="form.postName" placeholder="请输入岗位名称"></el-input>
+        <el-input
+          v-model="form.postName"
+          placeholder="请输入岗位名称"
+        ></el-input>
       </el-form-item>
       <el-form-item label="所属部门" prop="sysDeptId">
         <el-tree-select
@@ -38,77 +41,31 @@
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="close">取消</el-button>
-        <el-button type="primary" @click="submit(formRef)">保存</el-button>
+        <el-button @click="usePostAddOrEditStore.close">取消</el-button>
+        <el-button
+          type="primary"
+          @click="usePostAddOrEditStore.submit(formRef, emits)"
+          >确定</el-button
+        >
       </span>
     </template>
-  </el-dialog>
+  </el-drawer>
 </template>
 <script lang="ts" setup>
-import { getList, getById, save, edit } from '@/api/sys/post';
-import { getDeptTree } from '@/api/sys/dept';
-import type { FormInstance, FormRules } from 'element-plus';
+import { postAddOrEditStore } from '@/store/modules/sys/position/postAddOrEditStore';
+import { storeToRefs } from 'pinia';
+const usePostAddOrEditStore = postAddOrEditStore();
+const { form, dialogFormVisible, treeData, formRef, rules } = storeToRefs(
+  usePostAddOrEditStore,
+);
+
 const emits = defineEmits(['query-data']);
-const dialogFormVisible = ref(false);
-const formRef = ref<FormInstance>();
-let treeData: any[] = [];
-const form = reactive({
-  sysPostId: '',
-  postName: '',
-  sysDeptId: '',
-  sort: 0,
-  status: 1,
-  remark: '',
-});
-const rules = reactive<FormRules>({
-  sysDeptId: [{ required: true, message: '请选择所属部门', trigger: 'change' }],
-  postName: [{ required: true, message: '请输入岗位名称', trigger: 'blur' }],
-  sort: [{ required: true, message: '请选择排序', trigger: 'blur' }],
-});
 onMounted(() => {
-  selectDeptTree();
+  usePostAddOrEditStore.selectDeptTree();
 });
-const init = () => {
-  dialogFormVisible.value = true;
-  if (form.sysPostId) {
-    nextTick(async () => {
-      await getInfoById();
-    });
-  }
-};
-const getInfoById = async () => {
-  const data = await getById(form.sysPostId);
-  Object.assign(form, data?.data);
-  console.log('form', form);
-};
-const selectDeptTree = async () => {
-  const data = await getDeptTree();
-  Object.assign(treeData, data?.data);
-};
-const close = () => {
-  formRef.value?.resetFields();
-  dialogFormVisible.value = false;
-};
-const submit = (formRef: any) => {
-  if (!formRef) return;
-  formRef.validate(async (valid: any, fields: any) => {
-    if (valid) {
-      if (!form.sysPostId) {
-        console.log('保存!');
-        await save(form);
-      } else {
-        console.log('修改!');
-        await edit(form);
-      }
-      dialogFormVisible.value = false;
-      emits('query-data');
-    } else {
-      console.log('error submit!', fields);
-    }
-  });
-};
+
 defineExpose({
-  init,
+  init: usePostAddOrEditStore.init,
   form,
 });
 </script>

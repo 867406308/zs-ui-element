@@ -1,5 +1,5 @@
 <template>
-  <div class="role-container">
+  <div class="user-container">
     <el-container>
       <el-aside width="200px">
         <el-tree
@@ -7,158 +7,183 @@
           :data="deptTreeData"
           :props="defaultProps"
           :expand-on-click-node="false"
-          @node-click="handleNodeClick"
+          :default-expanded-keys="expandedKeys"
+          @node-click="useUserStore.handleNodeClick"
         />
       </el-aside>
       <el-container>
         <el-header>
-          <el-form ref="ruleFormRef" :inline="true" :model="form" class="demo-form-inline">
-            <el-form-item label="角色名称" prop="roleName">
-              <el-input v-model="form.roleName" placeholder="请输入角色名称" />
+          <el-form
+            ref="ruleFormRef"
+            :inline="true"
+            :model="form"
+            class="demo-form-inline"
+          >
+            <el-form-item label="账号" prop="username">
+              <el-input v-model="form.username" placeholder="请输入账号信息" />
+            </el-form-item>
+            <el-form-item label="姓名" prop="realName">
+              <el-input v-model="form.realName" placeholder="请输入姓名" />
+            </el-form-item>
+            <el-form-item label="性别" prop="sex">
+              <el-select
+                v-model="form.sex"
+                placeholder="请选择性别"
+                style="width: 100%"
+              >
+                <el-option label="男" :value="0"></el-option>
+                <el-option label="女" :value="1"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="手机号" prop="phone">
+              <el-input v-model="form.phone" placeholder="请输入手机号" />
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="queryData()">查询</el-button>
-              <el-button @click="resetForm(ruleFormRef)">重置</el-button>
+              <el-button type="primary" @click="useUserStore.queryData()"
+                >查询</el-button
+              >
+              <el-button @click="useUserStore.resetForm(ruleFormRef)"
+                >重置</el-button
+              >
             </el-form-item>
           </el-form>
         </el-header>
         <el-main>
-          <el-row justify="space-between" class="action-bar">
-            <el-col :span="12">
-              <el-button type="primary" @click="handleAddOrEdit">新增</el-button>
-              <el-button type="primary" @click="handleAddOrEdit">删除</el-button>
-            </el-col>
-          </el-row>
-          <el-table class="table-style" :stripe="true" :data="tableData" style="width: 100%" row-key="id" border>
-            <el-table-column type="selection" width="55" />
-            <el-table-column align="center" label="序号" type="index" width="55" />
-            <el-table-column prop="roleName" label="角色名称" />
-            <el-table-column prop="sort" label="排序"></el-table-column>
-            <el-table-column prop="status" label="状态">
+          <div class="table-body-header">
+            <div>
+              <el-button
+                type="primary"
+                v-permission="'sys:user:save'"
+                @click="useUserStore.handleAddOrEdit"
+                >新增
+              </el-button>
+            </div>
+          </div>
+          <el-table
+            class="table-style"
+            :stripe="true"
+            :data="tableData"
+            style="width: 100%"
+            border
+          >
+            <el-table-column
+              align="center"
+              label="序号"
+              type="index"
+              width="55"
+            />
+            <el-table-column prop="username" label="账号" />
+            <el-table-column prop="realName" label="姓名" />
+            <el-table-column prop="sex" label="性别">
               <template #default="scope">
-                <span v-if="scope.row.status === 0">禁用</span>
-                <span v-if="scope.row.status === 1">启用</span>
+                <span v-if="scope.row.sex === 0">男</span>
+                <span v-if="scope.row.sex === 1">女</span>
               </template>
             </el-table-column>
-            <el-table-column prop="remark" label="备注" />
-            <el-table-column align="center" fixed="right" label="操作" width="150">
+            <el-table-column prop="phone" label="手机号" />
+            <el-table-column prop="deptName" label="所属部门" />
+            <el-table-column prop="postName" label="岗位" />
+            <el-table-column prop="status" label="状态">
+              <template #default="scope">
+                <el-tag
+                  v-if="scope.row.status === 0"
+                  type="danger"
+                  effect="dark"
+                  label="禁用"
+                  >禁用</el-tag
+                >
+                <el-tag
+                  v-if="scope.row.status === 1"
+                  type="success"
+                  effect="dark"
+                  label="启用"
+                  >启用</el-tag
+                >
+              </template>
+            </el-table-column>
+            <el-table-column
+              align="center"
+              fixed="right"
+              label="操作"
+              width="200"
+            >
               <template #default="{ row }">
-                <el-space>
-                  <el-button link type="primary" size="small" @click="handleDelete(row)">编辑</el-button>
-                  <el-button link type="primary" size="small" @click="handleDetail">删除</el-button>
-                  <el-button link type="primary" size="small" @click="handleDetail">授权</el-button>
-                </el-space>
+                <el-button
+                  link
+                  v-permission="'sys:user:resetpassword'"
+                  type="primary"
+                  @click="useUserStore.handleResetPassword(row)"
+                  >重置密码</el-button
+                >
+                <el-divider direction="vertical" />
+                <el-button
+                  link
+                  v-permission="'sys:user:update'"
+                  type="primary"
+                  @click="useUserStore.handleAddOrEdit(row)"
+                  >编辑</el-button
+                >
+                <el-divider direction="vertical" />
+                <el-button
+                  link
+                  v-permission="'sys:user:delete'"
+                  type="danger"
+                  @click="useUserStore.handleDelete(row)"
+                  >删除</el-button
+                >
               </template>
             </el-table-column>
             <template #empty>
               <ZsEmpty />
             </template>
           </el-table>
-          <!-- <el-container>
-          <el-header height="40px">
-            <el-button type="primary" @click="handleAddOrEdit">新增</el-button>
-          </el-header>
-          <el-main>
-
-          </el-main>
-        </el-container> -->
         </el-main>
         <el-footer>
           <el-pagination
             background
-            :current-page="form.page"
+            :currentPage="form.page"
             layout="total, sizes, prev, pager, next"
             :page-size="form.size"
             :total="total"
-            @current-change="handleCurrentChange"
-            @size-change="handleSizeChange"
+            @current-change="useUserStore.handleCurrentChange"
+            @size-change="useUserStore.handleSizeChange"
           />
         </el-footer>
       </el-container>
     </el-container>
-    <role-add-or-edit ref="addEditRef" :key="+new Date()" @query-data="queryData" />
+    <user-add-or-edit ref="addEditRef" @query-data="useUserStore.queryData" />
+    <user-reset-password
+      ref="resetPasswordRef"
+      @query-data="useUserStore.queryData"
+    />
   </div>
 </template>
 <script lang="ts" setup>
-import { rolePage } from '@/api/sys/role.ts';
-import { getDeptTree } from '@/api/sys/dept.ts';
-import RoleAddOrEdit from './components/role-add-or-edit.vue';
-import type { FormInstance } from 'element-plus';
-import { useRoute } from 'vue-router';
-import { ElTree } from 'element-plus';
-const route = useRoute();
-const ruleFormRef = ref<FormInstance>();
-const deptRef = ref<InstanceType<typeof ElTree>>();
-const addEditRef = ref<HTMLFormElement | null>(null);
-const tableData = ref([]);
-const deptTreeData = ref([]);
+import { storeToRefs } from 'pinia';
+import UserAddOrEdit from './components/user-add-or-edit.vue';
+import UserResetPassword from './components/user-reset-password.vue';
+import { userStore } from '@/store/modules/sys/user/userStore';
+const useUserStore = userStore();
+const {
+  ruleFormRef,
+  deptRef,
+  addEditRef,
+  tableData,
+  deptTreeData,
+  expandedKeys,
+  total,
+  form,
+} = storeToRefs(useUserStore);
+
 const defaultProps = {
   children: 'children',
   label: 'deptName',
   value: 'sysDeptId',
 };
-const total = ref(10);
-const form = reactive({
-  sysDeptId: '',
-  roleName: '',
-  page: 1,
-  size: 20,
-});
+
 onMounted(() => {
-  console.log('route', route);
-  console.log('route', route.meta.title);
-});
-const queryData = async () => {
-  const data = await rolePage(form);
-  tableData.value = data?.data?.list;
-  total.value = data?.data?.total;
-};
-const handleSizeChange = (val: number) => {
-  form.size = val;
-  queryData();
-};
-const handleCurrentChange = (val: number) => {
-  form.page = val;
-  queryData();
-};
-const handleAddOrEdit = (row: any) => {
-  if (addEditRef.value) {
-    addEditRef.value.form.sysRoleId = row?.sysRoleId;
-    addEditRef.value.init();
-  }
-};
-const handleDelete = (row: any) => {};
-const onSubmit = () => {
-  console.log('submit!');
-};
-const resetForm = (formEl: FormInstance | undefined) => {
-  if (!formEl) return;
-  formEl.resetFields();
-  queryData();
-};
-const handleDetail = () => {};
-/**
- * 获取部门树型结构
- */
-const getDeptList = async () => {
-  const data = await getDeptTree();
-  const treeData = [
-    {
-      deptName: '全部',
-      children: data?.data ?? [],
-      sysDeptId: '0',
-    },
-  ];
-  Object.assign(deptTreeData.value, treeData);
-};
-const handleNodeClick = (data: any) => {
-  console.log(data);
-  form.sysDeptId = data.sysDeptId;
-  queryData();
-};
-onMounted(() => {
-  getDeptList();
-  queryData();
+  useUserStore.getDeptList();
+  useUserStore.queryData();
 });
 </script>
 <style lang="scss" scoped>

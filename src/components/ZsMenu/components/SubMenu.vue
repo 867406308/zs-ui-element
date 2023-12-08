@@ -1,23 +1,22 @@
 <template>
-  <el-sub-menu v-if="menu.children && menu.children.length >= 1" :index="getPath(menu.path)">
+  <el-sub-menu
+    v-if="menu.children && menu.children.length >= 1"
+    :index="getPath(menu.path)"
+  >
     <template #title>
-      <div class="sub-menu-style" v-if="collapse">
+      <!-- <div v-if="collapse">
         <div class="icon">
           <el-icon>
-            <!-- <component :is="menu.meta.icon" class="icon"></component> -->
-            <!-- <i :class="menu.meta.icon"></i> -->
-            <ZsIcon :icon="menu.meta.icon"></ZsIcon>
+            <ZsIcon :icon="menu.meta.icon" color="#fff"></ZsIcon>
           </el-icon>
+          <span>{{ menu }}</span>
         </div>
-      </div>
-      <div v-else>
-        <el-icon>
-          <!-- <component :is="menu.meta.icon" class="icon"></component> -->
-          <!-- <i :class="menu.meta.icon"></i> -->
-          <ZsIcon :icon="menu.meta.icon"></ZsIcon>
-        </el-icon>
-        <span>{{ menu.meta.title }}</span>
-      </div>
+      </div> -->
+
+      <el-icon>
+        <ZsIcon :icon="menu.meta.icon" color="#fff"></ZsIcon>
+      </el-icon>
+      <span>{{ menu.meta.title }}</span>
     </template>
     <SubMenu
       v-for="item in menu.children"
@@ -27,14 +26,18 @@
       :collapse="collapse"
     ></SubMenu>
   </el-sub-menu>
-  <el-menu-item v-else :index="getPath(menu.path)" @click="routerChild(getPath(menu.path))">
-    <el-icon>
-      <!-- <component :is="" class="icon"></component> -->
-      <!-- <i :class="menu.meta.icon"></i> -->
-      <ZsIcon :icon="menu.meta.icon"></ZsIcon>
-    </el-icon>
-    <template #title>{{ menu.meta.title }}</template></el-menu-item
+  <el-menu-item
+    v-else
+    :index="getPath(menu.path)"
+    @click="routerChild(getPath(menu.path))"
   >
+    <template #title>
+      <el-icon>
+        <ZsIcon :icon="menu.meta.icon" color="#fff"></ZsIcon>
+      </el-icon>
+      <span> {{ menu.meta.title }}</span>
+    </template>
+  </el-menu-item>
 </template>
 <script setup>
 import path from 'path-browserify';
@@ -62,18 +65,18 @@ const getPath = (routePath) => {
 };
 </script>
 <style lang="scss" scoped>
-.zs-meun {
-  .zs-sub-menu__title {
-    background-color: blueviolet;
+.zs-sub-menu {
+  :deep(.zs-menu-item) {
+    color: #fff;
   }
-}
-.sub-menu-style {
-  line-height: 25px;
-  .icon {
-    text-align: center;
+  .zs-menu-item.is-active {
+    color: #fff;
   }
-  .text {
-    text-align: center;
+  .zs-menu-item:hover {
+    background-color: #409eff;
+  }
+  .zs-menu-item:hover.zs-icon {
+    color: #fff;
   }
 }
 </style>

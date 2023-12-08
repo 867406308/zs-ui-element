@@ -3,28 +3,29 @@ import request from '@/utils/request';
 // 获取菜单导航
 export function getNav() {
   return request({
-    url: '/sys/menu/nav',
+    url: '/system/sys/menu/nav',
     method: 'get',
   });
 }
 // 获取菜单列表
-export function getList() {
+export function getList(params: any) {
   return request({
-    url: '/sys/menu/list',
+    url: '/system/sys/menu/list',
     method: 'get',
+    params,
   });
 }
 
 export function getById(id: string) {
   return request({
-    url: `/sys/menu/${id}`,
+    url: `/system/sys/menu/${id}`,
     method: 'get',
   });
 }
 
 export function save(data: any) {
   return request({
-    url: '/sys/menu/save',
+    url: '/system/sys/menu/save',
     method: 'post',
     data,
   });
@@ -32,7 +33,7 @@ export function save(data: any) {
 
 export function edit(data: any) {
   return request({
-    url: '/sys/menu/update',
+    url: '/system/sys/menu/update',
     method: 'put',
     data,
   });
@@ -40,7 +41,7 @@ export function edit(data: any) {
 
 export function del(id: string) {
   return request({
-    url: '/sys/menu/' + id,
+    url: '/system/sys/menu/' + id,
     method: 'delete',
   });
 }

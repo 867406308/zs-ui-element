@@ -2,7 +2,7 @@ import request from '@/utils/request';
 
 export function rolePage(params: any) {
   return request({
-    url: '/sys/role/page',
+    url: '/system/sys/role/page',
     method: 'get',
     params,
   });
@@ -11,21 +11,21 @@ export function rolePage(params: any) {
 // 获取角色
 export function getList() {
   return request({
-    url: '/sys/role/list',
+    url: '/system/sys/role/list',
     method: 'get',
   });
 }
 
 export function getById(id: string) {
   return request({
-    url: `/sys/role/${id}`,
+    url: `/system/sys/role/${id}`,
     method: 'get',
   });
 }
 
 export function save(data: any) {
   return request({
-    url: '/sys/role/save',
+    url: '/system/sys/role/save',
     method: 'post',
     data,
   });
@@ -33,8 +33,14 @@ export function save(data: any) {
 
 export function edit(data: any) {
   return request({
-    url: '/sys/role/update',
+    url: '/system/sys/role/update',
     method: 'put',
     data,
+  });
+}
+export function del(id: string) {
+  return request({
+    url: '/system/sys/role/' + id,
+    method: 'delete',
   });
 }

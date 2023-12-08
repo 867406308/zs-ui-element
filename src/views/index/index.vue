@@ -1,5 +1,16 @@
 <template>
   <div class="index-box">
+    <!-- <el-space wrap :size="0">
+      <div v-for="(item, index) in iconsList" :key="index">
+        <div class="icon">
+          <div
+            v-html="item.svg"
+            class="svg-icon"
+            style="color: #ffffff; font-size: 30px"
+          ></div>
+        </div>
+      </div>
+    </el-space> -->
     <StatisticCard></StatisticCard>
     <!-- <el-row :gutter="16">
       <el-col :span="14">
@@ -60,6 +71,7 @@
 </template>
 
 <script lang="ts" setup>
+import icons from '@/assets/icons.json';
 import avatarUrl from '@/assets/logo.png';
 
 import StatisticCard from './components/statistic-card.vue';
@@ -69,6 +81,10 @@ import QuickAccess from './components/quick-access.vue';
 import TodoToday from './components/todo-today.vue';
 import QrCode from './components/qr-code.vue';
 import Test from './components/test.vue';
+const iconsList = ref();
+onBeforeMount(() => {
+  iconsList.value = icons;
+});
 </script>
 
 <style lang="scss" scoped>

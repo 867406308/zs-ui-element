@@ -6,7 +6,6 @@ import * as echarts from 'echarts';
 const echarsDom: Ref<HTMLElement | any> = ref(null);
 onMounted(() => {
   const myChart = echarts.init(echarsDom.value);
-  console.log(myChart);
   myChart.setOption({
     legend: {},
     tooltip: {

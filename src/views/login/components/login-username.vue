@@ -1,15 +1,26 @@
 <template>
   <div class="form-container">
-    <el-form :model="form" ref="formRef" @keyup.enter.native="dataFormSubmitHandle()" class="form" :rules="rules">
+    <el-form :model="form" ref="formRef" class="form" :rules="rules">
       <el-form-item prop="username">
-        <el-input v-model="form.username" placeholder="用户名" class="username" size="large">
+        <el-input
+          v-model="form.username"
+          placeholder="用户名"
+          class="username"
+          size="large"
+        >
           <template #prefix>
             <ZsIcon icon="user"></ZsIcon>
           </template>
         </el-input>
       </el-form-item>
       <el-form-item prop="password">
-        <el-input v-model="form.password" type="password" placeholder="密码" size="large" show-password>
+        <el-input
+          v-model="form.password"
+          type="password"
+          placeholder="密码"
+          size="large"
+          show-password
+        >
           <template #prefix>
             <ZsIcon icon="lock"></ZsIcon>
           </template>
@@ -18,7 +29,7 @@
       <el-form-item>
         <div class="tools">
           <div>
-            <el-checkbox>记住密码</el-checkbox>
+            <el-checkbox>记住我</el-checkbox>
           </div>
           <div>
             <el-link type="primary" :underline="false">忘记密码</el-link>
@@ -109,6 +120,7 @@ export default defineComponent({
 .form-container {
   // background-color: #fff;
   // padding: 20px;
+  width: 100%;
   .zs-form {
     padding-top: 20px;
     .zs-form-item__content {

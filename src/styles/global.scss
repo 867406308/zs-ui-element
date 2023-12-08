@@ -1,0 +1,41 @@
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB','Microsoft YaHei', '微软雅黑', Arial, sans-serif;
+  font-weight: 500;
+  overflow: hidden;
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f2f3f5;
+
+  // 表格
+  .zs-table {
+    --zs-table-header-bg-color: rgb(242, 243, 245);
+    --zs-table-text-color: rgb(29,33,41);
+
+    thead {
+      color: rgb(29,33,41);
+      th {
+        font-weight: 500;
+      }
+    }
+  }
+
+  // 抽屉
+  .zs-drawer {
+    .zs-drawer__header{
+      margin-bottom: 0;
+      padding-bottom: 20px !important;
+    }
+  }
+  
+}
+:focus,
+:hover {
+  outline: none !important;
+}

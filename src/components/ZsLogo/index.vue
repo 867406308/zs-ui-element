@@ -1,8 +1,15 @@
 <template>
   <div class="logo">
-    <div class="system-title">
-      <img src="@/assets/logo.png" />
-      <div v-if="!collapse" class="title">Zs Admin</div>
+    <img
+      src="@/assets/logo.png"
+      :style="{ height: iconSize, width: iconSize }"
+    />
+    <div
+      v-if="!collapse"
+      class="title"
+      :style="{ color: titleColor, fontSize: titleSize }"
+    >
+      {{ title }}
     </div>
   </div>
 </template>
@@ -11,10 +18,28 @@ import { useSettingStore } from '@/store/modules/setting';
 import { storeToRefs } from 'pinia';
 const settingStore = useSettingStore();
 const { collapse } = storeToRefs(settingStore);
+
+const props = defineProps({
+  iconSize: {
+    type: String,
+    default: '30px',
+  },
+  title: {
+    type: String,
+    default: '后台管理系统',
+  },
+  titleColor: {
+    type: String,
+    default: 'white',
+  },
+  titleSize: {
+    type: String,
+    default: '20px',
+  },
+});
 </script>
 <style lang="scss" scoped>
-.system-title {
-  // background-color: $nav-bg-color;
+.logo {
   height: $nav-height;
   display: flex;
   align-items: center;
@@ -22,12 +47,12 @@ const { collapse } = storeToRefs(settingStore);
 
   img {
     width: 30px;
-    height: 30px;
+    height: 90px;
   }
 
   .title {
     margin-left: 10px;
-    color: #282c34;
+    color: #fff;
     font-size: 20px;
   }
 }
