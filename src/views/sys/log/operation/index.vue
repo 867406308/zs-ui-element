@@ -70,6 +70,7 @@
             prop="requestPath"
             label="请求接口"
             width="200"
+            show-overflow-tooltip
           />
           <el-table-column
             align="center"
