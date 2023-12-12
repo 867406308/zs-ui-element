@@ -1,7 +1,7 @@
 <template>
   <div class="post-container">
     <el-container>
-      <el-aside width="200px">
+      <el-aside>
         <el-tree
           ref="deptRef"
           :data="deptTreeData"

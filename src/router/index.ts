@@ -128,8 +128,7 @@ router.beforeEach((to, from, next) => {
               const routers = generateRoutesFromData(res.data);
               routersStore().setMenuList(routers);
               addRouter(routers);
-              next({ ...to, replace: true }); // hack方法 确保addRoutes已完成
-              //token存在，不是login页面
+              next({ ...to, replace: true });
             } else {
               next();
             }

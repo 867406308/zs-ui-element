@@ -42,7 +42,7 @@ import loginUsername from './components/login-username.vue';
     overflow: auto;
 
     .login-background {
-      background-image: url('@/assets/43.png');
+      background-image: url('@/assets/25.png');
       background-repeat: round;
       background-size: contain;
     }
@@ -54,6 +54,7 @@ import loginUsername from './components/login-username.vue';
       flex-direction: column;
 
       .login-container {
+        width: 50%;
         height: 100%;
         background-color: #fff;
         border-radius: 8px;

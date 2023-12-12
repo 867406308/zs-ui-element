@@ -60,9 +60,10 @@ export const menuAddOrEditStore = defineStore('menuAddOrEdit', {
     },
     async getInfoById() {
       const data = await getById(this.form.sysMenuId);
-      this.form = {
-        ...data?.data,
-      };
+      Object.assign(this.form, data?.data);
+      // this.form = {
+      //   ...data?.data,
+      // };
     },
 
     click(val) {
@@ -80,6 +81,7 @@ export const menuAddOrEditStore = defineStore('menuAddOrEdit', {
         title: '',
         component: '',
         icon: '',
+        sort: 0,
         permissions: '',
       };
     },
@@ -87,6 +89,9 @@ export const menuAddOrEditStore = defineStore('menuAddOrEdit', {
       if (!formRef) return;
       formRef.validate(async (valid, fields) => {
         if (valid) {
+          if (this.form.type == 1) {
+            this.form.component = 'Layout';
+          }
           if (!this.form.sysMenuId) {
             console.log('确定!');
             await save(this.form);

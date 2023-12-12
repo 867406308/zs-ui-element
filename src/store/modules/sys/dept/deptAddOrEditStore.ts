@@ -41,6 +41,7 @@ export const deptAddOrEditStore = defineStore('deptAddOrEdit', {
     async getInfoById() {
       const data = await getById(this.form.sysDeptId);
       Object.assign(this.form, data?.data);
+      this.deptHeadName = data?.data?.deptHeadName;
     },
     async getTree() {
       const data = await getDeptTree();

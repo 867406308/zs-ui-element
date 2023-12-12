@@ -1,7 +1,13 @@
 <template>
   <div class="form-container">
-    <el-form :model="form" ref="formRef" class="form" :rules="rules">
-      <el-form-item prop="username">
+    <el-form
+      :model="form"
+      ref="formRef"
+      class="form"
+      :rules="rules"
+      label-position="top"
+    >
+      <el-form-item prop="username" label="用户名">
         <el-input
           v-model="form.username"
           placeholder="用户名"
@@ -13,7 +19,7 @@
           </template>
         </el-input>
       </el-form-item>
-      <el-form-item prop="password">
+      <el-form-item prop="password" label="密码">
         <el-input
           v-model="form.password"
           type="password"

@@ -72,7 +72,7 @@
       </el-row>
 
       <el-row>
-        <el-col v-if="form.type === 2">
+        <el-col v-if="form.type === 1 || form.type === 2">
           <el-form-item label="组件路径" prop="component">
             <el-input
               v-model="form.component"

@@ -14,6 +14,7 @@ export const routersStore = defineStore('routes', {
     },
     clearRoutes() {
       this.menuList = [];
+      this.dynamicMenuList = [];
     },
   },
 });
