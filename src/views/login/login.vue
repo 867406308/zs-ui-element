@@ -56,7 +56,6 @@ export default defineComponent({
 <style lang="scss" scoped>
 .login-container {
   // background-color: cornflowerblue;
-  background-image: url('@/assets/6.png');
   background-repeat: round;
   background-size: contain;
   height: 100%;
@@ -90,7 +89,6 @@ export default defineComponent({
 
       .main_left {
         height: 520px;
-        background-image: url('@/assets/14.png');
         background-repeat: no-repeat;
         background-position: center center;
         background-size: cover;
