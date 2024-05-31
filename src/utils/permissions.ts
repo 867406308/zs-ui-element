@@ -1,4 +1,4 @@
-import { useUserStore } from '@/store/modules/sys/user';
+import { useUserStore } from '@/store/modules/common/loginStore';
 
 export function hasPermission(permission: string) {
   const { getPermissions } = useUserStore();

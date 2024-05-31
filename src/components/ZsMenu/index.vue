@@ -6,10 +6,9 @@
         default-active="2"
         :collapse="collapse"
         :router="true"
-        background-color="#222831"
-        text-color="#fff"
         :collapse-transition="false"
         :style="{ width: !collapse ? '200px' : '64px' }"
+        :mode="theme.layout === 'horizontal' ? 'horizontal' : 'vertical'"
       >
         <SubMenu
           v-for="(item, index) in menuList"
@@ -20,23 +19,24 @@
         ></SubMenu>
       </el-menu>
     </el-scrollbar>
-    <!-- <div @click="clickCollapse" class="nav-collapse">
-      <ZsIcon v-if="!collapse" icon="fold" size="20px" />
-      <ZsIcon v-if="collapse" icon="expand" size="20px" />
-    </div> -->
   </div>
 </template>
 <script setup>
-import { routersStore } from '@/store/modules/router';
-import { useSettingStore } from '@/store/modules/setting';
+import { routersStore } from '@/store/modules/common/router';
+import { settingStore } from '@/store/modules/config/setting';
 import { storeToRefs } from 'pinia';
 // 路由状态
 const useRoutersStore = routersStore();
 // 设置状态
-const settingStore = useSettingStore();
-const { clickCollapse } = settingStore;
-const { collapse } = storeToRefs(settingStore);
+const useSettingStore = settingStore();
+const { collapse, theme } = storeToRefs(useSettingStore);
 const menuList = ref([]);
+const handleSelect = (index, indexPath, item, routeResult) => {
+  console.log(index);
+  console.log(indexPath);
+  console.log(item);
+  console.log(routeResult);
+};
 onMounted(() => {
   menuList.value = useRoutersStore.menuList;
 });
@@ -45,16 +45,19 @@ onMounted(() => {
 .menu-bar {
   height: 100%;
   background-color: $menu-left-bg-color;
+
   :deep() {
     .zs-scrollbar {
       height: calc($menu-left-height);
-
-      .zs-scrollbar__view {
+      .scrollbar-wrapper {
         height: 100%;
+        .zs-scrollbar__view {
+          height: calc(100vh - 50px);
 
-        .zs-menu {
-          border-right: none;
-          height: 100%;
+          .zs-menu {
+            border-right: none;
+            height: 100%;
+          }
         }
       }
     }

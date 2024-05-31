@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { rolePage, del } from '@/api/sys/role.ts';
+import { rolePage, del, getList } from '@/api/sys/role.ts';
 
 export const roleStore = defineStore('role', {
   state: () => {
@@ -14,6 +14,7 @@ export const roleStore = defineStore('role', {
         page: 1,
         size: 20,
       },
+      roleList: [],
     };
   },
   actions: {
@@ -23,6 +24,10 @@ export const roleStore = defineStore('role', {
       this.tableData = data?.data?.list ?? [];
       this.total = data?.data?.total ?? 0;
       this.loading = false;
+    },
+    async queryList() {
+      const data = await getList();
+      this.roleList = data?.data ?? [];
     },
     handleSizeChange(val: number) {
       this.form.size = val;

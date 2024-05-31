@@ -89,14 +89,9 @@ export const menuAddOrEditStore = defineStore('menuAddOrEdit', {
       if (!formRef) return;
       formRef.validate(async (valid, fields) => {
         if (valid) {
-          if (this.form.type == 1) {
-            this.form.component = 'Layout';
-          }
           if (!this.form.sysMenuId) {
-            console.log('确定!');
             await save(this.form);
           } else {
-            console.log('修改!');
             await edit(this.form);
           }
           this.dialogFormVisible = false;

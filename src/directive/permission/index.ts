@@ -1,11 +1,11 @@
-import { useUserStore } from '@/store/modules/sys/user';
+import { loginStore } from '@/store/modules/common/loginStore';
 function checkPermission(el: HTMLElement, binding: DirectiveBinding) {
   if (!hasPermission(binding.value)) {
     el.parentNode.removeChild(el);
   }
 }
 export function hasPermission(permission: string) {
-  const { getPermissions } = useUserStore();
+  const { getPermissions } = loginStore();
   const permissions = getPermissions;
   return permissions.includes(permission);
 }

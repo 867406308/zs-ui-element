@@ -1,7 +1,10 @@
 <template>
   <el-config-provider namespace="zs" :locale="locale">
     <div id="app">
-      <router-view v-if="isRouter" />
+      <!-- <router-view v-if="isRouter" /> -->
+      <router-view v-slot="{ Component }">
+        <component :is="Component" />
+      </router-view>
     </div>
   </el-config-provider>
 </template>

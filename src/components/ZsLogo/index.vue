@@ -14,10 +14,11 @@
   </div>
 </template>
 <script setup>
-import { useSettingStore } from '@/store/modules/setting';
+import { settingStore } from '@/store/modules/config/setting';
 import { storeToRefs } from 'pinia';
-const settingStore = useSettingStore();
-const { collapse } = storeToRefs(settingStore);
+
+const useSettingStore = settingStore();
+const { collapse } = storeToRefs(useSettingStore);
 
 const props = defineProps({
   iconSize: {
@@ -44,6 +45,7 @@ const props = defineProps({
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: $menu-left-bg-color;
 
   img {
     width: 30px;

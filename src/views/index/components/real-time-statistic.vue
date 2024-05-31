@@ -1,20 +1,31 @@
 <template>
-  <div ref="echarsDom" class="main"></div>
+  <div class="echars">
+    <ZsCard title="访问实时数据">
+      <div ref="echarsDom" class="main" id="echarsDom"></div>
+    </ZsCard>
+  </div>
 </template>
 <script lang="ts" setup>
 import * as echarts from 'echarts';
 const echarsDom: Ref<HTMLElement | any> = ref(null);
-onMounted(() => {
+
+const initEchars = () => {
   const myChart = echarts.init(echarsDom.value);
   myChart.setOption({
-    title: {
-      text: '访问实时数据',
-    },
     tooltip: {
       trigger: 'axis',
     },
     legend: {
-      data: ['今日', '1天前', '7天前'],
+      selectedMode: 'false',
+      data: [
+        {
+          name: '访问人次',
+          icon: 'rect',
+          itemStyle: {
+            color: '#00c48f',
+          },
+        },
+      ],
     },
     grid: {
       left: '3%',
@@ -58,55 +69,51 @@ onMounted(() => {
     },
     series: [
       {
-        name: '今日',
+        name: '访问人次',
         type: 'line',
         stack: 'Total',
         showSymbol: false,
         smooth: true,
+        lineStyle: {
+          color: '#00c48f',
+        },
+        areaStyle: {
+          color: '#e0eee8',
+        },
         data: [
-          0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 20, 30, 40, 35, 40, 20, 25, 15, 0, 15,
-          10, 0, 0, 0, 0,
-        ],
-      },
-      {
-        name: '1天前',
-        type: 'line',
-        stack: 'Total',
-        showSymbol: false,
-        smooth: true,
-        data: [
-          0, 0, 0, 0, 0, 0, 95, 0, 98, 15, 50, 0, 85, 54, 45, 36, 45, 56, 0, 79,
-          85, 91, 97, 102, 0,
-        ],
-      },
-      {
-        name: '7天前',
-        type: 'line',
-        stack: 'Total',
-        showSymbol: false,
-        smooth: true,
-        data: [
-          0, 0, 0, 0, 0, 0, 48, 0, 103, 0, 105, 0, 32, 39, 0, 102, 0, 114, 0,
-          52, 39, 0, 35, 39, 0,
+          59, 41, 39, 30, 35, 40, 58, 65, 80, 90, 105, 95, 89, 95, 100, 105,
+          120, 125, 130, 100, 95, 85, 75, 60, 50,
         ],
       },
     ],
   });
-  /**
-   * 自适应大小
-   */
-  window.onresize = function () {
+
+  // 创建一个ResizeObserver实例并传入回调函数
+  let resizeObserver = new ResizeObserver((entries) => {
+    // 当观察到的元素尺寸变化时，更新ECharts图表的大小
     myChart.resize();
-  };
+  });
+
+  // 观察需要自适应的DOM元素
+  let chartContainer = document.getElementById('echarsDom');
+  resizeObserver.observe(chartContainer);
+};
+// 初始化图表
+onMounted(() => {
+  initEchars();
 });
 </script>
 <style lang="scss" scoped>
-.main {
-  margin-bottom: 10px;
-  border-radius: 4px;
-  padding: 20px 0px;
-  background-color: #fff;
-  width: 100%;
+.echars {
   height: 400px;
+  width: 100%;
+  .main {
+    margin-bottom: 10px;
+    border-radius: 4px;
+    padding: 20px 0px;
+    background-color: #fff;
+    width: 100%;
+    height: 300px;
+  }
 }
 </style>

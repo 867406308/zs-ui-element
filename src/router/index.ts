@@ -1,8 +1,8 @@
 import { hashToken } from '@/utils/token';
 import { createRouter, createWebHistory } from 'vue-router';
 import Layout from '@/layout/index.vue';
-import { routersStore } from '@/store/modules/router';
-import { useUserStore } from '@/store/modules/sys/user';
+import { routersStore } from '@/store/modules/common/router';
+import { loginStore } from '@/store/modules/common/loginStore';
 import { getNav } from '@/api/sys/menu';
 import { convertRouter, generateRoutesFromData } from '@/utils/routes';
 import NProgress from 'nprogress';
@@ -44,9 +44,9 @@ const asynRouters = [
     },
     children: [
       {
-        path: 'index',
-        name: 'index',
-        component: () => import('@/views/index/index.vue'),
+        path: 'home',
+        name: 'home',
+        component: () => import('@/views/index/home.vue'),
         meta: {
           title: '首页',
           icon: 'document',
@@ -113,8 +113,6 @@ const whiteList = ['/login', '/auth-redirect', '/bind', '/register'];
 router.beforeEach((to, from, next) => {
   // 每次切换页面时，调用进度条
   NProgress.start();
-  console.log('from', from);
-  console.log('to', to);
   if (hashToken()) {
     //toekn存在
     if (to.path == '/login') {
@@ -136,7 +134,7 @@ router.beforeEach((to, from, next) => {
           .catch((error: any) => {
             next('/login');
           });
-        useUserStore().getUserInfo();
+        loginStore().getUserInfo();
       } else {
         next();
       }

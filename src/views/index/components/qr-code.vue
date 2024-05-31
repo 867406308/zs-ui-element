@@ -1,42 +1,52 @@
 <template>
-  <div>
-    <el-row :gutter="16">
-      <el-col :span="12">
-        <el-card shadow="never">
-          <template #header>
-            <el-divider direction="vertical" />
-            <span>手机APP</span>
-          </template>
-          <el-image
-            style="width: 100px; height: 100px"
-            :src="appUrl"
-            :zoom-rate="1.2"
-            :preview-src-list="[appUrl]"
-            :initial-index="4"
-            fit="cover"
-          />
-        </el-card>
-      </el-col>
-      <el-col :span="12">
-        <el-card shadow="never">
-          <div>
-            <el-divider direction="vertical" />
-            <span>小程序</span>
-          </div>
-          <el-image
-            style="width: 100px; height: 100px"
-            :src="miniProgramUrl"
-            :zoom-rate="1.2"
-            :preview-src-list="[miniProgramUrl]"
-            :initial-index="4"
-            fit="cover"
-          />
-        </el-card>
-      </el-col>
-    </el-row>
+  <div class="qr-container">
+    <ZsCard title="联系我们" class="qr-card">
+      <div class="qr-code">
+        <el-image
+          style="width: 100px; height: 100px"
+          :src="myWechatUrl"
+          :zoom-rate="1.2"
+          :preview-src-list="[myWechatUrl]"
+          :initial-index="4"
+          fit="cover"
+        />
+        <ZsGap height="10" />
+        <div>微信</div>
+      </div>
+      <div class="qr-code">
+        <el-image
+          style="width: 100px; height: 100px"
+          :src="myWechatUrl"
+          :zoom-rate="1.2"
+          :preview-src-list="[myWechatUrl]"
+          :initial-index="4"
+          fit="cover"
+        />
+        <ZsGap height="10" />
+        <div>QQ群</div>
+      </div>
+    </ZsCard>
   </div>
 </template>
 <script lang="ts" setup>
-import appUrl from '@/assets/images/app.png';
-import miniProgramUrl from '@/assets/images/mini-program.jpg';
+import myWechatUrl from '@/assets/images/my-wechat.jpg';
 </script>
+<style lang="scss" scoped>
+.qr-container {
+  width: 100%;
+  height: 210px;
+
+  .qr-card {
+    :deep(.content) {
+      display: flex;
+      justify-content: space-evenly;
+      .qr-code {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+}
+</style>

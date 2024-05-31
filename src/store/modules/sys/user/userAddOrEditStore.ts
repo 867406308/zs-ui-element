@@ -154,7 +154,6 @@ export const userAddOrEditStore = defineStore('userAddOrEditStore', {
     },
     // 部门change
     handleDeptChange(value) {
-      console.log('触发了事件', value);
       this.deptPostData = [];
       this.form.sysPostId = '';
       if (value) {

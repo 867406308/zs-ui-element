@@ -1,32 +1,32 @@
 <template>
   <div class="log-container">
     <el-container>
-      <el-header>
-        <el-form
-          ref="loginFormRef"
-          :inline="true"
-          :model="form"
-          class="demo-form-inline"
-        >
-          <el-form-item label="日志名称" prop="roleName">
-            <el-input placeholder="请输入角色名称" />
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="useLoginStore.queryData()"
-              >查询</el-button
-            >
-            <el-button @click="useLoginStore.resetForm(loginFormRef)"
-              >重置</el-button
-            >
-          </el-form-item>
-        </el-form>
-      </el-header>
       <el-main>
-        <div class="table-body-header">
-          <div>
-            <el-button type="primary">导出</el-button>
-          </div>
-        </div>
+        <el-space :fill="true" style="width: 100%; margin-bottom: 8px">
+          <el-row justify="space-between">
+            <el-col :xl="12" :lg="12" :md="12" :sm="24">
+              <div>
+                <el-button type="primary">导出 </el-button>
+              </div>
+            </el-col>
+            <el-col :xl="12" :lg="12" :md="12" :sm="24" class="form-right">
+              <el-space>
+                <el-input
+                  v-model="form.username"
+                  placeholder="请输入登录用户名"
+                  class="input-with-select"
+                >
+                  <template #append>
+                    <el-button
+                      :icon="Search"
+                      @click="useLoginLogStore.queryData"
+                    />
+                  </template>
+                </el-input>
+              </el-space>
+            </el-col>
+          </el-row>
+        </el-space>
         <el-table
           class="table-style"
           :data="tableData"
@@ -79,9 +79,21 @@
               >
             </template>
           </el-table-column>
-          <el-table-column
+          <!-- <el-table-column
             prop="userAgent"
             label="代理"
+            show-overflow-tooltip
+          /> -->
+          <el-table-column
+            align="center"
+            prop="os"
+            label="操作系统"
+            show-overflow-tooltip
+          />
+          <el-table-column
+            align="center"
+            prop="browser"
+            label="浏览器"
             show-overflow-tooltip
           />
           <el-table-column
@@ -115,39 +127,29 @@
           layout="total, sizes, prev, pager, next"
           :page-size="form.size"
           :total="total"
-          @current-change="useLoginStore.handleCurrentChange"
-          @size-change="useLoginStore.handleSizeChange"
+          @current-change="useLoginLogStore.handleCurrentChange"
+          @size-change="useLoginLogStore.handleSizeChange"
         />
       </el-footer>
     </el-container>
   </div>
 </template>
 <script lang="ts" setup>
+import { Search } from '@element-plus/icons-vue';
 import { storeToRefs } from 'pinia';
-import { loginStore } from '@/store/modules/sys/log/loginStore';
-const useLoginStore = loginStore();
+import { loginLogStore } from '@/store/modules/sys/log/loginLogStore';
+const useLoginLogStore = loginLogStore();
 const { loginFormRef, tableData, total, form, loading } =
-  storeToRefs(useLoginStore);
+  storeToRefs(useLoginLogStore);
 
 onMounted(() => {
-  useLoginStore.queryData();
+  useLoginLogStore.queryData();
 });
 </script>
 <style lang="scss" scoped>
-.table-style {
-  height: calc(#{$app-main-height} - 150px);
-
-  .status {
-    display: flex;
-    align-items: center;
-    > span:first-child {
-      margin-right: 10px;
-      display: flex;
-      width: 10px;
-      height: 10px;
-      background-color: #67c23a;
-      border-radius: 50%;
-    }
-  }
+.form-right {
+  display: flex;
+  justify-content: end;
 }
 </style>
+@/store/modules/sys/log/loginLogStore

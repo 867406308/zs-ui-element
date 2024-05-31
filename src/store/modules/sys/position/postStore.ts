@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { postPage, del } from '@/api/sys/post.ts';
+import { postPage, del, getList } from '@/api/sys/post.ts';
 import { getDeptTree } from '@/api/sys/dept.ts';
 
 export const postStore = defineStore('post', {
@@ -22,6 +22,7 @@ export const postStore = defineStore('post', {
         order: 'asc',
         orderField: 'sort',
       },
+      postList: [],
     };
   },
   actions: {
@@ -31,6 +32,10 @@ export const postStore = defineStore('post', {
       this.tableData = data?.data?.list ?? [];
       this.total = data?.data?.total ?? 0;
       this.loading = false;
+    },
+    async queryList() {
+      const data = await getList();
+      this.postList = data?.data ?? [];
     },
     handleSizeChange(val: number) {
       this.form.size = val;

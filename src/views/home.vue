@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div @click="logout">首页</div>
 </template>
 <script>
@@ -16,4 +16,4 @@ export default defineComponent({
     };
   },
 });
-</script>
+</script> -->

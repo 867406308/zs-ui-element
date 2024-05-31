@@ -9,6 +9,7 @@ export const deptStore = defineStore('dept', {
     refreshTable: true,
     expand: true,
     loading: true,
+    expandedKeys: [],
     form: {
       deptId: '',
       deptName: null,
@@ -19,6 +20,9 @@ export const deptStore = defineStore('dept', {
       this.loading = true;
       const data = await getDeptTree(this.form);
       this.tableData = data?.data ?? [];
+      this.tableData.forEach((element: any) => {
+        this.expandedKeys.push(element.sysDeptId as never);
+      });
       this.loading = false;
     },
     handleAddOrEdit(row: any) {

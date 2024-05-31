@@ -12,11 +12,11 @@ export const deptAddOrEditStore = defineStore('deptAddOrEdit', {
       pid: '',
       deptName: '',
       sysUserId: '',
+      deptHeadName: '',
       status: 1,
       remark: '',
       sort: 0,
     },
-    deptHeadName: '',
   }),
   getters: {
     rules() {
@@ -41,7 +41,6 @@ export const deptAddOrEditStore = defineStore('deptAddOrEdit', {
     async getInfoById() {
       const data = await getById(this.form.sysDeptId);
       Object.assign(this.form, data?.data);
-      this.deptHeadName = data?.data?.deptHeadName;
     },
     async getTree() {
       const data = await getDeptTree();
@@ -63,10 +62,8 @@ export const deptAddOrEditStore = defineStore('deptAddOrEdit', {
       formRef.validate(async (valid: any, fields: any) => {
         if (valid) {
           if (!this.form.sysDeptId) {
-            console.log('确定!');
             await save(this.form);
           } else {
-            console.log('修改!');
             await edit(this.form);
           }
           this.dialogFormVisible = false;
@@ -75,15 +72,6 @@ export const deptAddOrEditStore = defineStore('deptAddOrEdit', {
           console.log('error submit!', fields);
         }
       });
-    },
-    handleOnClick(row: any) {
-      console.log('aaa', row);
-      this.form.sysUserId = row.sysUserId;
-      this.deptHeadName = row.realName;
-      if (this.deptHeadRef) {
-        this.form.realName = '';
-        this.deptHeadRef.blur();
-      }
     },
   },
 });

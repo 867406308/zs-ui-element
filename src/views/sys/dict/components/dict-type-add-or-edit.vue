@@ -17,10 +17,10 @@
           placeholder="请输入字典类型"
         ></el-input>
       </el-form-item>
-      <el-form-item label="字典描述" prop="dictName">
+      <el-form-item label="字典名称" prop="dictName">
         <el-input
           v-model="form.dictName"
-          placeholder="请输入字典描述"
+          placeholder="请输入字典名称"
         ></el-input>
       </el-form-item>
       <el-form-item label="排序" prop="sort">

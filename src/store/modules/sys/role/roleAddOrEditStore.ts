@@ -59,10 +59,8 @@ export const roleAddOrEditStore = defineStore('roleAddOrEdit', {
       formRef.validate(async (valid: any, fields: any) => {
         if (valid) {
           if (!this.form.sysRoleId) {
-            console.log('确定!');
             await save(this.form);
           } else {
-            console.log('修改!');
             await edit(this.form);
           }
           this.dialogFormVisible = false;

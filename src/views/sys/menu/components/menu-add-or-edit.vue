@@ -54,7 +54,7 @@
           <el-form-item label="路由名" prop="name">
             <el-input
               v-model="form.name"
-              placeholder="请输入路由名，如: sys/menu"
+              placeholder="请输入路由名，如: sys"
             ></el-input>
           </el-form-item>
         </el-col>
@@ -65,7 +65,7 @@
           <el-form-item label="路由路径" prop="path">
             <el-input
               v-model="form.path"
-              placeholder="请输入路由地址，如: /sys/menu"
+              placeholder="请输入路由路径地址，如: /sys/menu,如是目录直接输入: Layout"
             ></el-input>
           </el-form-item>
         </el-col>
@@ -76,7 +76,7 @@
           <el-form-item label="组件路径" prop="component">
             <el-input
               v-model="form.component"
-              placeholder="前端组件路径,如: @/views/sys/role/index"
+              placeholder="前端组件路径,如: /sys/role/index,如是一级目录直接输入: Layout, 二级目录输入: /sys/role"
             >
             </el-input>
           </el-form-item>

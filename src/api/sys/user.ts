@@ -16,6 +16,14 @@ export function userPage(params: any) {
   });
 }
 
+export function getUserList(params: any) {
+  return request({
+    url: '/system/sys/user/list',
+    method: 'get',
+    params,
+  });
+}
+
 export function getById(id: string) {
   return request({
     url: `/system/sys/user/${id}`,
@@ -50,5 +58,14 @@ export function del(id: string) {
   return request({
     url: '/system/sys/user/' + id,
     method: 'delete',
+  });
+}
+
+export function exportExcel(params: any) {
+  return request({
+    url: '/system/sys/user/export',
+    method: 'get',
+    params,
+    responseType: 'blob',
   });
 }

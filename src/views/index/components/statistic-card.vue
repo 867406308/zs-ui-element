@@ -1,10 +1,12 @@
 <template>
-  <el-row :gutter="16" class="statistic">
+  <el-row class="statistic">
     <el-col :span="6">
       <div class="statistic-card">
-        <el-statistic :value="620" title="累计用户数">
+        <el-statistic :value="620" title="累计用户数" :value-style="valueStyle">
           <template #title>
-            <div style="display: inline-flex; align-items: center">累计用户数</div>
+            <div style="display: inline-flex; align-items: center">
+              累计用户数
+            </div>
           </template>
         </el-statistic>
         <div class="statistic-footer">
@@ -33,9 +35,15 @@
     </el-col>
     <el-col :span="6">
       <div class="statistic-card">
-        <el-statistic :value="120" title="日新增用户数">
+        <el-statistic
+          :value="120"
+          title="日新增用户数"
+          :value-style="valueStyle"
+        >
           <template #title>
-            <div style="display: inline-flex; align-items: center">日新增用户数</div>
+            <div style="display: inline-flex; align-items: center">
+              日新增用户数
+            </div>
           </template>
         </el-statistic>
         <div class="statistic-footer">
@@ -64,9 +72,15 @@
     </el-col>
     <el-col :span="6">
       <div class="statistic-card">
-        <el-statistic :value="180" title="New transactions today">
+        <el-statistic
+          :value="180"
+          title="New transactions today"
+          :value-style="valueStyle"
+        >
           <template #title>
-            <div style="display: inline-flex; align-items: center">日访问人数</div>
+            <div style="display: inline-flex; align-items: center">
+              日访问人数
+            </div>
           </template>
         </el-statistic>
         <div class="statistic-footer">
@@ -95,9 +109,15 @@
     </el-col>
     <el-col :span="6">
       <div class="statistic-card">
-        <el-statistic :value="72000" title="New transactions today">
+        <el-statistic
+          :value="72000"
+          title="New transactions today"
+          :value-style="valueStyle"
+        >
           <template #title>
-            <div style="display: inline-flex; align-items: center">日流失数</div>
+            <div style="display: inline-flex; align-items: center">
+              日流失数
+            </div>
           </template>
         </el-statistic>
         <div class="statistic-footer">
@@ -126,14 +146,17 @@
     </el-col>
   </el-row>
 </template>
+<script lang="ts" setup>
+import { CaretTop } from '@element-plus/icons-vue';
+const valueStyle = {
+  // fontSize: '36px',
+  // fontWeight: 600,
+};
+</script>
 <style lang="scss" scoped>
-.statistic {
-  margin-bottom: 10px;
-}
 .statistic-card {
-  // height: 100%;
+  height: 100px;
   padding: 20px;
-  border-radius: 4px;
   background-color: #fff;
 
   .zs-statistic {

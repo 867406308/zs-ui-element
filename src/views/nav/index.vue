@@ -18,7 +18,6 @@
 <script lang="ts" setup>
 const router = useRouter();
 const handleClick = () => {
-  console.log('click');
   router.push('/index');
 };
 </script>

@@ -16,6 +16,8 @@ import {
   transformerVariantGroup,
 } from 'unocss';
 import dynamicImportVars from 'vite-plugin-dynamic-import-vars';
+import topLevelAwait from 'vite-plugin-top-level-await';
+
 const pathSrc = path.resolve(__dirname, 'src');
 
 // https://vitejs.dev/config/

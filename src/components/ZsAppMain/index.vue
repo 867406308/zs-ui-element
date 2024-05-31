@@ -3,7 +3,9 @@
     <router-view v-slot="{ Component, route }">
       <transition name="router-fade" mode="out-in">
         <keep-alive>
-          <component :is="Component" :key="route.fullPath" />
+          <div class="zs-app-main-content">
+            <component :is="Component" :key="route.fullPath" />
+          </div>
         </keep-alive>
       </transition>
     </router-view>

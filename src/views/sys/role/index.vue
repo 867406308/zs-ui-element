@@ -1,44 +1,37 @@
 <template>
   <div class="role-container">
     <el-container>
-      <el-header>
-        <el-row>
-          <el-col>
-            <el-form
-              ref="ruleFormRef"
-              :inline="true"
-              :model="form"
-              class="demo-form-inline"
-            >
-              <el-form-item label="角色名称" prop="roleName">
+      <el-main>
+        <el-space :fill="true" style="width: 100%; margin-bottom: 8px">
+          <el-row justify="space-between">
+            <el-col :xl="12" :lg="12" :md="12" :sm="24">
+              <div>
+                <el-button
+                  type="primary"
+                  v-permission="'sys:role:save'"
+                  @click="useRoleStore.handleAddOrEdit"
+                  >新增
+                </el-button>
+              </div>
+            </el-col>
+            <el-col :xl="12" :lg="12" :md="12" :sm="24" class="form-right">
+              <el-space>
                 <el-input
                   v-model="form.roleName"
                   placeholder="请输入角色名称"
-                />
-              </el-form-item>
-              <el-form-item>
-                <el-button type="primary" @click="useRoleStore.queryData()"
-                  >查询</el-button
+                  class="input-with-select"
                 >
-                <el-button @click="useRoleStore.resetForm(ruleFormRef)"
-                  >重置</el-button
-                >
-              </el-form-item>
-            </el-form>
-          </el-col>
-        </el-row>
-      </el-header>
-      <el-main>
-        <div class="table-body-header">
-          <div>
-            <el-button
-              type="primary"
-              v-permission="'sys:role:save'"
-              @click="useRoleStore.handleAddOrEdit"
-              >新增</el-button
-            >
-          </div>
-        </div>
+                  <template #append>
+                    <el-button :icon="Search" @click="useRoleStore.queryData" />
+                  </template>
+                </el-input>
+                <el-button type="primary" @click="useRoleStore.queryData()">
+                  高级查询
+                </el-button>
+              </el-space>
+            </el-col>
+          </el-row>
+        </el-space>
         <el-table
           class="table-style"
           :stripe="true"
@@ -138,6 +131,7 @@
   </div>
 </template>
 <script lang="ts" setup>
+import { Search } from '@element-plus/icons-vue';
 import RoleAddOrEdit from './components/role-add-or-edit.vue';
 import { roleStore } from '@/store/modules/sys/role/roleStore';
 import { storeToRefs } from 'pinia';
@@ -150,20 +144,8 @@ onMounted(() => {
 });
 </script>
 <style lang="scss" scoped>
-.table-style {
-  height: calc(#{$app-main-height} - 150px);
-
-  .status {
-    display: flex;
-    align-items: center;
-    > span:first-child {
-      margin-right: 10px;
-      display: flex;
-      width: 10px;
-      height: 10px;
-      background-color: #67c23a;
-      border-radius: 50%;
-    }
-  }
+.form-right {
+  display: flex;
+  justify-content: end;
 }
 </style>

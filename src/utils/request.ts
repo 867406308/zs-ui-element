@@ -31,6 +31,13 @@ instance.interceptors.request.use(
 // 添加响应拦截器
 instance.interceptors.response.use(
   (response) => {
+    // blob类型直接返回response
+    if (
+      response.request.responseType === 'blob' ||
+      response.request.responseType === 'arraybuffer'
+    ) {
+      return response.data;
+    }
     // 2xx 范围内的状态码都会触发该函数。
     // 对响应数据做点什么
     let code = response?.data?.code;
@@ -38,9 +45,8 @@ instance.interceptors.response.use(
       case 200:
         return response?.data;
       default:
-        console.log('***************');
         ElMessage({
-          message: `${response.data.msg}: ${response.data.data}`,
+          message: `${response.data.msg} ${response.data.data ?? ''}`,
           type: 'warning',
         });
         return;
@@ -64,7 +70,7 @@ instance.interceptors.response.use(
         503: '服务不可用',
         504: '网关超时',
         505: 'HTTP版本不受支持',
-      }[status] || '网络异常,请检查网络情况。';
+      }[status] || '网络连接异常,请检查网络情况。';
 
     ElMessage({ message, type: 'error' });
     if (status === 401) {

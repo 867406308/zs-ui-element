@@ -1,7 +1,7 @@
 <template>
   <div class="nav-bar">
     <div class="left-side">
-      <div @click="clickCollapse" class="nav-collapse">
+      <div @click="useSettingStore.clickCollapse" class="nav-collapse">
         <ZsIcon v-if="!collapse" icon="fold" />
         <ZsIcon v-if="collapse" icon="expand" />
       </div>
@@ -21,29 +21,6 @@
         <el-badge is-dot>
           <ZsIcon icon="bell-filled" />
         </el-badge>
-
-        <ZsIcon icon="setting" />
-
-        <!-- <el-button circle>
-          <template #icon>
-            <ZsIcon icon="full-screen" />
-          </template>
-        </el-button>
-        <el-button circle @click="toggleDark()">
-          <template #icon>
-            <ZsIcon :icon="isDark ? 'moon' : 'sunny'"></ZsIcon>
-          </template>
-        </el-button>
-        <el-button circle>
-          <template #icon>
-            <ZsIcon icon="bell-filled"></ZsIcon>
-          </template>
-        </el-button>
-        <el-button circle>
-          <template #icon>
-            <ZsIcon icon="setting"></ZsIcon>
-          </template>
-        </el-button> -->
         <el-dropdown @command="handleCommand">
           <div class="userInfo">
             <el-avatar
@@ -61,29 +38,30 @@
             </el-dropdown-menu>
           </template>
         </el-dropdown>
+        <ZsIcon icon="setting" @click="useSettingStore.openSetting" />
       </el-space>
     </div>
+    <Setting ref="settingRef" />
   </div>
 </template>
 <script lang="ts" setup>
-import { useSettingStore } from '@/store/modules/setting';
-import { useUserStore } from '@/store/modules/sys/user';
+import { settingStore } from '@/store/modules/config/setting';
+import { loginStore } from '@/store/modules/common/loginStore';
 import { storeToRefs } from 'pinia';
 import { toggleDark, isDark } from '@/composables';
 
-const userStore = useUserStore();
-const { username } = userStore;
+const useLoginStore = loginStore();
+const { username } = useLoginStore;
 
-const settingStore = useSettingStore();
-const { clickCollapse } = settingStore;
-const { collapse } = storeToRefs(settingStore);
+const useSettingStore = settingStore();
+const { collapse } = storeToRefs(useSettingStore);
 const route = useRoute();
 const handleCommand = (command: string | number | object) => {
   switch (command) {
     case 'personalCenter':
       break;
     case 'logout':
-      userStore.logOut();
+      useLoginStore.logOut();
       break;
     default:
       break;

@@ -63,7 +63,7 @@ export const dictDataAddOrEditStore = defineStore('dictDataAddOrEdit', {
     },
     close() {
       this.formRef.resetFields();
-      this.form.dictType = '';
+      this.form.sysDictTypeId = '';
       this.dialogFormVisible = false;
     },
     submit(formRef, emits) {
@@ -71,10 +71,8 @@ export const dictDataAddOrEditStore = defineStore('dictDataAddOrEdit', {
       formRef.validate(async (valid: any, fields: any) => {
         if (valid) {
           if (!this.form.sysDictDataId) {
-            console.log('确定!');
             await dictDataSave(this.form);
           } else {
-            console.log('修改!');
             await dictDataEdit(this.form);
           }
           this.dialogFormVisible = false;

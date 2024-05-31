@@ -1,43 +1,29 @@
 <template>
   <el-container>
-    <el-header>
-      <el-row>
-        <el-col>
-          <el-form
-            ref="dictDataFormRef"
-            :inline="true"
-            :model="form"
-            class="demo-form-inline"
-          >
-            <el-form-item label="字典类型" prop="dictType">
-              <el-input v-model="form.dictType" placeholder="请输入字典类型" />
-            </el-form-item>
-            <el-form-item label="字典标签" prop="dictLabel">
-              <el-input v-model="form.dictLabel" placeholder="请输入字典标签" />
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click="useDictDataStore.queryData()"
-                >查询</el-button
-              >
-              <el-button @click="useDictDataStore.resetForm(dictDataFormRef)"
-                >重置</el-button
-              >
-            </el-form-item>
-          </el-form>
-        </el-col>
-      </el-row>
-    </el-header>
     <el-main>
-      <div class="table-body-header">
-        <div>
-          <el-button
-            type="primary"
-            v-permission="'sys:dict:save'"
-            @click="useDictDataStore.handleAddOrEdit"
-            >新增</el-button
-          >
-        </div>
-      </div>
+      <el-space :fill="true" style="width: 100%; margin-bottom: 8px">
+        <el-row justify="space-between">
+          <el-col :xl="12" :lg="12" :md="12" :sm="24">
+            <div>
+              <el-button
+                type="primary"
+                v-permission="'sys:dict:save'"
+                @click="useDictDataStore.handleAddOrEdit"
+                >新增
+              </el-button>
+            </div>
+          </el-col>
+          <el-col :xl="12" :lg="12" :md="12" :sm="24" class="form-right">
+            <el-space>
+              <el-input v-model="form.dictType" placeholder="请输入字典类型" />
+              <el-input v-model="form.dictLabel" placeholder="请输入字典标签" />
+              <el-button type="primary" @click="useDictDataStore.queryData()">
+                查询
+              </el-button>
+            </el-space>
+          </el-col>
+        </el-row>
+      </el-space>
       <el-table
         class="table-style"
         :stripe="true"
@@ -104,7 +90,7 @@
       <el-pagination
         background
         :current-page="form.page"
-        layout="total, sizes, prev, pager, next"
+        layout="sizes, prev, pager, next, jumper, ->, total"
         :page-size="form.size"
         :total="total"
         @current-change="useDictDataStore.handleCurrentChange"
@@ -129,3 +115,9 @@ onMounted(() => {
   useDictDataStore.queryData();
 });
 </script>
+<style lang="scss" scoped>
+.form-right {
+  display: flex;
+  justify-content: end;
+}
+</style>

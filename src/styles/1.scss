@@ -1,5 +1,7 @@
 :root {
   --zs-border-radius-base: 2.5px;
+  
+  // --zs-menu-bg-color: red !important;
   // --zs-text-color-regular: #262930;
   // --zs-color-primary: #1677ff;
   // --zs-color-primary-light-3: #1677ff
@@ -28,7 +30,13 @@
   }
 
 }
-
+  //menu菜单
+  .zs-menu {
+    --zs-menu-active-color: #fff;
+    --zs-menu-text-color: #fff;
+    --zs-menu-bg-color: #{$menu-left-bg-color}; //#142334;// #15559a; // #161823;
+    --zs-menu-hover-bg-color: #409eff;
+  }
 
 .zs-textarea{
   --zs-input-hover-border: transparent !important;

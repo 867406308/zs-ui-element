@@ -9,6 +9,7 @@
       <el-header>
         <!--顶部-->
         <zs-nav-bar />
+        <zs-nav-tags />
       </el-header>
       <el-main>
         <!--内容-->
@@ -26,11 +27,12 @@
   .zs-container {
     .zs-header {
       padding: 0px;
-      height: $nav-height;
+      height: $nav-height + $tabs-height;
+      z-index: 999;
     }
     .zs-main {
       padding: $base-padding;
-      height: $app-main-height;
+      height: calc($app-main-height + 20px);
     }
   }
 }

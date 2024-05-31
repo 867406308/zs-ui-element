@@ -23,3 +23,11 @@ export function logOperationPage(params: any) {
     params,
   });
 }
+
+export function logLoginToday(data: any) {
+  return request({
+    url: '/system/sys/log/login/todayList',
+    method: 'get',
+    data,
+  });
+}

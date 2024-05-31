@@ -2,61 +2,54 @@
   <div class="post-container">
     <el-container>
       <el-aside>
-        <el-tree
-          ref="deptRef"
-          :data="deptTreeData"
-          :props="defaultProps"
-          :default-expanded-keys="expandedKeys"
-          node-key="sysDeptId"
-          :expand-on-click-node="false"
-          @node-click="usePostStore.handleNodeClick"
-        />
+        <!-- <el-scrollbar>
+          <el-tree
+            ref="deptRef"
+            :data="deptTreeData"
+            :props="defaultProps"
+            :default-expanded-keys="expandedKeys"
+            accordion
+            node-key="sysDeptId"
+            :expand-on-click-node="false"
+            @node-click="usePostStore.handleNodeClick"
+        /></el-scrollbar> -->
+        <ZsDept @node-click="usePostStore.handleNodeClick" />
       </el-aside>
       <el-container>
-        <el-header>
-          <el-row>
-            <el-col>
-              <el-form
-                ref="ruleFormRef"
-                :inline="true"
-                :model="form"
-                class="demo-form-inline"
-              >
-                <el-form-item label="岗位名称" prop="postName">
+        <el-main>
+          <el-space :fill="true" style="width: 100%; margin-bottom: 8px">
+            <el-row justify="space-between">
+              <el-col :xl="12" :lg="12" :md="12" :sm="24">
+                <div>
+                  <el-button
+                    type="primary"
+                    v-permission="'sys:post:save'"
+                    @click="usePostStore.handleAddOrEdit"
+                    >新增
+                  </el-button>
+                </div>
+              </el-col>
+              <el-col :xl="12" :lg="12" :md="12" :sm="24" class="form-right">
+                <el-space>
                   <el-input
                     v-model="form.postName"
-                    placeholder="请输入岗位名称"
-                  />
-                </el-form-item>
-                <el-form-item label="状态" prop="status">
-                  <el-select v-model="form.status" placeholder="请选择">
-                    <el-option label="正常" :value="1"></el-option>
-                    <el-option label="禁用" :value="0"></el-option>
-                  </el-select>
-                </el-form-item>
-                <el-form-item>
-                  <el-button type="primary" @click="usePostStore.queryData()"
-                    >查询</el-button
+                    placeholder="请输入资产岗位名称"
+                    class="input-with-select"
                   >
-                  <el-button @click="usePostStore.resetForm(ruleFormRef)"
-                    >重置</el-button
-                  >
-                </el-form-item>
-              </el-form>
-            </el-col>
-          </el-row>
-        </el-header>
-        <el-main>
-          <div class="table-body-header">
-            <div>
-              <el-button
-                type="primary"
-                v-permission="'sys:post:save'"
-                @click="usePostStore.handleAddOrEdit"
-                >新增
-              </el-button>
-            </div>
-          </div>
+                    <template #append>
+                      <el-button
+                        :icon="Search"
+                        @click="usePostStore.queryData"
+                      />
+                    </template>
+                  </el-input>
+                  <el-button type="primary" @click="usePostStore.queryData()">
+                    高级查询
+                  </el-button>
+                </el-space>
+              </el-col>
+            </el-row>
+          </el-space>
           <el-table
             class="table-style"
             :data="tableData"
@@ -152,6 +145,7 @@
   </div>
 </template>
 <script lang="ts" setup>
+import { Search } from '@element-plus/icons-vue';
 import PostAddOrEdit from './components/post-add-or-edit.vue';
 import { postStore } from '@/store/modules/sys/position/postStore';
 import { storeToRefs } from 'pinia';
@@ -181,4 +175,9 @@ onMounted(() => {
   usePostStore.queryData();
 });
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.form-right {
+  display: flex;
+  justify-content: end;
+}
+</style>

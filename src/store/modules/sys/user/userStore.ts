@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
-import { userPage, resetPassword } from '@/api/sys/user.ts';
+import { userPage, resetPassword, exportExcel } from '@/api/sys/user.ts';
 import { getDeptTree } from '@/api/sys/dept.ts';
+import download from '@/utils/fileDownload';
 
 export const userStore = defineStore('sysuser', {
   state: () => {
@@ -108,7 +109,7 @@ export const userStore = defineStore('sysuser', {
       const data = await getDeptTree();
       const treeData = data?.data ?? [];
       treeData.forEach((element: any) => {
-        this.expandedKeys.push(element.sysDeptId as never);
+        this.expandedKeys.push(element.sysDeptId);
       });
       Object.assign(this.deptTreeData, treeData);
     },
@@ -131,12 +132,17 @@ export const userStore = defineStore('sysuser', {
           this.passwordFormRef.resetFields();
         }
       });
-      console.log(this.passwordFormRef);
-      console.log(this.passwordForm);
     },
     resetPasswordCancel() {
       this.resetPasswordVisible = false;
       this.passwordFormRef.resetFields();
+    },
+    async handleExport() {
+      const excelName = '用户信息';
+      const data = await exportExcel({
+        excelName: excelName,
+      });
+      download.excel(data, excelName + '.xlsx');
     },
   },
 });

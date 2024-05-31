@@ -58,7 +58,7 @@
 </template>
 <script>
 import { isPassword } from '@/utils/validator';
-import { useUserStore } from '@/store/modules/sys/user';
+import { loginStore } from '@/store/modules/common/loginStore';
 export default defineComponent({
   setup() {
     const validateUsername = (rule, value, callback) => {
@@ -101,7 +101,7 @@ export default defineComponent({
     });
 
     const router = useRouter();
-    const { login } = useUserStore();
+    const { login } = loginStore();
     // 表单提交
     const handleLogin = async () => {
       state['formRef'].validate(async (valid) => {
@@ -109,7 +109,7 @@ export default defineComponent({
           try {
             state.loading = true;
             await login(state.form);
-            router.push('/index');
+            router.push('/home');
           } finally {
             state.loading = false;
           }
@@ -148,3 +148,4 @@ export default defineComponent({
   }
 }
 </style>
+@/store/modules/user

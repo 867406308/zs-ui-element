@@ -41,11 +41,9 @@
  
       .zs-main{
         .zs-app-main{
+          .zs-app-main-content{
           > [class*='-container'] {
             height: 100%;
-            
-
-           
             .zs-container{
               height: 100%;
               .zs-aside{
@@ -53,19 +51,19 @@
                 background-color: #fff;
                 margin-right: 10px;
                 border-radius: $border-radius;
+                height: calc($app-main-height);
               }
               .zs-header{
                 padding: $base-padding;
                 background-color: white;
                 border-radius: $border-radius;
-                min-height: 50px;
-                height: auto;
-
+                height: calc($header-box-height);
+                margin-bottom: $header-margin-bottom;
               }
 
               .zs-main{
                 height: 100%;
-                padding: 0px $base-padding 10px $base-padding;
+                padding: $base-padding;
                 overflow: hidden;
                 background-color: white;
                 border-top-right-radius: $border-radius;
@@ -76,9 +74,8 @@
                   justify-content: space-between;
                   padding-bottom: 8px;
                 }
-                .table-style {
-                  height: calc(#{$app-main-height} - 160px);
-                
+                .zs-table {
+                  height: calc($main-box-height);
                   .zs-scrollbar__view{
                     height: 100%;
                   }
@@ -97,13 +94,14 @@
                 }
               }
               .zs-footer{
-                height: 40px;
+                height: calc($footer-box-height);
                 background-color: white;
                 display: inline-flex;
                 justify-content: flex-start;
                 align-items: center;
               }
             }
+          }
           }
         }
       }

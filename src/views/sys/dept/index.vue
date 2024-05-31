@@ -1,41 +1,39 @@
 <template>
   <div class="dept-container">
     <el-container>
-      <el-header height="30px">
-        <el-form
-          ref="ruleFormRef"
-          :inline="true"
-          :model="form"
-          class="demo-form-inline"
-        >
-          <el-form-item label="部门名称" prop="deptName">
-            <el-input v-model="form.deptName" placeholder="请输入部门名称" />
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="useDeptStore.queryData()"
-              >查询</el-button
-            >
-            <el-button @click="useDeptStore.resetForm(ruleFormRef)"
-              >重置</el-button
-            >
-          </el-form-item>
-        </el-form>
-      </el-header>
       <el-main>
-        <div class="table-body-header">
-          <div>
-            <el-button
-              v-permission="'sys:dept:save'"
-              type="primary"
-              @click="useDeptStore.handleAddOrEdit($event)"
-            >
-              新增
-            </el-button>
-            <el-button type="primary" @click="useDeptStore.toggleExpand">{{
-              expand ? '收缩' : '展开'
-            }}</el-button>
-          </div>
-        </div>
+        <el-space :fill="true" style="width: 100%; margin-bottom: 8px">
+          <el-row justify="space-between">
+            <el-col :xl="12" :lg="12" :md="12" :sm="24">
+              <div>
+                <el-button
+                  type="primary"
+                  v-permission="'sys:dept:save'"
+                  @click="useDeptStore.handleAddOrEdit($event)"
+                  >新增
+                </el-button>
+                <el-button
+                  type="primary"
+                  @click="useDeptStore.toggleExpand()"
+                  >{{ expand ? '收缩' : '展开' }}</el-button
+                >
+              </div>
+            </el-col>
+            <el-col :xl="12" :lg="12" :md="12" :sm="24" class="form-right">
+              <el-space>
+                <el-input
+                  v-model="form.deptName"
+                  placeholder="请输入部门名称"
+                  class="input-with-select"
+                >
+                  <template #append>
+                    <el-button :icon="Search" @click="useDeptStore.queryData" />
+                  </template>
+                </el-input>
+              </el-space>
+            </el-col>
+          </el-row>
+        </el-space>
         <el-table
           v-if="refreshTable"
           :data="tableData"
@@ -109,14 +107,11 @@
         </el-table>
       </el-main>
     </el-container>
-    <dept-add-or-edit
-      ref="addEditRef"
-      :key="+new Date()"
-      @query-data="useDeptStore.queryData()"
-    />
+    <dept-add-or-edit ref="addEditRef" @query-data="useDeptStore.queryData()" />
   </div>
 </template>
 <script lang="ts" setup>
+import { Search } from '@element-plus/icons-vue';
 import DeptAddOrEdit from './components/dept-add-or-edit.vue';
 import { deptStore } from '@/store/modules/sys/dept/deptStore';
 import { storeToRefs } from 'pinia';
@@ -135,3 +130,9 @@ onMounted(() => {
   useDeptStore.queryData();
 });
 </script>
+<style lang="scss" scoped>
+.form-right {
+  display: flex;
+  justify-content: end;
+}
+</style>

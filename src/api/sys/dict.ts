@@ -78,3 +78,11 @@ export function dictDataDelete(id: string) {
     method: 'delete',
   });
 }
+
+export function dictDataList(params: any) {
+  return request({
+    url: '/system/sys/dictData/list',
+    method: 'get',
+    params,
+  });
+}

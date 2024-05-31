@@ -26,11 +26,7 @@
       :collapse="collapse"
     ></SubMenu>
   </el-sub-menu>
-  <el-menu-item
-    v-else
-    :index="getPath(menu.path)"
-    @click="routerChild(getPath(menu.path))"
-  >
+  <el-menu-item v-else :index="getPath(menu.path)" @click="routerChild(menu)">
     <template #title>
       <el-icon>
         <ZsIcon :icon="menu.meta.icon" color="#fff"></ZsIcon>
@@ -41,6 +37,8 @@
 </template>
 <script setup>
 import path from 'path-browserify';
+import { tabsStore } from '@/store/modules/common/tabs';
+const useTabsStore = tabsStore();
 const props = defineProps({
   menu: {
     type: Object,
@@ -56,7 +54,7 @@ const props = defineProps({
   },
 });
 const routerChild = (menu) => {
-  console.log('menu11 ', menu);
+  useTabsStore.addCurrentTabsList(menu);
 };
 // routepath 为当前菜单的path值
 // getpath: 拼接 当前菜单的上一级菜单的path 和 当前菜单的path
@@ -64,19 +62,3 @@ const getPath = (routePath) => {
   return path.resolve(props.basePath, routePath);
 };
 </script>
-<style lang="scss" scoped>
-.zs-sub-menu {
-  :deep(.zs-menu-item) {
-    color: #fff;
-  }
-  .zs-menu-item.is-active {
-    color: #fff;
-  }
-  .zs-menu-item:hover {
-    background-color: #409eff;
-  }
-  .zs-menu-item:hover.zs-icon {
-    color: #fff;
-  }
-}
-</style>

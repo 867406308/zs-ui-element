@@ -9,6 +9,7 @@ export const operationStore = defineStore('operation', {
       loading: false,
       total: 0,
       form: {
+        username: '',
         page: 1,
         size: 20,
         order: 'desc',

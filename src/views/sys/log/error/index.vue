@@ -1,32 +1,32 @@
 <template>
   <div class="log-error-container">
     <el-container>
-      <el-header>
-        <el-form
-          ref="errorFormRef"
-          :inline="true"
-          :model="form"
-          class="demo-form-inline"
-        >
-          <el-form-item label="日志名称" prop="roleName">
-            <el-input placeholder="请输入角色名称" />
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="useErrorStore.queryData()"
-              >查询</el-button
-            >
-            <el-button @click="useErrorStore.resetForm(errorFormRef)"
-              >重置</el-button
-            >
-          </el-form-item>
-        </el-form>
-      </el-header>
       <el-main>
-        <div class="table-body-header">
-          <div>
-            <el-button type="primary">导出</el-button>
-          </div>
-        </div>
+        <el-space :fill="true" style="width: 100%; margin-bottom: 8px">
+          <el-row justify="space-between">
+            <el-col :xl="12" :lg="12" :md="12" :sm="24">
+              <div>
+                <el-button type="primary">导出 </el-button>
+              </div>
+            </el-col>
+            <el-col :xl="12" :lg="12" :md="12" :sm="24" class="form-right">
+              <el-space>
+                <el-input
+                  v-model="form.username"
+                  placeholder="请输入操作用户名"
+                  class="input-with-select"
+                >
+                  <template #append>
+                    <el-button
+                      :icon="Search"
+                      @click="useErrorLogStore.queryData"
+                    />
+                  </template>
+                </el-input>
+              </el-space>
+            </el-col>
+          </el-row>
+        </el-space>
         <el-table
           class="table-style"
           :data="tableData"
@@ -104,39 +104,28 @@
           layout="total, sizes, prev, pager, next"
           :page-size="form.size"
           :total="total"
-          @current-change="useErrorStore.handleCurrentChange"
-          @size-change="useErrorStore.handleSizeChange"
+          @current-change="useErrorLogStore.handleCurrentChange"
+          @size-change="useErrorLogStore.handleSizeChange"
         />
       </el-footer>
     </el-container>
   </div>
 </template>
 <script lang="ts" setup>
+import { Search } from '@element-plus/icons-vue';
 import { storeToRefs } from 'pinia';
-import { errorStore } from '@/store/modules/sys/log/errorStore';
-const useErrorStore = errorStore();
+import { errorLogStore } from '@/store/modules/sys/log/errorLogStore';
+const useErrorLogStore = errorLogStore();
 const { errorFormRef, tableData, total, form, loading } =
-  storeToRefs(useErrorStore);
+  storeToRefs(useErrorLogStore);
 
 onMounted(() => {
-  useErrorStore.queryData();
+  useErrorLogStore.queryData();
 });
 </script>
 <style lang="scss" scoped>
-.table-style {
-  height: calc(#{$app-main-height} - 150px);
-
-  .status {
-    display: flex;
-    align-items: center;
-    > span:first-child {
-      margin-right: 10px;
-      display: flex;
-      width: 10px;
-      height: 10px;
-      background-color: #67c23a;
-      border-radius: 50%;
-    }
-  }
+.form-right {
+  display: flex;
+  justify-content: end;
 }
 </style>

@@ -32,17 +32,11 @@
         ></el-input>
       </el-form-item>
       <el-form-item label="部门负责人" prop="sysUserId">
-        <el-select
-          v-model="deptHeadName"
-          ref="deptHeadRef"
-          placeholder="请选择部门负责人"
-          style="width: 100%"
-          clearable
-        >
-          <template #empty>
-            <dept-head @on-click="useDeptAddOrEditStore.handleOnClick" />
-          </template>
-        </el-select>
+        <dept-head
+          :sysUserId="form.sysUserId"
+          :realName="form.deptHeadName"
+          @onClick="handleOnClick"
+        />
       </el-form-item>
       <el-form-item label="状态" prop="status">
         <el-radio-group v-model="form.status">
@@ -71,37 +65,26 @@
 </template>
 <script lang="ts" setup>
 import { deptAddOrEditStore } from '@/store/modules/sys/dept/deptAddOrEditStore';
-import DeptHead from './dept-head.vue';
+import DeptHead from '@/components/ZsUser/index.vue';
 import { storeToRefs } from 'pinia';
 const useDeptAddOrEditStore = deptAddOrEditStore();
-const {
-  form,
-  formRef,
-  deptHeadName,
-  deptHeadRef,
-  dialogFormVisible,
-  treeData,
-} = storeToRefs(useDeptAddOrEditStore);
+const { form, formRef, dialogFormVisible, treeData } = storeToRefs(
+  useDeptAddOrEditStore,
+);
 
 const emits = defineEmits(['query-data']);
-
+const handleOnClick = (row: any) => {
+  form.value.sysUserId = row.sysUserId;
+  form.value.deptHeadName = row.realName;
+};
 defineExpose({
   form,
   init: useDeptAddOrEditStore.init,
 });
 </script>
 
-<style scoped>
-.el-button--text {
-  margin-right: 15px;
-}
-.el-select {
-  width: 300px;
-}
-.el-input {
-  width: 300px;
-}
-.dialog-footer button:first-child {
-  margin-right: 10px;
+<style lang="scss">
+.popoverStyle {
+  width: 100% !important;
 }
 </style>

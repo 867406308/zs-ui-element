@@ -49,10 +49,8 @@ export const dictTypeAddOrEditStore = defineStore('dictTypeAddOrEdit', {
       formRef.validate(async (valid: any, fields: any) => {
         if (valid) {
           if (!this.form.sysDictTypeId) {
-            console.log('确定!');
             await dictTypeSave(this.form);
           } else {
-            console.log('修改!');
             await dictTypeEdit(this.form);
           }
           this.dialogFormVisible = false;
