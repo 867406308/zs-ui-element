@@ -1,17 +1,10 @@
 <template>
   <div class="nav-bar">
-    <div class="left-side">
-      <div @click="useSettingStore.clickCollapse" class="nav-collapse">
-        <ZsIcon v-if="!collapse" icon="fold" />
-        <ZsIcon v-if="collapse" icon="expand" />
-      </div>
-      <div class="nav-breadcrumb">
-        <el-breadcrumb separator="/">
-          <el-breadcrumb-item v-for="item in route.matched">{{
-            item.meta.title
-          }}</el-breadcrumb-item>
-        </el-breadcrumb>
-      </div>
+    <div
+      class="left-side"
+      v-if="theme.layout !== 'horizontal' && theme.breadcrumb"
+    >
+      <ZsBreadcrumb />
     </div>
     <div class="right-side">
       <el-space :size="15">
@@ -54,7 +47,7 @@ const useLoginStore = loginStore();
 const { username } = useLoginStore;
 
 const useSettingStore = settingStore();
-const { collapse } = storeToRefs(useSettingStore);
+const { collapse, theme } = storeToRefs(useSettingStore);
 const route = useRoute();
 const handleCommand = (command: string | number | object) => {
   switch (command) {
@@ -85,26 +78,15 @@ const onSubmitForm = () => {
   // filter: drop-shadow(1px 2px 4px hsl(225, 7%, 88%));
 
   .left-side {
-    display: flex;
-    align-items: center;
-    .nav-collapse {
-      padding-left: 20px;
-      .zs-icon {
-        margin-left: 10px;
-        cursor: pointer;
-      }
-    }
+    width: 100%;
   }
-
-  .nav-breadcrumb {
-    margin-left: 10px;
-  }
-
   .right-side {
     margin-right: 10px;
     height: 100%;
+    width: 100%;
     display: flex;
     align-items: center;
+    justify-content: flex-end;
 
     .zs-space {
       display: flex;

@@ -7,3 +7,10 @@ export function page(params: any) {
     params,
   });
 }
+
+export function getById(id: string) {
+  return request({
+    url: `/fixedAssets/assets/allot/${id}`,
+    method: 'get',
+  });
+}

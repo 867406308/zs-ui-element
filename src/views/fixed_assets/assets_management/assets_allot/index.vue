@@ -1,38 +1,22 @@
 <template>
-  <div class="assets-info-container">
+  <div class="assets-allot-container">
     <el-container>
       <el-header>
-        <el-space :fill="true" style="width: 100%; margin-bottom: 8px">
-          <el-row justify="space-between">
-            <el-col :xl="12" :lg="12" :md="12" :sm="24">
-              <div>
-                <el-button
-                  type="primary"
-                  @click="useAssetsAllotStore.handleAddDepreciation"
-                  >新增</el-button
-                >
-              </div>
-            </el-col>
-            <el-col :xl="12" :lg="12" :md="12" :sm="24" class="form-right">
-              <el-space>
-                <el-input
-                  v-model="assetsAllotForm.serialNo"
-                  placeholder="请输入报废单号"
-                  class="input-with-select"
-                  clearable
-                  @clear="useAssetsAllotStore.queryData()"
-                >
-                  <template #append>
-                    <el-button
-                      :icon="Search"
-                      @click="useAssetsAllotStore.queryData()"
-                    />
-                  </template>
-                </el-input>
-              </el-space>
-            </el-col>
-          </el-row>
-        </el-space>
+        <el-form :inline="true" label-width="auto">
+          <el-form-item label="调拨单">
+            <el-input
+              v-model="assetsAllotForm.serialNo"
+              placeholder="请输入调拨单号"
+            >
+            </el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="useAssetsAllotStore.queryData"
+              >查询</el-button
+            >
+            <el-button @click="useAssetsAllotStore.reset">重置</el-button>
+          </el-form-item>
+        </el-form>
       </el-header>
       <el-main>
         <ZsToolbar>
@@ -66,77 +50,25 @@
             fixed="left"
           />
           <el-table-column
-            prop="originalManageOrgName"
-            label="原管理部门"
-            width="200"
-          />
-          <el-table-column
-            prop="originalManageUserName"
-            label="原管理人"
-            width="100"
-          />
-          <el-table-column
-            prop="originalUseOrgName"
-            label="原使用部门"
-            width="200"
-          />
-          <el-table-column
-            prop="originalUseUserName"
-            label="原使用人"
-            width="100"
-          />
-          <el-table-column
-            prop="originalStorageLocation"
-            label="原存放位置"
-            width="200"
-            show-overflow-tooltip
-          />
-          <el-table-column
-            prop="currentManageOrgName"
-            label="新管理部门"
-            width="200"
-          />
-          <el-table-column
-            prop="currentManageUserName"
-            label="新管理人"
-            width="100"
-          />
-          <el-table-column
-            prop="currentUseOrgName"
-            label="新使用部门"
-            width="200"
-          />
-          <el-table-column
-            prop="currentUseUserName"
-            label="新使用人"
-            width="100"
-          />
-          <el-table-column
-            prop="currentStorageLocation"
-            label="新存放位置"
-            width="200"
-            show-overflow-tooltip
-          />
-          <el-table-column
             prop="reason"
             label="调拨原因"
-            width="200"
             show-overflow-tooltip
           />
+          <el-table-column prop="createDate" label="调拨日期" width="200" />
           <el-table-column
             align="center"
             fixed="right"
             label="操作"
-            width="120"
+            width="200"
           >
             <template #default="{ row }">
-              <el-button link type="primary">统计</el-button>
+              <el-button link type="primary">打印调拨单</el-button>
               <el-divider direction="vertical" />
               <el-button
                 link
                 type="primary"
                 @click="useAssetsAllotStore.handleDetail(row)"
-                >明细</el-button
+                >调拨明细</el-button
               >
             </template>
           </el-table-column>
@@ -176,8 +108,7 @@ onMounted(() => {
 });
 </script>
 <style lang="scss" scoped>
-.form-right {
-  display: flex;
-  justify-content: end;
+.zs-table {
+  height: calc($main-box-height - 60px) !important;
 }
 </style>

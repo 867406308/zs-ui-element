@@ -34,11 +34,19 @@ export const assetsAllotStore = defineStore('assetsAllot', {
       this.queryData();
     },
     handleDetail(row: any) {
+      console.log(row);
       if (this.assetsAllotDetailsRef) {
         this.assetsAllotDetailsRef.assetsAllotDetailsFrom.allotId = row.id;
+        this.assetsAllotDetailsRef.assetsAllot.serialNo = row.serialNo;
+        this.assetsAllotDetailsRef.assetsAllot.reason = row.reason;
+        this.assetsAllotDetailsRef.assetsAllot.createDate = row.createDate;
         this.assetsAllotDetailsRef.init();
       }
     },
     handleDelete() {},
+    reset() {
+      this.$reset();
+      this.queryData();
+    },
   },
 });

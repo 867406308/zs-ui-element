@@ -3,7 +3,10 @@
   <el-container>
     <el-aside>
       <!--左侧菜单-->
-      <ZsMenu />
+      <ZsLogo />
+      <el-scrollbar>
+        <ZsMenu />
+      </el-scrollbar>
     </el-aside>
     <el-container>
       <el-header>
@@ -20,9 +23,20 @@
 </template>
 <style lang="scss" scoped>
 .zs-container {
-  // background-color: #f2f3f5;
   .zs-aside {
     width: var(--zs-aside-width, 300px) important;
+
+    .zs-scrollbar {
+      background-color: $menu-left-bg-color;
+      height: calc($menu-left-height);
+      .zs-scrollbar__wrap {
+        .zs-scrollbar__view {
+          .zs-menu {
+            border-right: none;
+          }
+        }
+      }
+    }
   }
   .zs-container {
     .zs-header {
