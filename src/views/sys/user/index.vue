@@ -3,16 +3,6 @@
     <el-container>
       <el-aside>
         <el-scrollbar>
-          <!-- <el-tree
-            ref="deptRef"
-            :data="deptTreeData"
-            :props="defaultProps"
-            :expand-on-click-node="false"
-            accordion
-            node-key="sysDeptId"
-            :default-expanded-keys="expandedKeys"
-            @node-click="useUserStore.handleNodeClick"
-          /> -->
           <ZsDept @node-click="useUserStore.handleNodeClick" />
         </el-scrollbar>
       </el-aside>
@@ -162,7 +152,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { Search } from '@element-plus/icons-vue';
+import { Search, CaretLeft, CaretRight } from '@element-plus/icons-vue';
 import { storeToRefs } from 'pinia';
 import UserAddOrEdit from './components/user-add-or-edit.vue';
 import UserResetPassword from './components/user-reset-password.vue';

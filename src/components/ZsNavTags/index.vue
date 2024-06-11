@@ -54,13 +54,13 @@ const useTabsStore = tabsStore();
 const { currentTabsList, currentTabs } = storeToRefs(useTabsStore);
 const router = useRouter();
 const handleTabsClick = (tab: any, event: Event) => {
-  localStorage.setItem('currentTabs', tab.props.name);
+  sessionStorage.setItem('currentTabs', tab.props.name);
   const tabsList = currentTabsList.value.filter((item) => {
     return item.name === tab.props.name;
   });
-  localStorage.setItem('currentTabsObject', [JSON.stringify(tabsList)]);
+  sessionStorage.setItem('currentTabsObject', [JSON.stringify(tabsList)]);
   if (tab.props.name === 'home') {
-    localStorage.removeItem('currentTabsObject');
+    sessionStorage.removeItem('currentTabsObject');
   }
   console.log('tab.props.name', tab.props.name);
   router.push({ name: tab.props.name });
@@ -107,8 +107,8 @@ const handleCommand = (command: string | number | object) => {
   }
 };
 onBeforeMount(() => {
-  currentTabs.value = localStorage.getItem('currentTabs') || 'home';
-  const tabsString = localStorage.getItem('currentTabsObject');
+  currentTabs.value = sessionStorage.getItem('currentTabs') || 'home';
+  const tabsString = sessionStorage.getItem('currentTabsObject');
   if (tabsString) {
     currentTabsList.value = JSON.parse(tabsString);
   } else {

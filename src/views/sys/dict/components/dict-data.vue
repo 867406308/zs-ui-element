@@ -90,7 +90,7 @@
       <el-pagination
         background
         :current-page="form.page"
-        layout="sizes, prev, pager, next, jumper, ->, total"
+        layout="total,sizes, prev, pager, next, jumper"
         :page-size="form.size"
         :total="total"
         @current-change="useDictDataStore.handleCurrentChange"

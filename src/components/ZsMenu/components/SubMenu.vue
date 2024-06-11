@@ -4,15 +4,6 @@
     :index="getPath(menu.path)"
   >
     <template #title>
-      <!-- <div v-if="collapse">
-        <div class="icon">
-          <el-icon>
-            <ZsIcon :icon="menu.meta.icon" color="#fff"></ZsIcon>
-          </el-icon>
-          <span>{{ menu }}</span>
-        </div>
-      </div> -->
-
       <el-icon>
         <ZsIcon :icon="menu.meta.icon" color="#fff"></ZsIcon>
       </el-icon>
@@ -53,6 +44,10 @@ const props = defineProps({
     default: false,
   },
 });
+onMounted(() => {
+  console.log('12', props.basePath);
+});
+// 跳转路由
 const routerChild = (menu) => {
   useTabsStore.addCurrentTabsList(menu);
 };

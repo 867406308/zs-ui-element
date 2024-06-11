@@ -1,11 +1,13 @@
 <template>
   <div class="logo">
-    <img
-      src="@/assets/logo.png"
-      :style="{ height: iconSize, width: iconSize }"
-    />
+    <div class="logo-icon">
+      <img
+        src="@/assets/logo.png"
+        :style="{ height: iconSize, width: iconSize }"
+      />
+    </div>
     <div
-      v-if="!collapse"
+      v-if="expand && !collapse"
       class="title"
       :style="{ color: titleColor, fontSize: titleSize }"
     >
@@ -27,7 +29,7 @@ const props = defineProps({
   },
   title: {
     type: String,
-    default: '后台管理系统',
+    default: '后台系统管理系统',
   },
   titleColor: {
     type: String,
@@ -36,6 +38,10 @@ const props = defineProps({
   titleSize: {
     type: String,
     default: '20px',
+  },
+  expand: {
+    type: Boolean,
+    default: true,
   },
 });
 </script>
@@ -47,12 +53,22 @@ const props = defineProps({
   justify-content: center;
   background-color: $menu-left-bg-color;
 
-  img {
-    width: 30px;
-    height: 90px;
+  .logo-icon {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    img {
+      width: 30px;
+      height: 90px;
+    }
   }
 
   .title {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-left: 10px;
     color: #fff;
     font-size: 20px;

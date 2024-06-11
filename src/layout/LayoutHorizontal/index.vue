@@ -31,7 +31,7 @@
         display: flex;
         align-items: center;
         justify-content: flex-start;
-        width: 100%;
+        width: calc(100% - 350px);
         .logo {
           width: 300px;
         }
@@ -40,7 +40,11 @@
             height: $nav-height !important;
             width: 100%;
             border-bottom: none;
+            width: calc(100% - 300px);
 
+            li {
+              border-bottom: 0px;
+            }
             .zs-sub-menu__title {
               border-bottom: 0px;
             }
@@ -48,6 +52,7 @@
         }
       }
       .nav-bar {
+        width: 350px;
         background-color: $menu-left-bg-color;
         border: none;
         :deep(.right-side) {
@@ -77,5 +82,16 @@
     padding: $base-padding;
     height: calc($app-main-height + 20px);
   }
+}
+</style>
+<style lang="scss">
+.zs-menu-item:hover {
+  color: #fff !important;
+  // background-color: #409eff !important;
+  // .zs-icon {
+  //   .svg-icon {
+  //     color: #fff !important;
+  //   }
+  // }
 }
 </style>

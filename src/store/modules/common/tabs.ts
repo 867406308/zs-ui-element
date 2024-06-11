@@ -12,8 +12,8 @@ export const tabsStore = defineStore('tabs', {
     resetStore() {
       // 重置store中的所有状态
       this.$reset();
-      localStorage.removeItem('currentTabsObject');
-      localStorage.removeItem('currentTabs');
+      sessionStorage.removeItem('currentTabsObject');
+      sessionStorage.removeItem('currentTabs');
     },
     addCurrentTabsList(tabs: any) {
       this.currentTabs = tabs.name;
@@ -25,9 +25,9 @@ export const tabsStore = defineStore('tabs', {
 
       const existingTab = this.currentTabsList.find((tab) => tab.path === path);
       if (!existingTab && name !== 'home') {
-        localStorage.setItem('currentTabs', tabs.name);
+        sessionStorage.setItem('currentTabs', tabs.name);
         const tabsList = [{ path, name, title, icon }];
-        localStorage.setItem('currentTabsObject', [JSON.stringify(tabsList)]);
+        sessionStorage.setItem('currentTabsObject', [JSON.stringify(tabsList)]);
         this.currentTabsList.push({
           path,
           name,
@@ -51,8 +51,8 @@ export const tabsStore = defineStore('tabs', {
         this.currentTabs = 'home';
       }
       if (this.currentTabsList.length === 0) {
-        localStorage.removeItem('currentTabs');
-        localStorage.removeItem('currentTabsObject');
+        sessionStorage.removeItem('currentTabs');
+        sessionStorage.removeItem('currentTabsObject');
       }
     },
     closeOtherTabs() {

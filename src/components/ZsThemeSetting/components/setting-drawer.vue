@@ -1,7 +1,7 @@
 <template>
   <el-drawer v-model="settingVisible" :close-on-click-modal="false">
     <el-button @click="useSettingStore.changeLayout('horizontal')"
-      >横向布局</el-button
+      >横向布局1111</el-button
     >
     <el-button @click="useSettingStore.changeLayout('vertical')"
       >纵向布局</el-button
