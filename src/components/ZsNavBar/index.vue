@@ -10,7 +10,12 @@
       <el-space :size="15">
         <ZsIcon icon="refresh" @click="onSubmitForm" />
         <ZsIcon icon="search" />
-        <!-- <ZsIcon icon="sunny" /> -->
+        <el-switch
+          v-model="theme.dark"
+          :active-action-icon="Moon"
+          :inactive-action-icon="Sunny"
+          @change="toggleDark()"
+        />
         <el-badge is-dot>
           <ZsIcon icon="bell-filled" />
         </el-badge>
@@ -38,10 +43,11 @@
   </div>
 </template>
 <script lang="ts" setup>
+import { Sunny, Moon } from '@element-plus/icons-vue';
 import { settingStore } from '@/store/modules/config/setting';
 import { loginStore } from '@/store/modules/common/loginStore';
 import { storeToRefs } from 'pinia';
-import { toggleDark, isDark } from '@/composables';
+import { toggleDark } from '@/composables';
 
 const useLoginStore = loginStore();
 const { username } = useLoginStore;

@@ -10,6 +10,7 @@
 </template>
 <script lang="ts" setup>
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs';
+import en from 'element-plus/dist/locale/en.js';
 const locale = ref(zhCn);
 const isRouter = ref(true);
 const reload = () => {

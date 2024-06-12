@@ -44,9 +44,6 @@ const props = defineProps({
     default: false,
   },
 });
-onMounted(() => {
-  console.log('12', props.basePath);
-});
 // 跳转路由
 const routerChild = (menu) => {
   useTabsStore.addCurrentTabsList(menu);

@@ -1,18 +1,4 @@
 
-// @mixin base-scrollbar {
-//   &::-webkit-scrollbar {
-//     width: 8px;
-//     height: 8px;
-//   }
-//   &::-webkit-scrollbar-thumb {
-//     background-color: mix($base-color-white, $base-menu-background, 90%);
-//     border: 3px solid transparent;
-//     border-radius: 7px;
-//   }
-//   &::-webkit-scrollbar-thumb:hover {
-//     background-color: mix($base-color-white, $base-menu-background, 80%);
-//   }
-// }
 
   /* 隐藏滚动条的轨道 */
   ::-webkit-scrollbar {

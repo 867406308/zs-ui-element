@@ -15,6 +15,7 @@ export const assetsAllotStore = defineStore('assetsAllot', {
         orderField: 'create_date',
       },
       assetsAllotDetailsRef: ref<HTMLFormElement | null>(null),
+      assetsAllotAddRef: ref<HTMLFormElement | null>(null),
     };
   },
   actions: {
@@ -34,13 +35,17 @@ export const assetsAllotStore = defineStore('assetsAllot', {
       this.queryData();
     },
     handleDetail(row: any) {
-      console.log(row);
       if (this.assetsAllotDetailsRef) {
         this.assetsAllotDetailsRef.assetsAllotDetailsFrom.allotId = row.id;
         this.assetsAllotDetailsRef.assetsAllot.serialNo = row.serialNo;
         this.assetsAllotDetailsRef.assetsAllot.reason = row.reason;
         this.assetsAllotDetailsRef.assetsAllot.createDate = row.createDate;
         this.assetsAllotDetailsRef.init();
+      }
+    },
+    handleAddAllot() {
+      if (this.assetsAllotAddRef) {
+        this.assetsAllotAddRef.init();
       }
     },
     handleDelete() {},

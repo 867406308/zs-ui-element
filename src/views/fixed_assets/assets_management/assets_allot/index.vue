@@ -91,15 +91,23 @@
     </el-container>
   </div>
   <AssetsAllotDetails ref="assetsAllotDetailsRef" />
+  <AssetsAllotAdd ref="assetsAllotAddRef" />
 </template>
 <script lang="ts" setup>
+import AssetsAllotAdd from './components/assets_allot_add.vue';
 import AssetsAllotDetails from './components/assets_allot_details.vue';
 import { Search } from '@element-plus/icons-vue';
 import { storeToRefs } from 'pinia';
 import { assetsAllotStore } from '@/store/modules/fixed_assets/assets_management/assets_allot/assetsAllotStore';
 const useAssetsAllotStore = assetsAllotStore();
-const { assetsAllotForm, total, tableData, loading, assetsAllotDetailsRef } =
-  storeToRefs(useAssetsAllotStore);
+const {
+  assetsAllotForm,
+  total,
+  tableData,
+  loading,
+  assetsAllotDetailsRef,
+  assetsAllotAddRef,
+} = storeToRefs(useAssetsAllotStore);
 const priceFormatter = (row: any) => {
   return row.totalPrice ? row.totalPrice.toFixed(2) : 0;
 };
