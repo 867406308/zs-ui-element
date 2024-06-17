@@ -5,7 +5,7 @@
   >
     <template #title>
       <el-icon>
-        <ZsIcon :icon="menu.meta.icon" color="#fff"></ZsIcon>
+        <ZsIcon :icon="menu.meta.icon"></ZsIcon>
       </el-icon>
       <span>{{ menu.meta.title }}</span>
     </template>
@@ -20,7 +20,7 @@
   <el-menu-item v-else :index="getPath(menu.path)" @click="routerChild(menu)">
     <template #title>
       <el-icon>
-        <ZsIcon :icon="menu.meta.icon" color="#fff"></ZsIcon>
+        <ZsIcon :icon="menu.meta.icon"></ZsIcon>
       </el-icon>
       <span> {{ menu.meta.title }}</span>
     </template>
@@ -46,6 +46,7 @@ const props = defineProps({
 });
 // 跳转路由
 const routerChild = (menu) => {
+  console.log('menu    ', menu);
   useTabsStore.addCurrentTabsList(menu);
 };
 // routepath 为当前菜单的path值

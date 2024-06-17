@@ -4,7 +4,7 @@
       class="left-side"
       v-if="theme.layout !== 'horizontal' && theme.breadcrumb"
     >
-      <ZsBreadcrumb />
+      <ZsBreadcrumb v-if="theme.breadcrumb" />
     </div>
     <div class="right-side">
       <el-space :size="15">
@@ -12,9 +12,9 @@
         <ZsIcon icon="search" />
         <el-switch
           v-model="theme.dark"
-          :active-action-icon="Moon"
           :inactive-action-icon="Sunny"
-          @change="toggleDark()"
+          :active-action-icon="Moon"
+          @change="toggleDark"
         />
         <el-badge is-dot>
           <ZsIcon icon="bell-filled" />
@@ -47,7 +47,17 @@ import { Sunny, Moon } from '@element-plus/icons-vue';
 import { settingStore } from '@/store/modules/config/setting';
 import { loginStore } from '@/store/modules/common/loginStore';
 import { storeToRefs } from 'pinia';
-import { toggleDark } from '@/composables';
+import { isDark, toggleDark } from '@/composables';
+import PersonalCenter from '@/views/sys/my/personalCenter/index.vue';
+import Layout from '@/layout/index.vue';
+
+import { tabsStore } from '@/store/modules/common/tabs';
+const useTabsStore = tabsStore();
+
+// 监听 isDark 的变化
+watch(isDark, (newVal) => {
+  theme.dark = newVal;
+});
 
 const useLoginStore = loginStore();
 const { username } = useLoginStore;
@@ -58,6 +68,7 @@ const route = useRoute();
 const handleCommand = (command: string | number | object) => {
   switch (command) {
     case 'personalCenter':
+      personalCenterRouter();
       break;
     case 'logout':
       useLoginStore.logOut();
@@ -71,6 +82,56 @@ const reload: any = inject('reload');
 const onSubmitForm = () => {
   reload();
 };
+
+const router = useRouter();
+// 个人中心路由拼接
+const personalCenterRouter = () => {
+  useTabsStore.addCurrentTabsList({
+    name: 'personalCenter',
+    path: '/personalCenter',
+    meta: {
+      title: '个人中心',
+      icon: 'user-filled',
+    },
+  });
+  router.push('/user/personalCenter');
+  // const newRoute = {
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       name: 'personalCenter',
+  //       path: '/personalCenter',
+  //       component: PersonalCenter,
+  //       meta: {
+  //         title: '个人中心',
+  //         icon: 'user-filled',
+  //       },
+  //     },
+  //   ],
+  // };
+  // // router.addRoute({
+  // //   name: 'personalCenter',
+  // //   path: '/personalCenter',
+  // //   component: PersonalCenter,
+  // //   meta: {
+  // //     title: '个人中心',
+  // //     icon: 'user-filled',
+  // //   },
+  // // });
+  // router.addRoute(newRoute);
+  // console.log('所有router', router.getRoutes());
+  // // router.replace(router.currentRoute.value.fullPath)
+  // router.push('/personalCenter');
+  // useTabsStore.addCurrentTabsList({
+  //   component: PersonalCenter,
+  //   name: 'personalCenter',
+  //   path: '/personalCenter',
+  //   meta: {
+  //     title: '个人中心',
+  //     icon: 'user-filled',
+  //   },
+  // });
+};
 </script>
 <style lang="scss" scoped>
 .nav-bar {
@@ -78,9 +139,9 @@ const onSubmitForm = () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #ffffff;
+  // background-color: #ffffff;
   box-sizing: border-box;
-  border-bottom: 1px solid rgb(229, 230, 235);
+  border-bottom: 1px solid var(--zs-border-color);
   // filter: drop-shadow(1px 2px 4px hsl(225, 7%, 88%));
 
   .left-side {
@@ -126,7 +187,7 @@ const onSubmitForm = () => {
           }
         }
         .zs-space__item:hover {
-          background-color: #e9e9eb;
+          // background-color: #e9e9eb;
           cursor: pointer;
         }
       }

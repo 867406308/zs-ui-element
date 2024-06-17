@@ -22,7 +22,7 @@ const initEchars = () => {
           name: '用户增长数',
           icon: 'rect',
           itemStyle: {
-            color: '#409EFF',
+            color: getThemeColor(),
           },
         },
       ],
@@ -87,6 +87,15 @@ const initEchars = () => {
   let chartContainer = document.getElementById('echarsDom');
   resizeObserver.observe(chartContainer);
 };
+// 获取当前主题色
+const getThemeColor = () => {
+  // document.documentElement 是全局变量时
+  const el = document.documentElement;
+  // 获取 css 变量
+  const themeColor =
+    getComputedStyle(el).getPropertyValue(`--zs-color-primary`);
+  return themeColor;
+};
 // 初始化图表
 onMounted(() => {
   initEchars();
@@ -100,7 +109,7 @@ onMounted(() => {
     margin-bottom: 10px;
     border-radius: 4px;
     padding: 20px 0px;
-    background-color: #fff;
+    background-color: var(--zs-bg-color);
     width: 100%;
     height: 300px;
   }

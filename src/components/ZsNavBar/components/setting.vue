@@ -30,12 +30,46 @@
       </template>
       <template #right>
         <el-color-picker
-          v-model="color"
+          v-model="theme.color"
           show-alpha
+          color-format="hex"
           :predefine="predefineColors"
+          @active-change="activeChange"
         />
       </template>
     </ZsToolbar>
+    <ZsToolbar>
+      <template #left>
+        <el-text>开始暗黑模式</el-text>
+      </template>
+      <template #right>
+        <el-switch v-model="theme.dark" @change="toggleDark" />
+      </template>
+    </ZsToolbar>
+    <ZsToolbar>
+      <template #left>
+        <el-text>是否开启面包屑</el-text>
+      </template>
+      <template #right>
+        <el-switch v-model="theme.breadcrumb" @change="changeBreadcrumb" />
+      </template>
+    </ZsToolbar>
+    <ZsToolbar>
+      <template #left>
+        <el-text>是否开启多标签页</el-text>
+      </template>
+      <template #right>
+        <el-switch v-model="theme.tabs" @change="changeTabs" />
+      </template>
+    </ZsToolbar>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button type="primary" @click="useSettingStore.saveTheme">
+          保存配置
+        </el-button>
+        <el-button @click="useSettingStore.resetTheme">恢复默认</el-button>
+      </span>
+    </template>
   </el-drawer>
 </template>
 <script setup lang="ts">
@@ -45,6 +79,7 @@ import column from '@/assets/layout/column.jpg';
 import { settingStore } from '@/store/modules/config/setting';
 import { storeToRefs } from 'pinia';
 import { url } from 'inspector';
+import { toggleDark } from '@/composables';
 
 const useSettingStore = settingStore();
 const { settingVisible, theme } = storeToRefs(useSettingStore);
@@ -66,7 +101,7 @@ const layoutList = [
     url: column,
   },
 ];
-const color = ref('rgba(30, 144, 255, 1)');
+const color = ref('#409eff');
 const predefineColors = ref([
   '#ff4500',
   '#ff8c00',
@@ -83,6 +118,16 @@ const predefineColors = ref([
   'hsla(209, 100%, 56%, 0.73)',
   '#c7158577',
 ]);
+
+const activeChange = (color: string) => {
+  useSettingStore.changeColor(color);
+};
+const changeBreadcrumb = (val: boolean) => {
+  useSettingStore.changeBreadcrumb(val);
+};
+const changeTabs = (val: boolean) => {
+  useSettingStore.changeTabs(val);
+};
 </script>
 <style lang="scss" scoped>
 .zs-radio-group {

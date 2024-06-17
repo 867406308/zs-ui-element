@@ -33,7 +33,7 @@ onMounted(() => {
 <style lang="scss" scoped>
 .menu-bar {
   height: 100%;
-  background-color: $menu-left-bg-color;
+  // background-color: $menu-left-bg-color;
   .nav-collapse {
     display: flex;
     justify-content: center;

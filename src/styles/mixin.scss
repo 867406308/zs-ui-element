@@ -1,3 +1,69 @@
+.zs-main{
+  .zs-app-main{
+    .zs-app-main-content{
+    > [class*='-container'] {
+      height: 100%;
+      .zs-container{
+        height: 100%;
+        .zs-aside{
+          padding: $base-padding;
+          background-color: var(--zs-bg-color);
+          margin-right: 10px;
+          border-radius: $border-radius;
+          height: calc($app-main-height);
+        }
+        .zs-header{
+          padding: $base-padding;
+          background-color: var(--zs-bg-color);
+          border-radius: $border-radius;
+          height: calc($header-box-height);
+          margin-bottom: $header-margin-bottom;
+        }
+
+        .zs-main{
+          height: 100%;
+          padding: $base-padding;
+          overflow: hidden;
+          background-color: var(--zs-bg-color);
+          border-top-right-radius: $border-radius;
+          border-top-left-radius: $border-radius;
+          
+          .table-body-header {
+            display: flex;
+            justify-content: space-between;
+            padding-bottom: 8px;
+          }
+          .zs-table {
+            height: calc($main-box-height);
+            .zs-scrollbar__view{
+              height: 100%;
+            }
+            .status {
+              display: flex;
+              align-items: center;
+              > span:first-child {
+                margin-right: 10px;
+                display: flex;
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+              }
+            }
+          }
+        }
+        .zs-footer{
+          height: calc($footer-box-height);
+          background-color: var(--zs-bg-color);
+          display: inline-flex;
+          justify-content: flex-start;
+          align-items: center;
+        }
+      }
+    }
+    }
+  }
+}
+   
 
 
   /* 隐藏滚动条的轨道 */
@@ -21,74 +87,3 @@
   ::-webkit-scrollbar-thumb:hover {
     background-color: #fff;
   }
-
-
-
- 
-      .zs-main{
-        .zs-app-main{
-          .zs-app-main-content{
-          > [class*='-container'] {
-            height: 100%;
-            .zs-container{
-              height: 100%;
-              .zs-aside{
-                padding: $base-padding;
-                background-color: #fff;
-                margin-right: 10px;
-                border-radius: $border-radius;
-                height: calc($app-main-height);
-              }
-              .zs-header{
-                padding: $base-padding;
-                background-color: white;
-                border-radius: $border-radius;
-                height: calc($header-box-height);
-                margin-bottom: $header-margin-bottom;
-              }
-
-              .zs-main{
-                height: 100%;
-                padding: $base-padding;
-                overflow: hidden;
-                background-color: white;
-                border-top-right-radius: $border-radius;
-                border-top-left-radius: $border-radius;
-                
-                .table-body-header {
-                  display: flex;
-                  justify-content: space-between;
-                  padding-bottom: 8px;
-                }
-                .zs-table {
-                  height: calc($main-box-height);
-                  .zs-scrollbar__view{
-                    height: 100%;
-                  }
-                  .status {
-                    display: flex;
-                    align-items: center;
-                    > span:first-child {
-                      margin-right: 10px;
-                      display: flex;
-                      width: 10px;
-                      height: 10px;
-                      background-color: #67c23a;
-                      border-radius: 50%;
-                    }
-                  }
-                }
-              }
-              .zs-footer{
-                height: calc($footer-box-height);
-                background-color: white;
-                display: inline-flex;
-                justify-content: flex-start;
-                align-items: center;
-              }
-            }
-          }
-          }
-        }
-      }
-   

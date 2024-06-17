@@ -20,7 +20,7 @@
 <style lang="scss" scoped>
 .quick-access {
   height: 260px;
-  background-color: #fff;
+  background-color: var(--zs-bg-color);
 
   .header {
     height: 30px;

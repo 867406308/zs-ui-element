@@ -41,7 +41,6 @@ export const loginStore = defineStore('loginStore', {
       // useWebsocketStore.connectWebsocket(data.sysUser.sysUserId);
     },
     logOut() {
-      console.log('退出登录');
       const useRoutersStore = routersStore();
       useRoutersStore.clearRoutes();
       const useTabsStore = tabsStore();

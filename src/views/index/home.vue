@@ -46,7 +46,7 @@ import AccessAgeDistribution from './components/access-age-distribution.vue';
 <style lang="scss" scoped>
 .welcome-text {
   height: 100%;
-  background-color: #fff;
+  // background-color: #fff;
   background-image: url('@/assets/home1.png');
   background-repeat: no-repeat;
   background-size: contain;

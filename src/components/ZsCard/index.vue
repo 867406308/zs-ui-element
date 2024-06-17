@@ -1,5 +1,5 @@
 <template>
-  <div class="zs-my-card">
+  <div class="zs-card">
     <div class="header" :style="headerStyle">
       <div class="left">
         <ZsIcon v-if="icon" :icon="icon" />
@@ -37,9 +37,10 @@ const headerStyle = {
 };
 </script>
 <style lang="scss" scoped>
-.zs-my-card {
+.zs-card {
   height: 100%;
-  background-color: #fff;
+  background-color: var(--zs-bg-color);
+  border: 1px solid var(--zs-border-color);
   .header {
     height: 20px;
     padding: 10px;
@@ -55,7 +56,7 @@ const headerStyle = {
       .section-divider {
         width: 4px;
         height: 16px;
-        background-color: #2979ff;
+        background-color: var(--zs-color-primary);
         border-radius: 0px;
         margin-right: 6px;
       }

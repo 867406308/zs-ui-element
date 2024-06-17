@@ -35,7 +35,7 @@ import loginUsername from './components/login-username.vue';
 <style lang="scss" scoped>
 .login {
   height: 100%;
-  background-color: #fff;
+  background-color: var(--zs-bg-color);
 
   .zs-row {
     height: 100%;
@@ -56,7 +56,7 @@ import loginUsername from './components/login-username.vue';
       .login-container {
         width: 50%;
         height: 100%;
-        background-color: #fff;
+        background-color: var(--zs-bg-color);
         border-radius: 8px;
         display: flex;
         flex-direction: column;
@@ -73,11 +73,11 @@ import loginUsername from './components/login-username.vue';
           }
           .login-title {
             font-size: 2em;
-            color: #0064c8;
+            // color: #0064c8;
           }
         }
         .login-title {
-          color: #0064c8;
+          // color: #0064c8;
           font-size: 30px;
         }
         .main-footer {

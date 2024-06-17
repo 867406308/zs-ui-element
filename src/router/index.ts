@@ -22,85 +22,96 @@ const routers = [
   },
   {
     path: '/:pathMatch(.*)*',
-    // name: 'NotFound',
     component: () => import('@/views/error/404.vue'),
     hidden: true,
   },
   {
-    path: '/nav',
-    name: 'nav',
-    component: () => import('@/views/nav/index.vue'),
+    path: '/user',
+    component: Layout,
+    // hidden: true,
+    redirect: 'noredirect',
+    children: [
+      {
+        name: 'personalCenter',
+        path: 'personalCenter',
+        component: () => import('@/views/sys/my/personalCenter/index.vue'),
+        meta: {
+          title: '个人中心',
+          icon: 'user-filled',
+        },
+      },
+    ],
   },
 ];
 
 const asynRouters = [
-  {
-    path: '/',
-    name: '',
-    component: Layout,
-    meta: {
-      title: '首页',
-      icon: 'document',
-    },
-    children: [
-      {
-        path: 'home',
-        name: 'home',
-        component: () => import('@/views/index/home.vue'),
-        meta: {
-          title: '首页',
-          icon: 'document',
-        },
-      },
-    ],
-  },
-  {
-    path: '/sys',
-    name: 'sys',
-    component: Layout,
-    meta: {
-      title: '系统',
-      icon: 'setting',
-    },
-    children: [
-      {
-        path: 'dept',
-        name: 'dept',
-        component: () => import('@/views/sys/dept/index.vue'),
-        meta: {
-          title: '部门管理',
-          icon: 'menu',
-        },
-      },
-      {
-        path: 'menu',
-        name: 'menu',
-        component: () => import('@/views/sys/menu/index.vue'),
-        meta: {
-          title: '菜单管理',
-          icon: 'menu',
-        },
-      },
-      {
-        path: '/role',
-        name: 'role',
-        component: () => import('@/views/sys/role/index.vue'),
-        meta: {
-          title: '角色管理',
-          icon: 'user-filled',
-        },
-      },
-      {
-        path: '/user',
-        name: 'user',
-        component: () => import('@/views/sys/user/index.vue'),
-        meta: {
-          title: '用户管理',
-          icon: 'user',
-        },
-      },
-    ],
-  },
+  // {
+  //   path: '/',
+  //   name: '',
+  //   component: Layout,
+  //   meta: {
+  //     title: '首页',
+  //     icon: 'document',
+  //   },
+  //   children: [
+  //     {
+  //       path: 'home',
+  //       name: 'home',
+  //       component: () => import('@/views/index/home.vue'),
+  //       meta: {
+  //         title: '首页',
+  //         icon: 'document',
+  //       },
+  //     },
+  //   ],
+  // },
+  // {
+  //   path: '/sys',
+  //   name: 'sys',
+  //   component: Layout,
+  //   meta: {
+  //     title: '系统',
+  //     icon: 'setting',
+  //   },
+  //   children: [
+  //     {
+  //       path: 'dept',
+  //       name: 'dept',
+  //       component: () => import('@/views/sys/dept/index.vue'),
+  //       meta: {
+  //         title: '部门管理',
+  //         icon: 'menu',
+  //       },
+  //     },
+  //     {
+  //       path: 'menu',
+  //       name: 'menu',
+  //       component: () => import('@/views/sys/menu/index.vue'),
+  //       meta: {
+  //         title: '菜单管理',
+  //         icon: 'menu',
+  //       },
+  //     },
+  //     {
+  //       path: '/role',
+  //       name: 'role',
+  //       component: () => import('@/views/sys/role/index.vue'),
+  //       meta: {
+  //         title: '角色管理',
+  //         icon: 'user-filled',
+  //       },
+  //     },
+  //     {
+  //       path: '/user',
+  //       name: 'user',
+  //       component: () => import('@/views/sys/user/index.vue'),
+  //       meta: {
+  //         title: '用户管理',
+  //         icon: 'user',
+  //       },
+  //     },
+  //   ],
+  // },
 ];
 
 const router = createRouter({

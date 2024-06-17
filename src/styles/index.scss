@@ -1,20 +1,22 @@
 // import dark theme
 @use "element-plus/theme-chalk/src/dark/css-vars.scss" as *;
-@import './common.scss';
 @import './mixin.scss';
-@import './global.scss';
-@import './1.scss';
 
-// :root {
-//   --ep-color-primary: red;
-// }
-
+:root {
+  // --zs-aside-bg-color: var(--zs-color-primary);
+}
+html,
 body {
   font-family: Inter, system-ui, Avenir, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
     "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
 }
 
 a {
@@ -26,4 +28,23 @@ code {
   padding: 2px 4px;
   background-color: var(--ep-color-primary-light-9);
   color: var(--ep-color-primary);
+}
+.zs-menu-item:hover{
+  
+}
+
+// .zs-main{
+//   background-color:aqua;
+// }
+// 暗黑模式下的样式
+html.dark {
+  --zs-bg-color: #141414;
+  --zs-aside-bg-color: #141414;
+}
+// 正常模式下样式
+html.light {
+  // --zs-menu-hover-bg-color: var(--zs-color-primary);
+  // --zs-menu-bg-color: #141414;
+  // --zs-menu-text-color: #fff;
+  // --zs-menu-active-color: #fff;
 }

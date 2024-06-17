@@ -109,7 +109,7 @@ onMounted(() => {
   margin-bottom: 10px;
   border-radius: 4px;
   padding: 20px 0px;
-  background-color: #fff;
+  background-color: var(--zs-bg-color);
   width: 100%;
   height: 100px;
 }

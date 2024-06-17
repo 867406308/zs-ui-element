@@ -18,7 +18,9 @@
                 <ZsIcon icon="arrow-left"></ZsIcon>
               </template>
             </el-button>
-            <el-button size="small" @click="selectDate('today')">今日</el-button>
+            <el-button size="small" @click="selectDate('today')"
+              >今日</el-button
+            >
             <el-button size="small" @click="selectDate('next-month')">
               <template #icon>
                 <ZsIcon icon="arrow-right"></ZsIcon>
@@ -43,7 +45,7 @@ const selectDate = (val: CalendarDateType) => {
 <style lang="scss" scoped>
 .todo-today {
   height: 260px;
-  background-color: #fff;
+  background-color: var(--zs-bg-color);
 
   .header {
     height: 30px;

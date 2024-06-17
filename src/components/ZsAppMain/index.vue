@@ -1,5 +1,6 @@
 <template>
   <section class="zs-app-main">
+    <!-- 123 -->
     <router-view v-slot="{ Component, route }">
       <transition name="router-fade" mode="out-in">
         <keep-alive>
@@ -17,7 +18,7 @@
 
 <style lang="scss" scoped>
 .zs-app-main {
-  // background-color: $bg-color;
+  // background-color: red; //var(--zs-bg-color);
   position: relative;
   overflow: hidden;
   // min-height: $app-main-height;

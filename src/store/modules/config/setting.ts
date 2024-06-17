@@ -1,4 +1,6 @@
+import theme from 'echarts/types/src/theme/dark.js';
 import { defineStore } from 'pinia';
+import { themeConfig } from '@/config/theme.config.ts';
 
 export const settingStore = defineStore('setting', {
   state: () => {
@@ -6,14 +8,7 @@ export const settingStore = defineStore('setting', {
       settingVisible: false,
       settingRef: ref<HTMLFormElement | null>(null),
       collapse: false,
-      theme: {
-        // 暗黑模式
-        dark: false,
-        // 布局种类：横向布局horizontal、纵向布局vertical、分栏布局column、综合布局comprehensive、常规布局common、浮动布局float
-        layout: 'vertical',
-        // 面包屑的显示
-        breadcrumb: true,
-      },
+      theme: JSON.parse(localStorage.getItem('themeConfig')) || themeConfig,
     };
   },
   getters: {},
@@ -23,13 +18,48 @@ export const settingStore = defineStore('setting', {
       this.collapse = !this.collapse;
     },
     openSetting() {
-      console.log('openSetting');
       this.settingVisible = true;
     },
     // 切换布局
     changeLayout(layout: string) {
       this.theme.layout = layout;
       this.settingVisible = false;
+    },
+    // 切换主题色
+    changeColor(color: string) {
+      // document.documentElement 是全局变量时
+      const el = document.documentElement;
+      // 获取 css 变量
+      getComputedStyle(el).getPropertyValue(`--zs-color-primary`);
+      // 设置 css 变量
+      el.style.setProperty('--zs-color-primary', color);
+      this.theme.color = color;
+    },
+    // 面包屑
+    changeBreadcrumb(breadcrumb: boolean) {
+      this.theme.breadcrumb = breadcrumb;
+    },
+    // 多标签页
+    changeTabs(tabs: boolean) {
+      this.theme.tabs = tabs;
+    },
+    saveTheme() {
+      localStorage.setItem('themeConfig', JSON.stringify(this.theme));
+      this.settingVisible = false;
+    },
+    resetTheme() {
+      this.theme = themeConfig;
+      localStorage.removeItem('themeConfig');
+      // 重新渲染页面
+      location.reload();
+    },
+    // 初始化主题色
+    initTheme() {
+      const el = document.documentElement;
+      // 获取 css 变量
+      getComputedStyle(el).getPropertyValue(`--zs-color-primary`);
+      // 设置 css 变量
+      el.style.setProperty('--zs-color-primary', this.theme.color);
     },
   },
 });

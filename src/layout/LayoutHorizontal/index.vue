@@ -9,14 +9,19 @@
         </div>
         <ZsNavBar />
       </div>
-      <ZsNavTags />
+      <ZsNavTags v-if="theme.tabs" />
     </el-header>
-
     <el-main>
       <ZsAppMain />
     </el-main>
   </el-container>
 </template>
+<script setup lang="ts">
+import { settingStore } from '@/store/modules/config/setting';
+import { storeToRefs } from 'pinia';
+const useSettingStore = settingStore();
+const { theme } = storeToRefs(useSettingStore);
+</script>
 <style lang="scss" scoped>
 .zs-container {
   .zs-header {
@@ -26,7 +31,8 @@
     .header {
       display: flex;
       justify-content: space-between;
-      background-color: $menu-left-bg-color;
+      background-color: var(--zs-bg-color);
+      border-bottom: 1px solid var(--zs-border-color);
       .logoMenu {
         display: flex;
         align-items: center;
@@ -40,7 +46,7 @@
             height: $nav-height !important;
             width: 100%;
             border-bottom: none;
-            width: calc(100% - 300px);
+            width: calc(100% - 350px);
 
             li {
               border-bottom: 0px;
@@ -53,45 +59,15 @@
       }
       .nav-bar {
         width: 350px;
-        background-color: $menu-left-bg-color;
+        background-color: var(--zs-bg-color);
         border: none;
-        :deep(.right-side) {
-          .zs-space {
-            .zs-space__item {
-              .svg-icon {
-                color: #fff !important;
-              }
-              .zs-dropdown {
-                .userInfo {
-                  .username {
-                    color: #fff;
-                  }
-                }
-              }
-            }
-            .zs-space__item:hover {
-              background-color: transparent !important;
-              cursor: pointer;
-            }
-          }
-        }
       }
     }
   }
   .zs-main {
+    background-color: var(--zs-bg-color-page);
     padding: $base-padding;
     height: calc($app-main-height + 20px);
   }
-}
-</style>
-<style lang="scss">
-.zs-menu-item:hover {
-  color: #fff !important;
-  // background-color: #409eff !important;
-  // .zs-icon {
-  //   .svg-icon {
-  //     color: #fff !important;
-  //   }
-  // }
 }
 </style>

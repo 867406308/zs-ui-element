@@ -31,7 +31,6 @@ const emits = defineEmits(['change']);
 const handleChange = (editor) => {
   // editor 变化时，更新 model 绑定的值
   valueHtml.value = editor.getHtml();
-  console.log(valueHtml.value);
   emits('change', valueHtml.value);
 };
 </script>

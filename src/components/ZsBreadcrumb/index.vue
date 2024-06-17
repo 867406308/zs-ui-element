@@ -6,9 +6,9 @@
     </div>
     <div class="nav-breadcrumb">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item v-for="item in route.matched">{{
-          item.meta.title
-        }}</el-breadcrumb-item>
+        <el-breadcrumb-item v-for="item in routeList">
+          {{ item.meta.title }}
+        </el-breadcrumb-item>
       </el-breadcrumb>
     </div>
   </div>
@@ -21,6 +21,20 @@ const useSettingStore = settingStore();
 const { collapse } = storeToRefs(useSettingStore);
 
 const route = useRoute();
+const routeList = ref([]);
+watch(
+  () => route.matched,
+  () => {
+    routeList.value = route.matched.filter(
+      (item: any) => item.name != null && item.name != undefined,
+    );
+  },
+);
+onMounted(() => {
+  routeList.value = route.matched.filter(
+    (item: any) => item.name != null && item.name != undefined,
+  );
+});
 </script>
 <style lang="scss" scoped>
 .breadcrumb-box {

@@ -1,5 +1,9 @@
 <template>
-  <div v-html="form.svg" :style="{ color: color, fontSize: size }" class="svg-icon"></div>
+  <div
+    v-html="form.svg"
+    :style="{ color: color, fontSize: size }"
+    class="svg-icon"
+  ></div>
 </template>
 <script lang="ts" setup>
 import icons from '@/assets/icons.json';
@@ -12,7 +16,7 @@ const props = defineProps({
   },
   color: {
     type: String,
-    default: 'black',
+    default: '',
   },
   size: {
     type: String,

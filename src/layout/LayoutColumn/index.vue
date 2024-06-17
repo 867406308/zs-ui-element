@@ -7,7 +7,7 @@
           <el-tab-pane v-for="(item, index) in menuList" :key="index">
             <template #label>
               <div class="zs-tab-pane-label">
-                <ZsIcon :icon="item.meta.icon" color="#fff"></ZsIcon>
+                <ZsIcon :icon="item.meta.icon"></ZsIcon>
                 <div class="zs-tab-pane-label-text">
                   {{ item.meta.title }}
                 </div>
@@ -37,7 +37,7 @@
       <el-container class="right-box">
         <el-header>
           <ZsNavBar />
-          <ZsNavTags />
+          <ZsNavTags v-if="theme.tabs" />
         </el-header>
         <el-main>
           <!--内容-->
@@ -50,13 +50,13 @@
 <script lang="ts" setup>
 import { routersStore } from '@/store/modules/common/router';
 import { storeToRefs } from 'pinia';
+import { settingStore } from '@/store/modules/config/setting';
+
+const useSettingStore = settingStore();
+const { theme } = storeToRefs(useSettingStore);
 
 const useRouterStore = routersStore();
 const { menuList } = storeToRefs(useRouterStore);
-
-onMounted(() => {
-  console.log(menuList.value);
-});
 </script>
 <style lang="scss" scoped>
 .column-layout {
@@ -64,24 +64,23 @@ onMounted(() => {
   .zs-aside {
     text-align: center;
     height: 100%;
-    color: #fff;
-    border-right: 1px solid rgb(229, 230, 235);
+    // color: #fff;
+    border-right: 1px solid var(--zs-border-color);
 
     .zs-scrollbar {
       height: 100%;
       .logo {
         justify-content: unset !important;
-        background-color: #fff !important;
+        background-color: var(--zs-bg-color) !important;
         :deep() {
           .logo-icon {
             width: 80px;
-            background-color: #161823;
+
+            border-right: 1px solid var(--zs-border-color);
           }
           .title {
             width: calc(100% - 80px) !important;
-            color: #161823 !important;
-
-            border-bottom: 1px solid rgb(229, 230, 235);
+            border-bottom: 1px solid var(--zs-border-color);
             box-sizing: border-box;
             margin-left: 0 !important;
           }
@@ -92,13 +91,14 @@ onMounted(() => {
 
         :deep() {
           .zs-tabs__header {
-            background-color: #161823;
+            // background-color: #161823;
             margin-right: 0 !important;
             .zs-tabs__nav-wrap {
               margin-right: 0px !important;
               .zs-tabs__nav-scroll {
                 .zs-tabs__nav {
                   height: calc(100vh - $nav-height) !important;
+                  border-right: 1px solid var(--zs-border-color);
                   overflow-y: auto;
                   width: 80px;
                   .zs-tabs__active-bar {
@@ -118,20 +118,21 @@ onMounted(() => {
                       padding: 10px 0;
 
                       &:hover {
-                        background-color: #409eff;
+                        // background-color: #409eff;
+                        // --zs-menu-hover-bg-color: rgba(255, 64, 89, 0.1);
                       }
 
                       &-text {
                         font-size: 14px;
                         font-weight: 500;
-                        color: #fff;
+                        // color: #fff;
                         line-height: 28px;
                       }
                     }
                   }
                   .zs-tabs__item.is-active {
                     .zs-tab-pane-label {
-                      background-color: #409eff;
+                      // background-color: #409eff;
                     }
                   }
                 }
@@ -143,7 +144,7 @@ onMounted(() => {
           }
 
           .zs-tabs__content {
-            background-color: #fff;
+            // background-color: #fff;
             height: 100%;
 
             .zs-tab-pane {
@@ -151,61 +152,61 @@ onMounted(() => {
                 margin-top: 10px;
 
                 .zs-menu {
-                  background-color: #fff;
+                  background-color: var(--zs-bg-color);
                   border-right: 0px !important;
                   .zs-menu-item {
                     height: 50px;
-                    color: #161823;
+                    // color: #161823;
                     margin: 0 10px 5px 10px;
                     border-radius: 4px;
                     .zs-icon {
                       .svg-icon {
-                        color: #161823 !important;
+                        // color: #161823 !important;
                       }
                     }
                   }
                   .zs-sub-menu {
                     .zs-sub-menu__title {
                       height: 50px;
-                      color: #161823;
+                      // color: #161823;
                       margin: 0 10px 5px 10px;
                       border-radius: 4px;
                       .zs-icon {
                         .svg-icon {
-                          color: #161823 !important;
+                          // color: #161823 !important;
                         }
                       }
                     }
                     .zs-sub-menu__title:hover {
-                      color: #fff;
+                      // color: #fff;
 
                       .zs-icon {
                         .svg-icon {
-                          color: #fff !important;
+                          // color: #fff !important;
                         }
                       }
                     }
                   }
                   .zs-menu-item.is-active {
-                    color: #fff;
-                    background-color: #79bbff;
+                    // color: #fff;
+                    // background-color: #79bbff;
 
                     .zs-icon {
                       .svg-icon {
-                        color: #fff !important;
+                        // color: #fff !important;
                       }
                     }
                   }
                   .zs-menu-item.is-active:hover {
-                    background-color: #79bbff;
-                    color: #fff !important;
+                    // background-color: #79bbff;
+                    // color: #fff !important;
                   }
                   .zs-menu-item:hover {
-                    background-color: #79bbff;
-                    color: #fff !important;
+                    // background-color: #79bbff;
+                    // color: #fff !important;
                     .zs-icon {
                       .svg-icon {
-                        color: #fff !important;
+                        // color: #fff !important;
                       }
                     }
                   }
@@ -235,6 +236,7 @@ onMounted(() => {
         }
       }
       .zs-main {
+        background-color: var(--zs-bg-color-page);
         padding: $base-padding !important;
         height: calc($app-main-height + 20px);
       }

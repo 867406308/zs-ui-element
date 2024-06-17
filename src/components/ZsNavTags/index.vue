@@ -62,7 +62,6 @@ const handleTabsClick = (tab: any, event: Event) => {
   if (tab.props.name === 'home') {
     sessionStorage.removeItem('currentTabsObject');
   }
-  console.log('tab.props.name', tab.props.name);
   router.push({ name: tab.props.name });
 };
 // 关闭当前标签
@@ -120,12 +119,12 @@ onBeforeMount(() => {
 .nav-tabs {
   padding-left: 20px;
   height: 40px;
-  background-color: #fff;
+  // background-color: #fff;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid rgb(229, 230, 235);
-  box-shadow: 0 1px 4px #00152914;
+  border-bottom: 1px solid var(--zs-border-color);
+  // box-shadow: 0 1px 4px #00152914;
 
   .zs-tabs {
     width: calc(100% - 60px);

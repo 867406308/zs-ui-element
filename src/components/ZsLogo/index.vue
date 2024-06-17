@@ -6,13 +6,13 @@
         :style="{ height: iconSize, width: iconSize }"
       />
     </div>
-    <div
+    <span
       v-if="expand && !collapse"
       class="title"
       :style="{ color: titleColor, fontSize: titleSize }"
     >
       {{ title }}
-    </div>
+    </span>
   </div>
 </template>
 <script setup>
@@ -29,15 +29,15 @@ const props = defineProps({
   },
   title: {
     type: String,
-    default: '后台系统管理系统',
+    default: 'zsadmin',
   },
   titleColor: {
     type: String,
-    default: 'white',
+    default: '',
   },
   titleSize: {
     type: String,
-    default: '20px',
+    default: '30px',
   },
   expand: {
     type: Boolean,
@@ -51,7 +51,7 @@ const props = defineProps({
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: $menu-left-bg-color;
+  // background-color: $menu-left-bg-color;
 
   .logo-icon {
     height: 100%;
@@ -70,7 +70,7 @@ const props = defineProps({
     align-items: center;
     justify-content: center;
     margin-left: 10px;
-    color: #fff;
+    // color: #fff;
     font-size: 20px;
   }
 }

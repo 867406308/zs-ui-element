@@ -148,4 +148,3 @@ export default defineComponent({
   }
 }
 </style>
-@/store/modules/user
