@@ -12,6 +12,7 @@ export const assetsInfoStore = defineStore('assetsInfo', {
       assetsInfoQueryRef: ref<HTMLFormElement | null>(null),
       assetsInfoCardRef: ref<HTMLFormElement | null>(null),
       assetsInfoStockInRef: ref<HTMLFormElement | null>(null),
+      assetsInfoSelectedVisible: false,
       advancedQueryVisible: false,
       tableData: [],
       loading: false,
@@ -142,6 +143,10 @@ export const assetsInfoStore = defineStore('assetsInfo', {
           this.selectedAssetsInfoList;
         this.assetsInfoStockInRef.init();
       }
+    },
+    selectedInit() {
+      console.log('abccba');
+      this.assetsInfoSelectedVisible = true;
     },
   },
 });

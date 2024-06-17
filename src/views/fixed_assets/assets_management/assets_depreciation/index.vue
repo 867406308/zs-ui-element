@@ -39,7 +39,6 @@
         </ZsToolbar>
         <el-table
           class="table-style"
-          :stripe="true"
           :data="tableData"
           style="width: 100%"
           v-loading="loading"

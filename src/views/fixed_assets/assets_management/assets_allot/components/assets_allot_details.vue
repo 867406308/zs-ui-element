@@ -19,7 +19,6 @@
     </div>
     <el-table
       class="table-style"
-      :stripe="true"
       :data="assetsAllotDetails"
       style="width: 100%"
       v-loading="loading"

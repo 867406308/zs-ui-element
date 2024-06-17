@@ -26,7 +26,6 @@
       </el-space>
       <el-table
         class="table-style"
-        :stripe="true"
         :data="tableData"
         style="width: 100%"
         :loading="loading"

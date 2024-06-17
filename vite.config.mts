@@ -6,21 +6,12 @@ import Components from 'unplugin-vue-components/vite';
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 import IconsResolver from 'unplugin-icons/resolver';
 import Icons from 'unplugin-icons/vite';
-import Unocss from 'unocss/vite';
 import { FileSystemIconLoader } from 'unplugin-icons/loaders';
-import {
-  presetAttributify,
-  presetIcons,
-  presetUno,
-  transformerDirectives,
-  transformerVariantGroup,
-} from 'unocss';
 import dynamicImportVars from 'vite-plugin-dynamic-import-vars';
 import topLevelAwait from 'vite-plugin-top-level-await';
 
 const pathSrc = path.resolve(__dirname, 'src');
 
-// https://vitejs.dev/config/
 export default defineConfig({
   resolve: {
     alias: {
@@ -87,20 +78,6 @@ export default defineConfig({
       iconCustomizer(collection, icon, props) {
         const name = `${collection}:${icon}`;
       },
-    }),
-
-    // https://github.com/antfu/unocss
-    // see unocss.config.ts for config
-    Unocss({
-      presets: [
-        presetUno(),
-        presetAttributify(),
-        presetIcons({
-          scale: 1.2,
-          warn: true,
-        }),
-      ],
-      transformers: [transformerDirectives(), transformerVariantGroup()],
     }),
   ],
   // 服务配置

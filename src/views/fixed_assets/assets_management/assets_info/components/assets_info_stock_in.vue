@@ -58,7 +58,6 @@ el-form
       <ZsSection title="资产信息">
         <el-table
           class="table-style"
-          :stripe="true"
           :data="assetsInfoStockInForm.assetsInfoList"
           style="width: 100%"
           border

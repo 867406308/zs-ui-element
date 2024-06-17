@@ -40,7 +40,7 @@ const headerStyle = {
 .zs-card {
   height: 100%;
   background-color: var(--zs-bg-color);
-  border: 1px solid var(--zs-border-color);
+  border: 1px solid var(--zs-border-color-extra-light);
   .header {
     height: 20px;
     padding: 10px;

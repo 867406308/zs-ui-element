@@ -118,7 +118,6 @@
         </template>
         <el-table
           border
-          :stripe="true"
           :data="assetsInfoData"
           style="width: 100%"
           height="400"

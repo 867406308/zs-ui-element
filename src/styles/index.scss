@@ -2,9 +2,10 @@
 @use "element-plus/theme-chalk/src/dark/css-vars.scss" as *;
 @import './mixin.scss';
 
-:root {
-  // --zs-aside-bg-color: var(--zs-color-primary);
-}
+// :root {
+//   // --zs-aside-bg-color: var(--zs-color-primary);
+  
+// }
 html,
 body {
   font-family: Inter, system-ui, Avenir, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
@@ -29,17 +30,59 @@ code {
   background-color: var(--ep-color-primary-light-9);
   color: var(--ep-color-primary);
 }
-.zs-menu-item:hover{
-  
+
+.zs-button:focus-visible{
+  outline: none !important;
+}
+// 抽屉
+.zs-drawer {
+  .zs-drawer__header{
+    color: var(--zs-text-color-primary);
+    margin-bottom: 0;
+    border-bottom: 1px solid var(--zs-border-color);
+    background-color: var(--zs-bg-color);
+    font-weight: var(--zs-font-weight-primary);
+    padding: 15px !important;
+  }
+  .zs-drawer__footer{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    border-top: 1px solid var(--zs-border-color);
+    padding: 10px 20px !important;
+  }
 }
 
-// .zs-main{
-//   background-color:aqua;
-// }
+.zs-table {
+  --zs-table-text-color: var(--zs-text-color-regular) !important;
+  --zs-table-header-bg-color: var(--zs-bg-color-page) !important;
+  --zs-table-header-text-color: var(--zs-text-color-regular) !important;
+}
+
+.zs-dialog.is-fullscreen{
+  .zs-dialog__header{
+    height: 40px;
+  }
+  .zs-dialog__body{
+    height: calc(100vh - 100px - 32px);
+  }
+  .zs-dialog__footer{
+    height: 60px;
+    position: fixed;
+    width: 100%;
+    padding: var(--zs-dialog-padding-primary) 20px;
+    bottom: 0;
+    right: 0;
+    // border-top: 1px solid var(--zs-border-color);
+  }
+}
+
+
 // 暗黑模式下的样式
 html.dark {
   --zs-bg-color: #141414;
   --zs-aside-bg-color: #141414;
+  
 }
 // 正常模式下样式
 html.light {
@@ -47,4 +90,7 @@ html.light {
   // --zs-menu-bg-color: #141414;
   // --zs-menu-text-color: #fff;
   // --zs-menu-active-color: #fff;
+  
+
+  
 }
