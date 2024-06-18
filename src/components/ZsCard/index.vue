@@ -1,6 +1,6 @@
 <template>
   <div class="zs-card">
-    <div class="header" :style="headerStyle">
+    <div class="header" :style="headerStyle" v-if="showHeader">
       <div class="left">
         <ZsIcon v-if="icon" :icon="icon" />
         <div v-if="!icon" class="section-divider"></div>
@@ -17,6 +17,7 @@
 const props = defineProps({
   icon: {
     type: String,
+
     default: '',
   },
   title: {
@@ -28,6 +29,10 @@ const props = defineProps({
     default: false,
   },
   border: {
+    type: Boolean,
+    default: true,
+  },
+  showHeader: {
     type: Boolean,
     default: true,
   },
