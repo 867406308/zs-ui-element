@@ -41,6 +41,7 @@
           </el-header>
           <el-main>
             <el-table
+              class="table"
               :data="tableData"
               border
               @row-click="handleClick"
@@ -111,3 +112,8 @@ defineExpose({
   props,
 });
 </script>
+<style lang="scss" scoped>
+.zs-table {
+  height: 100% !important;
+}
+</style>

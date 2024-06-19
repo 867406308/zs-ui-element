@@ -90,44 +90,81 @@
           />
         </el-col>
       </el-form-item>
-      <el-form-item label="管理部门" prop="manageOrgId">
-        <el-tree-select
-          v-model="assetsInfoForm.manageOrgId"
-          :data="deptTree"
-          check-strictly
-          :props="{
-            label: 'deptName',
-            value: 'sysDeptId',
-            children: 'children',
-          }"
-          style="width: 100%"
-          placeholder="请选择管理部门"
-          clearable
-        />
-      </el-form-item>
-      <el-form-item label="使用部门" prop="useOrgId">
-        <el-tree-select
-          v-model="assetsInfoForm.useOrgId"
-          :data="deptTree"
-          check-strictly
-          :props="{
-            label: 'deptName',
-            value: 'sysDeptId',
-            children: 'children',
-          }"
-          style="width: 100%"
-          placeholder="请选择使用部门"
-          clearable
-        />
-      </el-form-item>
-      <el-form-item label="使用人" prop="useUserId">
-        <zs-user
-          :sysUserId="assetsInfoForm.useUserId"
-          :realName="useUserName"
-          @onClick="handleOnClick"
-          @onClear="handleOnClear"
-        />
-      </el-form-item>
+      <el-row :gutter="20">
+        <el-col :xl="12" :lg="12" :md="12" :sm="24" :xs="24">
+          <el-form-item label="管理部门" prop="manageOrgId">
+            <el-tree-select
+              v-model="assetsInfoForm.manageOrgId"
+              :render-after-expand="false"
+              :data="deptTree"
+              :props="{
+                label: 'deptName',
+                value: 'sysDeptId',
+                children: 'children',
+              }"
+              style="width: 100%"
+              placeholder="请选择管理部门"
+              @change="useAssetsInfoStore.changeManageOrg"
+              clearable
+            />
+          </el-form-item>
+        </el-col>
+        <el-col :xl="12" :lg="12" :md="12" :sm="24" :xs="24">
+          <el-form-item label="管理部门负责人" prop="manageUserId">
+            <el-select
+              v-model="assetsInfoForm.manageUserId"
+              placeholder="请选择管理部门负责人"
+              style="width: 100%"
+              clearable
+            >
+              <el-option
+                v-for="item in manageUserList"
+                :key="item.sysUserId"
+                :label="item.realName"
+                :value="item.sysUserId"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :xl="12" :lg="12" :md="12" :sm="24" :xs="24">
+          <el-form-item label="使用部门" prop="useOrgId">
+            <el-tree-select
+              v-model="assetsInfoForm.useOrgId"
+              :data="deptTree"
+              :render-after-expand="false"
+              check-strictly
+              :props="{
+                label: 'deptName',
+                value: 'sysDeptId',
+                children: 'children',
+              }"
+              style="width: 100%"
+              placeholder="请选择使用部门"
+              @change="useAssetsInfoStore.changeUseOrg"
+              clearable
+            />
+          </el-form-item>
+        </el-col>
+        <el-col :xl="12" :lg="12" :md="12" :sm="24" :xs="24">
+          <el-form-item label="使用人" prop="useUserId">
+            <el-select
+              v-model="assetsInfoForm.useUserId"
+              placeholder="请选择管理部门负责人"
+              style="width: 100%"
+              clearable
+            >
+              <el-option
+                v-for="item in useUserList"
+                :key="item.sysUserId"
+                :label="item.realName"
+                :value="item.sysUserId"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
       <el-form-item label="存放位置" prop="storageLocationDescription">
         <el-input
           v-model="assetsInfoForm.storageLocationDescription"
@@ -184,6 +221,8 @@ const {
   inDate,
   classicIds,
   deptTree,
+  manageUserList,
+  useUserList,
 } = storeToRefs(useAssetsInfoStore);
 
 onMounted(() => {

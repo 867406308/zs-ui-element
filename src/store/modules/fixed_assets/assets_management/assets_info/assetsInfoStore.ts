@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import { queryAssetsInfoPage } from '@/api/fixed_assets/info';
 import { getClassifySchoolTree } from '@/api/fixed_assets/classifySchool';
 import { getDeptTree } from '@/api/sys/dept';
+import { getUserList } from '@/api/sys/user';
 import { userStore } from '@/store/modules/sys/user/userStore';
 
 export const assetsInfoStore = defineStore('assetsInfo', {
@@ -26,6 +27,7 @@ export const assetsInfoStore = defineStore('assetsInfo', {
         priceStart: 0,
         priceEnd: 0,
         manageOrgId: '',
+        manageUserId: '',
         useOrgId: '',
         useUserId: '',
         storageLocationDescription: '',
@@ -43,6 +45,8 @@ export const assetsInfoStore = defineStore('assetsInfo', {
       inDate: '',
       useUserName: '',
       selectedAssetsInfoList: [],
+      manageUserList: [],
+      useUserList: [],
     };
   },
   actions: {
@@ -136,7 +140,30 @@ export const assetsInfoStore = defineStore('assetsInfo', {
         this.initStockInForm();
       }
     },
+    // 管理部门change
+    async changeManageOrg(row: any) {
+      if (row) {
+        const data = await getUserList({ sysDeptId: row });
+        this.manageUserList = data?.data ?? [];
+        this.assetsInfoForm.manageUserId = '';
+      } else {
+        this.manageUserList = [];
+        this.assetsInfoForm.manageUserId = '';
+      }
+    },
 
+    // 使用部门change
+    async changeUseOrg(row: any) {
+      console.log('change', row);
+      if (row) {
+        const data = await getUserList({ sysDeptId: row });
+        this.useUserList = data?.data ?? [];
+        this.assetsInfoForm.useUserId = '';
+      } else {
+        this.useUserList = [];
+        this.assetsInfoForm.useUserId = '';
+      }
+    },
     initStockInForm() {
       if (this.assetsInfoStockInRef) {
         this.assetsInfoStockInRef.assetsInfoStockInForm.assetsInfoList =
@@ -146,7 +173,10 @@ export const assetsInfoStore = defineStore('assetsInfo', {
     },
     selectedInit() {
       console.log('abccba');
+      this.$reset();
       this.assetsInfoSelectedVisible = true;
+      this.querySysDeptTree();
+      this.queryData();
     },
   },
 });
