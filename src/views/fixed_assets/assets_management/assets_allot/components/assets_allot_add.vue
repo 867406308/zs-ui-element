@@ -11,6 +11,7 @@
       ref="ruleFormAddRef"
       label-width="auto"
       label-position="right"
+      :rules="rules"
     >
       <ZsSection title="基础信息">
         <el-row :gutter="20">
@@ -18,8 +19,8 @@
             <el-form-item label="转入管理部门" prop="manageOrgId">
               <el-tree-select
                 v-model="assetsAllotAddForm.manageOrgId"
+                :render-after-expand="false"
                 :data="deptTreeData"
-                check-strictly
                 :props="{
                   label: 'deptName',
                   value: 'sysDeptId',
@@ -28,6 +29,7 @@
                 style="width: 100%"
                 placeholder="请选择转入的管理部门"
                 @change="useAssetsAllotAddStore.changeManageOrg"
+                clearable
               />
             </el-form-item>
           </el-col>
@@ -54,8 +56,8 @@
             <el-form-item label="转入使用部门" prop="useOrgId">
               <el-tree-select
                 v-model="assetsAllotAddForm.useOrgId"
+                :render-after-expand="false"
                 :data="deptTreeData"
-                check-strictly
                 :props="{
                   label: 'deptName',
                   value: 'sysDeptId',
@@ -64,6 +66,7 @@
                 style="width: 100%"
                 placeholder="请选择转入使用部门"
                 @change="useAssetsAllotAddStore.changeUseOrg"
+                clearable
               />
             </el-form-item>
           </el-col>
@@ -82,6 +85,19 @@
                   :value="item.sysUserId"
                 ></el-option>
               </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col>
+            <el-form-item label="调拨原因" prop="reason">
+              <el-input
+                v-model="assetsAllotAddForm.reason"
+                :rows="2"
+                type="textarea"
+                placeholder="请输入资产调拨原因"
+                style="width: 100%"
+              />
             </el-form-item>
           </el-col>
         </el-row>
@@ -127,6 +143,8 @@
             label="管理部门负责人"
             width="150"
           />
+          <el-table-column prop="useOrgName" label="使用部门" width="200" />
+          <el-table-column prop="useUserName" label="使用人" width="150" />
           <el-table-column prop="entryDate" label="入账日期" width="120" />
           <el-table-column
             prop="buyPrice"
@@ -162,7 +180,10 @@
         </el-table>
       </ZsSection>
     </el-form>
-    <AssetsInfoSelected ref="assetsInfoSelectedRef" />
+    <AssetsInfoSelected
+      ref="assetsInfoSelectedRef"
+      @onSelected="handleSelected"
+    />
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="assetsAllotAddVisible = false">取消</el-button>
@@ -181,14 +202,22 @@
 <script lang="ts" setup>
 import AssetsInfoSelected from '@/views/fixed_assets/assets_management/assets_info/components/assets_info_selected.vue';
 import { assetsAllotAddStore } from '@/store/modules/fixed_assets/assets_management/assets_allot/assetsAllotAddStore';
-import { init } from 'echarts/types/src/echarts.all.js';
 import { storeToRefs } from 'pinia';
-import { loginStore } from '@/store/modules/common/loginStore';
 
-const allotDate = ref(new Date());
-
-const useLoginStore = loginStore();
-const { realName } = useLoginStore;
+const rules = {
+  manageOrgId: [
+    { required: true, message: '请选择转入管理部门', trigger: 'blur' },
+  ],
+  manageUserId: [
+    { required: true, message: '请选择转入管理部门负责人', trigger: 'blur' },
+  ],
+  useOrgId: [
+    { required: true, message: '请选择转入使用部门', trigger: 'blur' },
+  ],
+  useUserId: [{ required: true, message: '请选择转入使用人', trigger: 'blur' }],
+  assetsInfoData: [{ required: true, message: '请选择资产', trigger: 'blur' }],
+  reason: [{ required: true, message: '请输入调拨原因', trigger: 'blur' }],
+};
 const priceFormatter = (row: any) => {
   return row.buyPrice ? row.buyPrice.toFixed(2) : 0;
 };
@@ -206,6 +235,10 @@ const {
 } = storeToRefs(useAssetsAllotAddStore);
 
 const emits = defineEmits(['query-data']);
+
+const handleSelected = (data: any) => {
+  assetsInfoData.value = data;
+};
 
 defineExpose({
   init: useAssetsAllotAddStore.init,

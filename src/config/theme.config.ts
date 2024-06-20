@@ -8,5 +8,5 @@ export const themeConfig = {
   // 是否开启标签页的显示
   tabs: true,
   // 主题色
-  color: '#409EFF',
+  color: '#009688',
 };

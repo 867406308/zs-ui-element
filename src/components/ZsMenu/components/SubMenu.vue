@@ -46,7 +46,6 @@ const props = defineProps({
 });
 // 跳转路由
 const routerChild = (menu) => {
-  console.log('menu    ', menu);
   useTabsStore.addCurrentTabsList(menu);
 };
 // routepath 为当前菜单的path值

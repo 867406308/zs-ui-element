@@ -4,6 +4,7 @@ import { getClassifySchoolTree } from '@/api/fixed_assets/classifySchool';
 import { getDeptTree } from '@/api/sys/dept';
 import { getUserList } from '@/api/sys/user';
 import { userStore } from '@/store/modules/sys/user/userStore';
+import { ElTable } from 'element-plus';
 
 export const assetsInfoStore = defineStore('assetsInfo', {
   state: () => {
@@ -13,7 +14,7 @@ export const assetsInfoStore = defineStore('assetsInfo', {
       assetsInfoQueryRef: ref<HTMLFormElement | null>(null),
       assetsInfoCardRef: ref<HTMLFormElement | null>(null),
       assetsInfoStockInRef: ref<HTMLFormElement | null>(null),
-      assetsInfoSelectedVisible: false,
+      assetsInfoTableRef: ref<InstanceType<typeof ElTable>>(),
       advancedQueryVisible: false,
       tableData: [],
       loading: false,
@@ -123,6 +124,11 @@ export const assetsInfoStore = defineStore('assetsInfo', {
     handleSelectionChange(val: any) {
       this.selectedAssetsInfoList = val;
     },
+    // onSelected(emits: any) {
+    //   console.log('onSelected', this.selectedAssetsInfoList);
+    //   emits('onSelected', this.selectedAssetsInfoList);
+    //   this.assetsInfoSelectedVisible = false;
+    // },
     // 资产入库
     handleStockIn(row: any) {
       const saveState = this.selectedAssetsInfoList.filter(
@@ -154,7 +160,6 @@ export const assetsInfoStore = defineStore('assetsInfo', {
 
     // 使用部门change
     async changeUseOrg(row: any) {
-      console.log('change', row);
       if (row) {
         const data = await getUserList({ sysDeptId: row });
         this.useUserList = data?.data ?? [];
@@ -172,11 +177,35 @@ export const assetsInfoStore = defineStore('assetsInfo', {
       }
     },
     selectedInit() {
-      console.log('abccba');
-      this.$reset();
-      this.assetsInfoSelectedVisible = true;
-      this.querySysDeptTree();
-      this.queryData();
+      // if (this.assetsInfoTableRef) {
+      //   console.log('a', this.selectedAssetsInfoList);
+      //   console.log('aa', this.assetsInfoTableRef);
+      //   this.assetsInfoTableRef.clearSelection();
+      // }
     },
+    // selectedInit() {
+    //   console.log('a', this.selectedAssetsInfoList);
+    //   // this.$reset();
+    //   // 设置选中
+    //   // this.selectedAssetsInfoList.forEach((row: any) => {
+    //   //   this.assetsInfoTableRef!.toggleRowSelection(row, undefined);
+    //   // });
+    //   console.log('ref', this.assetsInfoTableRef);
+    //   this.assetsInfoTableRef.clearSelection();
+    //   if (this.selectedAssetsInfoList) {
+    //     console.log('vvv');
+    //     this.selectedAssetsInfoList.forEach((row) => {
+    //       this.assetsInfoTableRef.toggleRowSelection(row, true);
+    //     });
+    //   } else {
+    //     console.log('eeee');
+    //     this.assetsInfoTableRef.clearSelection();
+    //   }
+
+    //   console.log('b', this.selectedAssetsInfoList);
+    //   this.assetsInfoSelectedVisible = true;
+    //   this.querySysDeptTree();
+    //   this.queryData();
+    // },
   },
 });

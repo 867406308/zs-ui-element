@@ -1,6 +1,7 @@
 <template>
   <el-container>
     <el-table
+      ref="assetsInfoTableRef"
       class="table-style"
       :data="tableData"
       style="width: 100%"
@@ -96,7 +97,6 @@
         @size-change="useAssetsInfoStore.handleSizeChange"
       />
     </el-footer>
-
     <assets-info-card ref="assetsInfoCardRef" />
   </el-container>
 </template>
@@ -105,11 +105,35 @@ import AssetsInfoCard from './assets_info_card.vue';
 import { storeToRefs } from 'pinia';
 import { assetsInfoStore } from '@/store/modules/fixed_assets/assets_management/assets_info/assetsInfoStore';
 const useAssetsInfoStore = assetsInfoStore();
-const { loading, tableData, total, assetsInfoForm, assetsInfoCardRef } =
-  storeToRefs(useAssetsInfoStore);
+const {
+  loading,
+  tableData,
+  total,
+  assetsInfoForm,
+  assetsInfoCardRef,
+  selectedAssetsInfoList,
+} = storeToRefs(useAssetsInfoStore);
 const priceFormatter = (row: any) => {
   return row.buyPrice ? row.buyPrice.toFixed(2) : 0;
 };
+const assetsInfoTableRef = ref<InstanceType<typeof ElTable>>();
+
+const toggleSelection = (rows?: any[]) => {
+  if (rows) {
+    rows.forEach((row) => {
+      assetsInfoTableRef.value!.toggleRowSelection(row, true);
+    });
+  } else {
+    assetsInfoTableRef.value!.clearSelection();
+  }
+};
+
+defineExpose({
+  toggle: toggleSelection,
+  clearSelection() {
+    assetsInfoTableRef.value!.clearSelection();
+  },
+});
 </script>
 <style lang="scss" scoped>
 .table-style {

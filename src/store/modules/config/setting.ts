@@ -1,6 +1,7 @@
 import theme from 'echarts/types/src/theme/dark.js';
 import { defineStore } from 'pinia';
 import { themeConfig } from '@/config/theme.config.ts';
+import { getDarkColor, getLightColor } from '@/utils/theme';
 
 export const settingStore = defineStore('setting', {
   state: () => {
@@ -33,6 +34,16 @@ export const settingStore = defineStore('setting', {
       getComputedStyle(el).getPropertyValue(`--zs-color-primary`);
       // 设置 css 变量
       el.style.setProperty('--zs-color-primary', color);
+      el.style.setProperty(
+        '--zs-color-primary-dark-2',
+        `${getDarkColor(color, 0.1)}`,
+      );
+      for (let i = 1; i <= 9; i++) {
+        el.style.setProperty(
+          `--zs-color-primary-light-${i}`,
+          `${getLightColor(color, i / 10)}`,
+        );
+      }
       this.theme.color = color;
     },
     // 面包屑
@@ -60,6 +71,16 @@ export const settingStore = defineStore('setting', {
       getComputedStyle(el).getPropertyValue(`--zs-color-primary`);
       // 设置 css 变量
       el.style.setProperty('--zs-color-primary', this.theme.color);
+      el.style.setProperty(
+        '--zs-color-primary-dark-2',
+        `${getDarkColor(this.theme.color, 0.1)}`,
+      );
+      for (let i = 1; i <= 9; i++) {
+        el.style.setProperty(
+          `--zs-color-primary-light-${i}`,
+          `${getLightColor(this.theme.color, i / 10)}`,
+        );
+      }
     },
   },
 });

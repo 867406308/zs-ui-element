@@ -14,3 +14,11 @@ export function getById(id: string) {
     method: 'get',
   });
 }
+
+export function save(data: any) {
+  return request({
+    url: '/fixedAssets/assets/allot/save',
+    method: 'post',
+    data,
+  });
+}

@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { getUserList } from '@/api/sys/user';
 import { getDeptTree } from '@/api/sys/dept';
+import { save } from '@/api/fixed_assets/allot';
 
 export const assetsAllotAddStore = defineStore('assetsAllotAddStore', {
   state: () => {
@@ -17,6 +18,8 @@ export const assetsAllotAddStore = defineStore('assetsAllotAddStore', {
         useOrgId: '',
         // 使用人
         useUserId: '',
+        // 调拨原因
+        reason: '',
       },
       manageUserList: [] as any[],
       useUserList: [] as any[],
@@ -55,7 +58,6 @@ export const assetsAllotAddStore = defineStore('assetsAllotAddStore', {
     },
     // 打开资产选择框
     openAssetsInfoSelect() {
-      console.log('打开资产选择框');
       if (this.assetsInfoSelectedRef) {
         this.assetsInfoSelectedRef.init();
       }
@@ -71,7 +73,10 @@ export const assetsAllotAddStore = defineStore('assetsAllotAddStore', {
         if (valid) {
           try {
             this.submitLoading = true;
-            const res = await add(this.assetsAllotAddForm);
+            const form = this.convertData();
+
+            console.log('form', form);
+            const res = await save(form);
             if (res) {
               this.assetsAllotAddVisible = false;
               emits('query-data');
@@ -83,6 +88,31 @@ export const assetsAllotAddStore = defineStore('assetsAllotAddStore', {
           console.log('error submit!', fields);
         }
       });
+    },
+
+    convertData() {
+      const newDetails = this.assetsInfoData.map((item) => {
+        return {
+          assetsSerialNo: item.serialNo,
+          originalUseOrgId: item.useOrgId,
+          originalUseUserId: item.useUserId,
+          originalManageOrgId: item.manageOrgId,
+          originalManageUserId: item.manageUserId,
+          originalStorageLocation: item.storageLocationDescription,
+          currentUseOrgId: this.assetsAllotAddForm.useOrgId,
+          currentUseUserId: this.assetsAllotAddForm.useUserId,
+          currentManageOrgId: this.assetsAllotAddForm.manageOrgId,
+          currentManageUserId: this.assetsAllotAddForm.manageUserId,
+          currentStorageLocation: item.storageLocationDescription,
+        };
+        return newDetails;
+      });
+      const dataForm = {
+        reason: this.assetsAllotAddForm.reason,
+        assetsAllotDetails: newDetails ?? [],
+      };
+
+      return dataForm;
     },
   },
 });

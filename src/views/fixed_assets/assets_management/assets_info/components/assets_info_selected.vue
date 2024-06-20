@@ -80,7 +80,6 @@
                   v-model="assetsInfoForm.useOrgId"
                   :data="deptTree"
                   :render-after-expand="false"
-                  check-strictly
                   :props="{
                     label: 'deptName',
                     value: 'sysDeptId',
@@ -108,30 +107,28 @@
                 </el-select>
               </el-form-item>
               <el-form-item>
+                <el-button type="primary" @click="useAssetsInfoStore.queryData">
+                  查询
+                </el-button>
                 <el-button
                   type="primary"
                   @click="useAssetsInfoStore.resetQueryForm(ruleFormRef)"
-                  >重置</el-button
                 >
-                <el-button type="primary" @click="useAssetsInfoStore.queryData"
-                  >查询</el-button
-                >
+                  重置
+                </el-button>
               </el-form-item>
             </el-form>
           </el-scrollbar>
         </el-aside>
         <el-main>
-          <AssetsInfoTable class="assets-info-table" />
+          <AssetsInfoTable class="assets-info-table" ref="tableRef" />
         </el-main>
       </el-container>
     </div>
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="assetsInfoSelectedVisible = false">取消</el-button>
-        <el-button
-          type="primary"
-          @click="useAssetsInfoStore.handleSelectionChange"
-        >
+        <el-button type="primary" @click="handleSelected()">
           确认选中
         </el-button>
       </span>
@@ -141,23 +138,41 @@
 <script lang="ts" setup>
 import AssetsInfoTable from '@/views/fixed_assets/assets_management/assets_info/components/assets_info_table.vue';
 import { assetsInfoStore } from '@/store/modules/fixed_assets/assets_management/assets_info/assetsInfoStore';
+import { assetsInfoSelectedStore } from '@/store/modules/fixed_assets/assets_management/assets_info/assetsInfoSelectedStore';
 import { storeToRefs } from 'pinia';
+
+const fullscreen = ref(false);
+
 const useAssetsInfoStore = assetsInfoStore();
 const {
-  assetsInfoSelectedVisible,
   assetsInfoForm,
   deptTree,
   useUserList,
   manageUserList,
   ruleFormRef,
+  selectedAssetsInfoList,
 } = storeToRefs(useAssetsInfoStore);
 
-const emits = defineEmits(['selected-change']);
-defineExpose({
-  init: useAssetsInfoStore.selectedInit,
+const useAssetsInfoSelectedStore = assetsInfoSelectedStore();
+const { assetsInfoSelectedVisible, tableRef, assetsInfoSelectedData } =
+  storeToRefs(useAssetsInfoSelectedStore);
+
+const emits = defineEmits(['onSelected']);
+
+onMounted(() => {
+  useAssetsInfoStore.queryData();
+  useAssetsInfoStore.querySysDeptTree();
 });
 
-const fullscreen = ref(false);
+const handleSelected = () => {
+  assetsInfoSelectedData.value = selectedAssetsInfoList.value;
+  emits('onSelected', selectedAssetsInfoList.value);
+  assetsInfoSelectedVisible.value = false;
+};
+
+defineExpose({
+  init: useAssetsInfoSelectedStore.init,
+});
 </script>
 <style lang="scss" scoped>
 .my-header {

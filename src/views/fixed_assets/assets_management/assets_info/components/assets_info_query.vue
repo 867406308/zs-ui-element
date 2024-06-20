@@ -134,7 +134,6 @@
               v-model="assetsInfoForm.useOrgId"
               :data="deptTree"
               :render-after-expand="false"
-              check-strictly
               :props="{
                 label: 'deptName',
                 value: 'sysDeptId',
