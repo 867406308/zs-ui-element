@@ -88,7 +88,7 @@
                 >
                 <el-tag
                   v-if="scope.row.status === 1"
-                  type="success"
+                  type="primary"
                   effect="dark"
                   label="启用"
                   >启用</el-tag

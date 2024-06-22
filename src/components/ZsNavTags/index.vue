@@ -15,8 +15,9 @@
         :closable="item.name !== 'home'"
       >
         <template #label>
-          <div class="nav-tabs-label">
-            <div>
+          <div class="nav-tabs-body">
+            <div class="nav-tabs-content">
+              <ZsIcon :icon="item.icon" v-if="theme.tabsIcon" />
               <span> {{ item.title }}</span>
             </div>
           </div>
@@ -49,10 +50,17 @@
 <script lang="ts" setup>
 import { Close, Back, Right } from '@element-plus/icons-vue';
 import { tabsStore } from '@/store/modules/common/tabs';
+import { settingStore } from '@/store/modules/config/setting';
 import { storeToRefs } from 'pinia';
+
 const useTabsStore = tabsStore();
 const { currentTabsList, currentTabs } = storeToRefs(useTabsStore);
+
+const useSettingStore = settingStore();
+const { theme } = storeToRefs(useSettingStore);
+
 const router = useRouter();
+
 const handleTabsClick = (tab: any, event: Event) => {
   sessionStorage.setItem('currentTabs', tab.props.name);
   const tabsList = currentTabsList.value.filter((item) => {
@@ -119,12 +127,10 @@ onBeforeMount(() => {
 .nav-tabs {
   padding-left: 20px;
   height: 40px;
-  // background-color: #fff;
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid var(--zs-border-color);
-  // box-shadow: 0 1px 4px #00152914;
 
   .zs-tabs {
     width: calc(100% - 60px);
@@ -167,12 +173,14 @@ onBeforeMount(() => {
         padding-left: 20px !important;
         padding-right: 20px !important;
 
-        .nav-tabs-label {
-          display: flex;
-          align-items: center;
+        .nav-tabs-body {
+          .nav-tabs-content {
+            display: flex;
+            align-items: center;
 
-          .svg-icon {
-            margin-right: 5px;
+            .svg-icon {
+              margin-right: 5px;
+            }
           }
         }
 

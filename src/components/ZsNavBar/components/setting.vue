@@ -62,6 +62,17 @@
         <el-switch v-model="theme.tabs" @change="changeTabs" />
       </template>
     </ZsToolbar>
+    <ZsToolbar>
+      <template #left>
+        <el-text>是否开启多标签图标</el-text>
+      </template>
+      <template #right>
+        <el-switch
+          v-model="theme.tabsIcon"
+          @change="useSettingStore.changeTabsIcons"
+        />
+      </template>
+    </ZsToolbar>
     <template #footer>
       <span class="dialog-footer">
         <el-button type="primary" @click="useSettingStore.saveTheme">

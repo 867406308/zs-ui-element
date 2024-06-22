@@ -62,7 +62,7 @@
               >
               <el-tag
                 v-if="scope.row.status === 1"
-                type="success"
+                type="primary"
                 label="启用"
                 effect="dark"
                 >启用</el-tag

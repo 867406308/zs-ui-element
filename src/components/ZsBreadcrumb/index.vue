@@ -7,7 +7,10 @@
     <div class="nav-breadcrumb">
       <el-breadcrumb separator="/">
         <el-breadcrumb-item v-for="item in routeList">
-          {{ item.meta.title }}
+          <div class="breadcrumb-item">
+            <ZsIcon :icon="item.meta.icon" size="14px" />
+            <span>{{ item.meta.title }}</span>
+          </div>
         </el-breadcrumb-item>
       </el-breadcrumb>
     </div>
@@ -50,6 +53,15 @@ onMounted(() => {
   }
   .nav-breadcrumb {
     margin-left: 10px;
+
+    .breadcrumb-item {
+      display: flex;
+      align-items: center;
+
+      .svg-icon {
+        margin-right: 5px;
+      }
+    }
   }
 }
 </style>

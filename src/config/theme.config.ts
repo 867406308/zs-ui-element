@@ -7,6 +7,10 @@ export const themeConfig = {
   breadcrumb: true,
   // 是否开启标签页的显示
   tabs: true,
+  // 是否开启标签页图标显示
+  tabsIcon: true,
   // 主题色
-  color: '#009688',
+  color: '#16A085',
+  // 是否开启色弱模式
+  colorWeak: false,
 };

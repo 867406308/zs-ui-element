@@ -54,6 +54,9 @@ export const settingStore = defineStore('setting', {
     changeTabs(tabs: boolean) {
       this.theme.tabs = tabs;
     },
+    changeTabsIcons(tabsIcons: boolean) {
+      this.theme.tabsIcons = tabsIcons;
+    },
     saveTheme() {
       localStorage.setItem('themeConfig', JSON.stringify(this.theme));
       this.settingVisible = false;
