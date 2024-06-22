@@ -65,14 +65,6 @@
           </template>
           <template #right>
             <el-space>
-              <el-input
-                v-model="form.title"
-                placeholder="请输入资产名称"
-                class="input-with-select"
-                clearable
-                @blur="useNoticeStore.queryData()"
-              >
-              </el-input>
               <el-button-group class="ml-4">
                 <el-button :icon="Grid" />
                 <el-button :icon="FullScreen" />

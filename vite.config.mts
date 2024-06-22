@@ -40,9 +40,7 @@ export default defineConfig({
         ElementPlusResolver(),
         // Auto import icon components
         // 自动导入图标组件
-        IconsResolver({
-          prefix: 'Icon',
-        }),
+        IconsResolver(),
       ],
     }),
     Components({
@@ -53,9 +51,7 @@ export default defineConfig({
       include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
       resolvers: [
         // 自动注册图标组件
-        IconsResolver({
-          enabledCollections: ['ep'],
-        }),
+        IconsResolver(),
         ElementPlusResolver({
           importStyle: 'sass',
         }),
@@ -63,21 +59,8 @@ export default defineConfig({
       dts: path.resolve(pathSrc, 'typings', 'components.d.ts'),
     }),
     Icons({
+      compiler: 'vue3', // 指定编译器
       autoInstall: true,
-      compiler: 'vue3',
-      // 自动安装
-      // autoInstall: true,
-      // 自定义svg图标
-      customCollections: {
-        // 这里是存放svg图标的文件地址，custom是自定义图标库的名称
-        // custom: FileSystemIconLoader('./src/assets/icons'),
-        custom: FileSystemIconLoader('./src/assets/icons.json', (svg) =>
-          svg.svg.replace(/^<svg /, '<svg fill="currentColor" '),
-        ),
-      },
-      iconCustomizer(collection, icon, props) {
-        const name = `${collection}:${icon}`;
-      },
     }),
   ],
   // 服务配置

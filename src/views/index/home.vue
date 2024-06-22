@@ -2,6 +2,7 @@
   <!-- 欢迎卡 -->
   <el-row :gutter="10">
     <el-col :span="24">
+      <!-- <ZsSelectIcon></ZsSelectIcon> -->
       <WelcomeCard />
     </el-col>
   </el-row>

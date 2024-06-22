@@ -15,9 +15,9 @@
         <el-col>
           <el-form-item label="菜单类型">
             <el-radio-group v-model="form.type">
-              <el-radio :label="1">目录</el-radio>
-              <el-radio :label="2">菜单</el-radio>
-              <el-radio :label="3">按钮</el-radio>
+              <el-radio :value="1">目录</el-radio>
+              <el-radio :value="2">菜单</el-radio>
+              <el-radio :value="3">按钮</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
@@ -86,32 +86,21 @@
       <el-row>
         <el-col v-if="form.type === 1 || form.type === 2">
           <el-form-item label="图标" prop="icon">
-            <el-popover
-              ref="popoverRef"
-              popper-class="my-popover"
-              :show-arrow="false"
-              width="400px"
-              placement="top-start"
-              trigger="click"
+            <el-input
+              v-model="form.icon"
+              style="width: 100%"
+              placeholder="请选择图标"
+              :readonly="true"
             >
-              <template #reference>
-                <el-input
-                  v-model="form.icon"
-                  style="width: 100%"
-                  placeholder="请选择图标"
+              <template #append>
+                <el-button type="primary" @click="openIconDialog"
+                  >选择</el-button
                 >
-                </el-input>
               </template>
-              <template #default>
-                <ZsSelectIcon
-                  @onClick="useMenuAddOrEditStore.click"
-                ></ZsSelectIcon>
-              </template>
-            </el-popover>
+            </el-input>
           </el-form-item>
         </el-col>
       </el-row>
-
       <el-row>
         <el-col v-if="form.type === 3">
           <el-form-item label="权限" prop="permissions">
@@ -141,6 +130,7 @@
       </span>
     </template>
   </el-drawer>
+  <ZsSelectIcon ref="selectIconRef" @on-change="(val) => (form.icon = val)" />
 </template>
 <script lang="ts" setup>
 import { menuAddOrEditStore } from '@/store/modules/sys/menu/menuAddOrEditStore';
@@ -149,6 +139,10 @@ const useMenuAddOrEditStore = menuAddOrEditStore();
 const { dialogFormVisible, formRef, popoverRef, form, treeData } = storeToRefs(
   useMenuAddOrEditStore,
 );
+const selectIconRef = ref();
+const openIconDialog = () => {
+  selectIconRef.value.visible = true;
+};
 const emits = defineEmits(['query-data']);
 defineExpose({
   form,

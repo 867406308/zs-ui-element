@@ -61,6 +61,22 @@ code {
   --zs-table-header-text-color: var(--zs-text-color-primary) !important;
 }
 
+.zs-dialog {
+  padding: 0 !important;
+
+  .zs-dialog__header{
+    padding: var(--zs-dialog-padding-primary);
+    border-bottom: 1px solid var(--zs-border-color) !important;
+  }
+  .zs-dialog__body{
+    padding: var(--zs-dialog-padding-primary);
+  }
+  .zs-dialog__footer{
+    padding: var(--zs-dialog-padding-primary);
+    border-top: 1px solid var(--zs-border-color) !important;
+  }
+}
+
 .zs-dialog.is-fullscreen{
   .zs-dialog__header{
     height: 40px;
