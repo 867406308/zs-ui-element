@@ -45,7 +45,7 @@
           <el-table-column
             prop="serialNo"
             label="调拨单号"
-            width="100"
+            width="200"
             fixed="left"
           />
           <el-table-column
@@ -90,7 +90,10 @@
     </el-container>
   </div>
   <AssetsAllotDetails ref="assetsAllotDetailsRef" />
-  <AssetsAllotAdd ref="assetsAllotAddRef" />
+  <AssetsAllotAdd
+    ref="assetsAllotAddRef"
+    @query-data="useAssetsAllotStore.queryData()"
+  />
 </template>
 <script lang="ts" setup>
 import AssetsAllotAdd from './components/assets_allot_add.vue';

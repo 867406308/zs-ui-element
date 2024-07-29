@@ -75,7 +75,7 @@
           width="200"
           show-overflow-tooltip
         />
-        <el-table-column prop="entryDate" label="入库日期" width="100" />
+        <el-table-column prop="entryDate" label="入库日期" width="120" />
         <el-table-column prop="manageOrgName" label="管理部门" width="200" />
         <el-table-column prop="manageUserName" label="管理人员" width="100" />
         <el-table-column
@@ -92,16 +92,20 @@
         />
       </el-table>
       <ZsGap />
-      <el-pagination
-        background
-        :current-page="scrapDetailsFrom.page"
-        layout="total, sizes, prev, pager, next"
-        :page-size="scrapDetailsFrom.size"
-        :total="total"
-        @current-change="useAssetsScrapDetailsStore.handleCurrentChange"
-        @size-change="useAssetsScrapDetailsStore.handleSizeChange"
-      />
     </ZsSection>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-pagination
+          background
+          :current-page="scrapDetailsFrom.page"
+          layout="total, prev, pager, next,  sizes"
+          :page-size="scrapDetailsFrom.size"
+          :total="total"
+          @current-change="useAssetsScrapDetailsStore.handleCurrentChange"
+          @size-change="useAssetsScrapDetailsStore.handleSizeChange"
+        />
+      </span>
+    </template>
   </el-drawer>
 </template>
 <script lang="ts" setup>

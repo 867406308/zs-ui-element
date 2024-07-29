@@ -160,6 +160,7 @@ const { assetsInfoSelectedVisible, tableRef, assetsInfoSelectedData } =
 const emits = defineEmits(['onSelected']);
 
 onMounted(() => {
+  assetsInfoForm.value.saveState = 1;
   useAssetsInfoStore.queryData();
   useAssetsInfoStore.querySysDeptTree();
 });

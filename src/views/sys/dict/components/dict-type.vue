@@ -1,12 +1,23 @@
 <template>
   <el-aside>
-    <el-button
-      type="primary"
-      @click="useDictTypeStore.handleAddOrEdit"
-      style="width: 100%; margin-bottom: 8px"
-    >
-      新增字典类型
-    </el-button>
+    <el-space>
+      <el-input
+        v-model="form.dictName"
+        placeholder="请输入关键字进行过滤"
+        @keyup.enter="useDictTypeStore.dictTypeList"
+        @input="useDictTypeStore.dictTypeList"
+      >
+        <template #append>
+          <el-button :icon="Search" @click="useDictTypeStore.dictTypeList" />
+        </template>
+      </el-input>
+      <el-button text bg @click="useDictTypeStore.handleAddOrEdit()">
+        <template #icon>
+          <zsIcon icon="add" />
+        </template>
+      </el-button>
+    </el-space>
+    <ZsGap height="20" />
     <div class="custom-tree-node">
       <el-tree
         style="width: 100%"
@@ -22,17 +33,19 @@
           <div class="custom-tree-node">
             <div>{{ node.label }}</div>
             <div v-if="data.sysDictTypeId !== ''" class="operate">
-              <zsIcon
-                icon="edit"
-                color="#409eff"
+              <el-text
+                type="primary"
                 @click="useDictTypeStore.handleAddOrEdit(data)"
-              />
-              <zsIcon
+              >
+                编辑
+              </el-text>
+              <el-text
                 style="margin-left: 8px"
-                color="#F00000"
-                icon="delete"
+                type="danger"
                 @click="useDictTypeStore.handleDelete(data)"
-              />
+              >
+                删除
+              </el-text>
             </div>
           </div>
         </template>
@@ -45,6 +58,7 @@
   />
 </template>
 <script lang="ts" setup>
+import { Search } from '@element-plus/icons-vue';
 import DictTypeAddOrEdit from './dict-type-add-or-edit.vue';
 import { storeToRefs } from 'pinia';
 import { dictTypeStore } from '@/store/modules/sys/dict/dictTypeStore';
@@ -54,7 +68,7 @@ const defaultProps = {
   value: 'sysDictTypeId',
 };
 const useDictTypeStore = dictTypeStore();
-const { dictTypeTreeData, addEditRef, expandedKeys } =
+const { dictTypeTreeData, addEditRef, expandedKeys, form } =
   storeToRefs(useDictTypeStore);
 
 onMounted(() => {

@@ -7,13 +7,7 @@ import { getNav } from '@/api/sys/menu';
 import { convertRouter, generateRoutesFromData } from '@/utils/routes';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
-NProgress.configure({
-  easing: 'ease', // 动画方式
-  speed: 500, // 递增进度条的速度
-  showSpinner: false, // 是否显示加载ico
-  trickleSpeed: 200, // 自动递增间隔
-  minimum: 0.3, // 初始化时的最小百分比
-});
+
 const routers = [
   {
     path: '/login',
@@ -121,9 +115,12 @@ const router = createRouter({
   routes: routers,
 });
 const whiteList = ['/login', '/auth-redirect', '/bind', '/register'];
+
 router.beforeEach((to, from, next) => {
   // 每次切换页面时，调用进度条
+  NProgress.configure({ showSpinner: false });
   NProgress.start();
+
   if (hashToken()) {
     //toekn存在
     if (to.path == '/login') {

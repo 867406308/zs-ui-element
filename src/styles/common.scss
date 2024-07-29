@@ -1,13 +1,13 @@
 // tabs高度
 $tabs-height: 40px;
 // nav-bar高度
-$nav-height: 60px;
+$nav-height: 50px;
 // 左侧菜单栏高度
 $menu-left-height: calc(100vh - $nav-height);
 // 背景颜色
 $bg-color: #fff;
 // 左侧菜单栏背景色
-$menu-left-bg-color:  #161823;
+// $menu-left-bg-color:  #161823;
 // 导航栏背景色
 $nav-bg-color: #fff;// #282c34;
 // padding边距
@@ -17,14 +17,13 @@ $border-radius: 4px;
 // 头部容器高度
 $header-box-height: 50px;
 // 底部容器高度
-$footer-box-height: 40px;
+$footer-box-height: 50px;
 // 头部容器和中部容器间隔margin
 $header-margin-bottom: 10px;
-// 
+// 工具栏高度
 $zs-toolbar-height: 40px;
-// $zs-toolbar-magin-bottom: 5px;
 
-// 中部页面高度
-$app-main-height: calc(100vh - $nav-height - $tabs-height - $base-padding * 2);
-// 中部main容器高度
-$main-box-height: calc($app-main-height - $zs-toolbar-height - $footer-box-height - $base-padding * 2);
+// 页面高度
+$app-main-height: calc(100vh - $nav-height - $tabs-height - 20px);
+// 中部容器高度
+$main-box-height: calc($app-main-height - $header-box-height - $zs-toolbar-height - $footer-box-height - $base-padding * 2);

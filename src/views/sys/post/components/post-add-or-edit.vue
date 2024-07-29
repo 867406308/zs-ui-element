@@ -1,7 +1,7 @@
 <template>
   <el-drawer
     v-model="dialogFormVisible"
-    :title="!form.sysPostId ? '新增' : '修改'"
+    :title="!form.sysPostId ? '新增岗位' : '修改岗位'"
     @close="usePostAddOrEditStore.close"
     :close-on-click-modal="false"
   >
@@ -31,8 +31,8 @@
       </el-form-item>
       <el-form-item label="状态" prop="status">
         <el-radio-group v-model="form.status">
-          <el-radio :label="0">停用</el-radio>
-          <el-radio :label="1">正常</el-radio>
+          <el-radio :value="1">正常</el-radio>
+          <el-radio :value="0">禁用</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="备注" prop="remark">

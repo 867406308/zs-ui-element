@@ -1,6 +1,13 @@
 import { defineStore } from 'pinia';
-import { postPage, del, getList } from '@/api/sys/post.ts';
+import {
+  postPage,
+  del,
+  batchDel,
+  getList,
+  exportExcel,
+} from '@/api/sys/post.ts';
 import { getDeptTree } from '@/api/sys/dept.ts';
+import download from '@/utils/fileDownload';
 
 export const postStore = defineStore('post', {
   state: () => {
@@ -23,6 +30,7 @@ export const postStore = defineStore('post', {
         orderField: 'sort',
       },
       postList: [],
+      multipleSelection: [],
     };
   },
   actions: {
@@ -50,6 +58,24 @@ export const postStore = defineStore('post', {
         this.addEditRef.form.sysPostId = row?.sysPostId;
         this.addEditRef.init();
       }
+    },
+    // 选中事件
+    handleSelectionChange(val: any) {
+      this.multipleSelection = val;
+    },
+    // 批量删除
+    handleBatchDelete() {
+      ElMessageBox.confirm('您将进行批量删除操作,是否继续?', '温馨提示', {
+        confirmButtonText: '确认',
+        cancelButtonText: '取消',
+        type: 'warning',
+      })
+        .then(async () => {
+          const ids = this.multipleSelection.map((item: any) => item.sysPostId);
+          await batchDel(ids);
+          this.queryData();
+        })
+        .catch(() => {});
     },
     handleDelete(row: any) {
       if (row.sysPostId) {
@@ -85,6 +111,28 @@ export const postStore = defineStore('post', {
     handleNodeClick(data: any) {
       this.form.sysDeptId = data.sysDeptId;
       this.queryData();
+    },
+    // 排序
+    handleSortChange(data: { column: any; prop: string; order: any }) {
+      if (data.order === 'ascending') {
+        this.form.order = 'asc';
+        this.form.orderField = data.prop;
+      } else if (data.order === 'descending') {
+        this.form.order = 'desc';
+        this.form.orderField = data.prop;
+      } else {
+        this.form.order = 'asc';
+        this.form.orderField = 'sort';
+      }
+      this.queryData();
+    },
+    // 导出
+    async handleExport() {
+      const excelName = '岗位信息';
+      const data = await exportExcel({
+        excelName: excelName,
+      });
+      download.excel(data, excelName + '.xlsx');
     },
   },
 });

@@ -44,3 +44,20 @@ export function del(id: string) {
     method: 'delete',
   });
 }
+
+export function batchDel(data: any) {
+  return request({
+    url: '/system/sys/role',
+    method: 'delete',
+    data,
+  });
+}
+
+export function exportExcel(params: any) {
+  return request({
+    url: '/system/sys/role/export',
+    method: 'get',
+    params,
+    responseType: 'blob',
+  });
+}

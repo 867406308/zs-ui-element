@@ -1,5 +1,12 @@
 import { defineStore } from 'pinia';
-import { dictDataPage, getDictTypeList, dictDataDelete } from '@/api/sys/dict';
+import {
+  dictDataPage,
+  getDictTypeList,
+  dictDataDelete,
+  batchDel,
+  exportExcel,
+} from '@/api/sys/dict';
+import download from '@/utils/fileDownload';
 
 export const dictDataStore = defineStore('dictData', {
   state: () => {
@@ -13,10 +20,12 @@ export const dictDataStore = defineStore('dictData', {
         sysDictTypeId: '',
         dictType: '',
         dictLabel: '',
+        dictValue: '',
         status: 1,
         page: 1,
         size: 20,
       },
+      multipleSelection: [],
     };
   },
   actions: {
@@ -55,10 +64,52 @@ export const dictDataStore = defineStore('dictData', {
           .catch(() => {});
       }
     },
+    // 选中事件
+    handleSelectionChange(val: any) {
+      this.multipleSelection = val;
+    },
+    // 批量删除
+    handleBatchDelete() {
+      ElMessageBox.confirm('您将进行批量删除操作,是否继续?', '温馨提示', {
+        confirmButtonText: '确认',
+        cancelButtonText: '取消',
+        type: 'warning',
+      })
+        .then(async () => {
+          const ids = this.multipleSelection.map(
+            (item: any) => item.sysDictDataId,
+          );
+          await batchDel(ids);
+          this.queryData();
+        })
+        .catch(() => {});
+    },
     resetForm(formEl: FormInstance | undefined) {
       if (!formEl) return;
       formEl.resetFields();
       this.queryData();
+    },
+    // 排序
+    handleSortChange(data: { column: any; prop: string; order: any }) {
+      if (data.order === 'ascending') {
+        this.form.order = 'asc';
+        this.form.orderField = data.prop;
+      } else if (data.order === 'descending') {
+        this.form.order = 'desc';
+        this.form.orderField = data.prop;
+      } else {
+        this.form.order = 'asc';
+        this.form.orderField = 'sort';
+      }
+      this.queryData();
+    },
+    // 导出
+    async handleExport() {
+      const excelName = '字典信息';
+      const data = await exportExcel({
+        excelName: excelName,
+      });
+      download.excel(data, excelName + '.xlsx');
     },
   },
 });

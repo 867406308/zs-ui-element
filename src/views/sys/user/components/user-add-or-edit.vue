@@ -1,7 +1,7 @@
 <template>
   <el-drawer
     v-model="dialogFormVisible"
-    :title="!form.sysUserId ? '新增' : '修改'"
+    :title="titleType"
     @close="useUserAddOrEditStore.close"
     :close-on-click-modal="false"
     size="50%"
@@ -118,7 +118,7 @@
                 ref="deptRef"
                 v-model="form.sysDeptId"
                 :data="deptTree"
-                check-strictly
+                :render-after-expand="false"
                 :props="{
                   label: 'deptName',
                   value: 'sysDeptId',
@@ -184,8 +184,8 @@
           <el-col :xl="12" :lg="12">
             <el-form-item label="状态" prop="status">
               <el-radio-group v-model="form.status">
-                <el-radio :label="0">停用</el-radio>
-                <el-radio :label="1">正常</el-radio>
+                <el-radio :value="1">正常</el-radio>
+                <el-radio :value="0">停用</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
@@ -212,7 +212,7 @@
     </template>
   </el-drawer>
 </template>
-<script setup>
+<script setup lang="ts">
 import { userAddOrEditStore } from '@/store/modules/sys/user/userAddOrEditStore';
 import UserPostTable from './user-post-table.vue';
 import { storeToRefs } from 'pinia';
@@ -229,8 +229,22 @@ const {
   deptPostData,
 } = storeToRefs(useUserAddOrEditStore);
 
+const titleType = ref('新增');
+
 const emits = defineEmits(['query-data']);
+
+const changeTitle = (type: String) => {
+  if (type === 'add') {
+    titleType.value = '新增';
+  } else if (type === 'detail') {
+    titleType.value = '基本信息';
+  } else if (type === 'edit') {
+    titleType.value = '编辑';
+  }
+};
+
 onMounted(async () => {
+  // changeTitle();
   await useUserAddOrEditStore.getDeptList();
   await useUserAddOrEditStore.getRoleList();
 });
@@ -238,6 +252,7 @@ onMounted(async () => {
 defineExpose({
   init: useUserAddOrEditStore.init,
   form,
+  changeTitle: changeTitle,
 });
 </script>
 <style lang="scss" scoped>

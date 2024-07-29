@@ -65,7 +65,7 @@ const initEchars = () => {
         barWidth: '30%',
 
         itemStyle: {
-          color: '#409EFF',
+          color: getThemeColor(),
         },
 
         label: {

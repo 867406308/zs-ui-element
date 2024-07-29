@@ -94,11 +94,15 @@
           </el-table-column>
           <el-table-column prop="level" label="级别" width="120" align="center">
             <template #default="scope">
-              <el-tag v-if="scope.row.level === 1" effect="dark">普通</el-tag>
-              <el-tag v-if="scope.row.level === 2" type="warning" effect="dark">
+              <el-tag v-if="scope.row.level === 1" effect="plain">普通</el-tag>
+              <el-tag
+                v-if="scope.row.level === 2"
+                type="warning"
+                effect="plain"
+              >
                 一般
               </el-tag>
-              <el-tag v-if="scope.row.level === 3" type="danger" effect="dark">
+              <el-tag v-if="scope.row.level === 3" type="danger" effect="plain">
                 紧急
               </el-tag>
             </template>

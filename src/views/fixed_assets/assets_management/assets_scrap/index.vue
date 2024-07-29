@@ -2,40 +2,33 @@
   <div class="assets-info-container">
     <el-container>
       <el-header class="header-height">
-        <el-space :fill="true" style="width: 100%; margin-bottom: 8px">
-          <el-row justify="space-between">
-            <el-col :xl="12" :lg="12" :md="12" :sm="24">
-              <div>
-                <el-button
-                  type="primary"
-                  @click="useAssetsScrapStore.handleAdd"
-                  v-permission="'assets:info:save'"
-                  >新增报废</el-button
-                >
-              </div>
-            </el-col>
-            <el-col :xl="12" :lg="12" :md="12" :sm="24" class="form-right">
-              <el-space>
-                <el-input
-                  v-model="assetsScrapForm.serialNo"
-                  placeholder="请输入报废单号"
-                  class="input-with-select"
-                  clearable
-                  @clear="useAssetsScrapStore.queryData()"
-                >
-                  <template #append>
-                    <el-button
-                      :icon="Search"
-                      @click="useAssetsScrapStore.queryData()"
-                    />
-                  </template>
-                </el-input>
-              </el-space>
-            </el-col>
-          </el-row>
-        </el-space>
+        <el-form :inline="true" label-width="auto">
+          <el-form-item label="报废单号">
+            <el-input
+              v-model="assetsScrapForm.serialNo"
+              placeholder="请输入报废单号"
+            >
+            </el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="useAssetsScrapStore.queryData"
+              >查询</el-button
+            >
+            <el-button @click="useAssetsScrapStore.reset">重置</el-button>
+          </el-form-item>
+        </el-form>
       </el-header>
       <el-main>
+        <ZsToolbar>
+          <template #left>
+            <el-button
+              type="primary"
+              @click="useAssetsScrapStore.handleAdd"
+              v-permission="'assets:info:save'"
+              >新增报废</el-button
+            >
+          </template>
+        </ZsToolbar>
         <el-table
           class="table-style"
           :data="tableData"
@@ -136,8 +129,7 @@ onMounted(() => {
 });
 </script>
 <style lang="scss" scoped>
-.form-right {
-  display: flex;
-  justify-content: end;
+.zs-table {
+  height: calc($main-box-height - 60px) !important;
 }
 </style>

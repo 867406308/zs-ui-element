@@ -13,6 +13,30 @@
           placeholder="请输入资产名称"
         ></el-input>
       </el-form-item>
+      <el-form-item label="rfid编码" prop="rfid">
+        <el-input
+          v-model="assetsInfoForm.rfid"
+          placeholder="请输入rfid编码"
+        ></el-input>
+      </el-form-item>
+      <el-form-item label="发票号" prop="invoiceNumber">
+        <el-input
+          v-model="assetsInfoForm.invoiceNumber"
+          placeholder="请输入发票号"
+        ></el-input>
+      </el-form-item>
+      <el-form-item label="项目代码" prop="projectCode">
+        <el-input
+          v-model="assetsInfoForm.projectCode"
+          placeholder="请输入项目代码"
+        ></el-input>
+      </el-form-item>
+      <el-form-item label="会计凭证" prop="accountingVoucher">
+        <el-input
+          v-model="assetsInfoForm.accountingVoucher"
+          placeholder="请输入会计凭证"
+        ></el-input>
+      </el-form-item>
       <el-form-item label="资产编号" prop="code">
         <el-col :span="11">
           <el-input
@@ -40,6 +64,36 @@
           <el-option label="一级" value="1000"></el-option>
           <el-option label="二级" value="1001"></el-option>
           <el-option label="三级" value="1002"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="资产状态" prop="assetsStatusCode">
+        <el-select
+          v-model="assetsInfoForm.assetsStatusCode"
+          placeholder="请选择资产状态类别"
+          style="width: 100%"
+          clearable
+        >
+          <el-option
+            v-for="item in assetsInfoStatusList"
+            :key="item.sysDictDataId"
+            :label="item.dictLabel"
+            :value="item.dictValue"
+          ></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="资产使用状态" prop="useStatusCode">
+        <el-select
+          v-model="assetsInfoForm.useStatusCode"
+          placeholder="请选择资产使用状态"
+          style="width: 100%"
+          clearable
+        >
+          <el-option
+            v-for="item in assetsInfoUseStatusList"
+            :key="item.sysDictDataId"
+            :label="item.dictLabel"
+            :value="item.dictValue"
+          ></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="资产分类" prop="classicIdList">
@@ -222,12 +276,11 @@ const {
   deptTree,
   manageUserList,
   useUserList,
+  assetsInfoStatusList,
+  assetsInfoUseStatusList,
 } = storeToRefs(useAssetsInfoStore);
 
 onMounted(() => {
-  useAssetsInfoStore.queryClassifySchoolTree();
-  useAssetsInfoStore.querySysDeptTree();
-
   form.value.size = 5;
   useUserStore.queryData();
 });

@@ -2,43 +2,35 @@
   <div class="menu-container">
     <el-container>
       <el-main>
-        <el-space :fill="true" style="width: 100%; margin-bottom: 8px">
-          <el-row justify="space-between">
-            <el-col :xl="12" :lg="12" :md="12" :sm="24">
-              <div>
-                <el-button
-                  type="primary"
-                  v-permission="'sys:post:save'"
-                  @click="useMenuStore.handleAddOrEdit"
-                  >新增
-                </el-button>
-                <el-button
-                  type="primary"
-                  @click="useMenuStore.toggleExpand()"
-                  >{{ expand ? '收缩' : '展开' }}</el-button
-                >
-              </div>
-            </el-col>
-            <el-col :xl="12" :lg="12" :md="12" :sm="24" class="form-right">
-              <el-space>
-                <el-input
-                  v-model="form.title"
-                  placeholder="请输入菜单名称"
-                  class="input-with-select"
-                >
-                  <template #append>
-                    <el-button :icon="Search" @click="useMenuStore.queryData" />
-                  </template>
-                </el-input>
-              </el-space>
-            </el-col>
-          </el-row>
-        </el-space>
+        <ZsToolbar>
+          <template #left>
+            <el-button
+              type="primary"
+              v-permission="'sys:post:save'"
+              @click="useMenuStore.handleAddOrEdit"
+              :icon="Plus"
+              >新增菜单
+            </el-button>
+            <el-button type="primary" @click="useMenuStore.toggleExpand()">{{
+              expand ? '全部收缩' : '全部展开'
+            }}</el-button>
+          </template>
+          <template #right>
+            <el-input
+              v-model="form.title"
+              placeholder="请输入菜单名称"
+              class="input-with-select"
+            >
+              <template #append>
+                <el-button :icon="Search" @click="useMenuStore.queryData" />
+              </template>
+            </el-input>
+          </template>
+        </ZsToolbar>
         <el-table
           v-if="refreshTable"
           :data="tableData"
           row-key="id"
-          border
           :default-expand-all="expand"
           v-loading="loading"
         >
@@ -55,11 +47,11 @@
             align="center"
           >
             <template #default="scope">
-              <el-tag v-if="scope.row.type == 1" effect="dark">目录</el-tag>
-              <el-tag v-if="scope.row.type == 2" type="success" effect="dark"
+              <el-tag v-if="scope.row.type == 1" effect="plain">目录</el-tag>
+              <el-tag v-if="scope.row.type == 2" type="success" effect="plain"
                 >菜单</el-tag
               >
-              <el-tag v-if="scope.row.type == 3" type="warning" effect="dark"
+              <el-tag v-if="scope.row.type == 3" type="warning" effect="plain"
                 >按钮</el-tag
               >
             </template>
@@ -122,7 +114,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { Search } from '@element-plus/icons-vue';
+import { Plus, Search } from '@element-plus/icons-vue';
 import MenuAddOrEdit from './components/menu-add-or-edit.vue';
 import { menuStore } from '@/store/modules/sys/menu/menuStore';
 import { storeToRefs } from 'pinia';
@@ -142,8 +134,12 @@ onMounted(() => {
 });
 </script>
 <style lang="scss" scoped>
-.form-right {
-  display: flex;
-  justify-content: end;
+.input-with-select {
+  width: 300px !important;
+}
+.zs-table {
+  height: calc(
+    $main-box-height + $header-box-height + $footer-box-height
+  ) !important;
 }
 </style>

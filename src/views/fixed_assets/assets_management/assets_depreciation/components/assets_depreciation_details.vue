@@ -29,7 +29,7 @@
           width="55"
           fixed="left"
         />
-        <el-table-column prop="assetsSerialNo" label="资产编号" width="110" />
+        <el-table-column prop="assetsSerialNo" label="资产编号" width="120" />
         <el-table-column
           prop="assetsName"
           label="资产名称"

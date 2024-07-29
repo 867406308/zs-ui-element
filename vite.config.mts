@@ -9,8 +9,34 @@ import Icons from 'unplugin-icons/vite';
 import { FileSystemIconLoader } from 'unplugin-icons/loaders';
 import dynamicImportVars from 'vite-plugin-dynamic-import-vars';
 import topLevelAwait from 'vite-plugin-top-level-await';
+import fs from 'fs';
 
 const pathSrc = path.resolve(__dirname, 'src');
+console.log('aa', __dirname);
+
+const optimizeDepsElementPlusIncludes = ['element-plus/es'];
+const componentsDir = 'node_modules/element-plus/es/components';
+
+const promises = fs.readdirSync(componentsDir).map((dirname) => {
+  return new Promise((resolve, reject) => {
+    const filePath = path.join(componentsDir, dirname, 'style', 'css.mjs');
+    fs.access(filePath, (err) => {
+      if (err) {
+        resolve(); // 如果文件不存在，直接resolve
+      } else {
+        optimizeDepsElementPlusIncludes.push(
+          `element-plus/es/components/${dirname}/style/css`,
+        );
+        resolve();
+      }
+    });
+  });
+});
+
+(async () => {
+  await Promise.all(promises); // 等待所有Promise完成
+  console.log('bb', optimizeDepsElementPlusIncludes);
+})();
 
 export default defineConfig({
   resolve: {
@@ -24,6 +50,9 @@ export default defineConfig({
         additionalData: `@use "@/styles/element/index.scss" as *;`, //`@use "@/styles/element/index.scss" as *;`, //`@use "element-plus/theme-chalk/src/index.scss" as *;`
       },
     },
+  },
+  optimizeDeps: {
+    include: optimizeDepsElementPlusIncludes,
   },
   plugins: [
     vue(),

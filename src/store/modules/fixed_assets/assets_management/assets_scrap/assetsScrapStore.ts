@@ -26,6 +26,10 @@ export const assetsScrapStore = defineStore('assetsScrap', {
       this.total = data?.data?.total ?? 0;
       this.loading = false;
     },
+    reset() {
+      this.$reset();
+      this.queryData();
+    },
     handleSizeChange(val: number) {
       this.assetsScrapForm.size = val;
       this.queryData();

@@ -1,10 +1,16 @@
 import { defineStore } from 'pinia';
-import { queryAssetsInfoPage } from '@/api/fixed_assets/info';
+import {
+  queryAssetsInfoPage,
+  getTotalPrice,
+  exportExcel,
+} from '@/api/fixed_assets/info';
 import { getClassifySchoolTree } from '@/api/fixed_assets/classifySchool';
 import { getDeptTree } from '@/api/sys/dept';
 import { getUserList } from '@/api/sys/user';
 import { userStore } from '@/store/modules/sys/user/userStore';
+import { dictDataList } from '@/api/sys/dict';
 import { ElTable } from 'element-plus';
+import download from '@/utils/fileDownload';
 
 export const assetsInfoStore = defineStore('assetsInfo', {
   state: () => {
@@ -19,8 +25,13 @@ export const assetsInfoStore = defineStore('assetsInfo', {
       tableData: [],
       loading: false,
       total: 0,
+      totalPrice: 0,
       assetsInfoForm: {
         name: '',
+        rfid: '',
+        invoiceNumber: '',
+        projectCode: '',
+        accountingVoucher: '',
         levelId: '',
         classicIdList: [],
         serialNoStart: '',
@@ -36,6 +47,9 @@ export const assetsInfoStore = defineStore('assetsInfo', {
         entryDateEnd: '',
         manufacturer: '',
         saveState: '',
+        assetsStatusCode: '',
+        useStatusCode: '',
+
         page: 1,
         size: 20,
         order: 'desc',
@@ -48,6 +62,8 @@ export const assetsInfoStore = defineStore('assetsInfo', {
       selectedAssetsInfoList: [],
       manageUserList: [],
       useUserList: [],
+      assetsInfoStatusList: [],
+      assetsInfoUseStatusList: [],
     };
   },
   actions: {
@@ -56,7 +72,12 @@ export const assetsInfoStore = defineStore('assetsInfo', {
       const data = await queryAssetsInfoPage(this.assetsInfoForm);
       this.tableData = data?.data?.list ?? [];
       this.total = data?.data?.total ?? 0;
+      this.totalPrice = data?.data?.data ?? 0;
       this.loading = false;
+    },
+    async queryTotalPrice() {
+      // const data = await getTotalPrice();
+      // this.totalPrice = data?.data ?? 0;
     },
     handleSizeChange(val: number) {
       this.assetsInfoForm.size = val;
@@ -72,19 +93,24 @@ export const assetsInfoStore = defineStore('assetsInfo', {
       this.queryData();
     },
     resetQueryForm(formEl: FormInstance | undefined) {
-      if (!formEl) return;
-      formEl.resetFields();
-      this.assetsInfoForm.serialNoStart = '';
-      this.assetsInfoForm.serialNoEnd = '';
-      this.assetsInfoForm.priceStart = 0;
-      this.assetsInfoForm.priceEnd = 0;
-      this.assetsInfoForm.entryDateStart = '';
-      this.assetsInfoForm.entryDateEnd = '';
-      this.inDate = '';
+      this.$reset();
+      // if (!formEl) return;
+      // formEl.resetFields();
+      // this.assetsInfoForm.serialNoStart = '';
+      // this.assetsInfoForm.serialNoEnd = '';
+      // this.assetsInfoForm.priceStart = 0;
+      // this.assetsInfoForm.priceEnd = 0;
+      // this.assetsInfoForm.entryDateStart = '';
+      // this.assetsInfoForm.entryDateEnd = '';
+      // this.inDate = '';
       this.queryData();
     },
     handleAdvancedQuery() {
       this.advancedQueryVisible = true;
+      this.queryAssetsInfoStatus();
+      this.queryAssetsInfoUseStatus();
+      this.queryClassifySchoolTree();
+      this.querySysDeptTree();
     },
     close() {
       this.advancedQueryVisible = false;
@@ -124,11 +150,6 @@ export const assetsInfoStore = defineStore('assetsInfo', {
     handleSelectionChange(val: any) {
       this.selectedAssetsInfoList = val;
     },
-    // onSelected(emits: any) {
-    //   console.log('onSelected', this.selectedAssetsInfoList);
-    //   emits('onSelected', this.selectedAssetsInfoList);
-    //   this.assetsInfoSelectedVisible = false;
-    // },
     // 资产入库
     handleStockIn(row: any) {
       const saveState = this.selectedAssetsInfoList.filter(
@@ -176,36 +197,19 @@ export const assetsInfoStore = defineStore('assetsInfo', {
         this.assetsInfoStockInRef.init();
       }
     },
-    selectedInit() {
-      // if (this.assetsInfoTableRef) {
-      //   console.log('a', this.selectedAssetsInfoList);
-      //   console.log('aa', this.assetsInfoTableRef);
-      //   this.assetsInfoTableRef.clearSelection();
-      // }
+    // 获取资产状态
+    async queryAssetsInfoStatus() {
+      const data = await dictDataList({ dictType: 'assets_status' });
+      this.assetsInfoStatusList = data?.data ?? [];
     },
-    // selectedInit() {
-    //   console.log('a', this.selectedAssetsInfoList);
-    //   // this.$reset();
-    //   // 设置选中
-    //   // this.selectedAssetsInfoList.forEach((row: any) => {
-    //   //   this.assetsInfoTableRef!.toggleRowSelection(row, undefined);
-    //   // });
-    //   console.log('ref', this.assetsInfoTableRef);
-    //   this.assetsInfoTableRef.clearSelection();
-    //   if (this.selectedAssetsInfoList) {
-    //     console.log('vvv');
-    //     this.selectedAssetsInfoList.forEach((row) => {
-    //       this.assetsInfoTableRef.toggleRowSelection(row, true);
-    //     });
-    //   } else {
-    //     console.log('eeee');
-    //     this.assetsInfoTableRef.clearSelection();
-    //   }
-
-    //   console.log('b', this.selectedAssetsInfoList);
-    //   this.assetsInfoSelectedVisible = true;
-    //   this.querySysDeptTree();
-    //   this.queryData();
-    // },
+    // 获取资产使用状态
+    async queryAssetsInfoUseStatus() {
+      const data = await dictDataList({ dictType: 'assets_use_status' });
+      this.assetsInfoUseStatusList = data?.data ?? [];
+    },
+    async handleExport() {
+      const data = await exportExcel(this.assetsInfoForm);
+      download.excel(data, '资产明细.xlsx');
+    },
   },
 });

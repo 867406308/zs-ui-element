@@ -86,3 +86,20 @@ export function dictDataList(params: any) {
     params,
   });
 }
+
+export function batchDel(data: any) {
+  return request({
+    url: '/system/sys/dictData',
+    method: 'delete',
+    data,
+  });
+}
+
+export function exportExcel(params: any) {
+  return request({
+    url: '/system/sys/dictData/export',
+    method: 'get',
+    params,
+    responseType: 'blob',
+  });
+}

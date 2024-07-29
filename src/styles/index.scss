@@ -4,9 +4,10 @@
 @import './common.scss';
 
 :root {
-  // --zs-aside-bg-color: var(--zs-color-primary);
-  // --zs-container-height: $main-box-height;
-  
+  // --zs-menu-hover-bg-color: var(--zs-color-primary) !important;
+  // --zs-menu-bg-color: #141414 !important;
+  // --zs-menu-text-color: #f3f3f8 !important;
+  // --zs-menu-active-color: #fff !important;
 }
 html,
 body {
@@ -21,7 +22,20 @@ body {
   overflow: hidden;
   position: relative;
 }
-
+.aside-btn{
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1px;
+}
+.aside-btn-icon:hover{
+  background-color: var(--zs-color-info-light-7);
+  border-radius: 20px;
+  padding: 15px 0;
+  margin: 0;
+  cursor: pointer;
+}
 a {
   color: var(--ep-color-primary);
 }
@@ -94,7 +108,19 @@ code {
     // border-top: 1px solid var(--zs-border-color);
   }
 }
+.zs-footer{
+  --zs-footer-padding: 0 10px !important;
+}
 
+.zs-pagination{
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.zs-menu{
+
+}
 
 // 暗黑模式下的样式
 html.dark {
@@ -107,8 +133,7 @@ html.light {
   // --zs-menu-hover-bg-color: var(--zs-color-primary);
   // --zs-menu-bg-color: #141414;
   // --zs-menu-text-color: #fff;
-  // --zs-menu-active-color: #fff;
-  
+  // --zs-menu-active-color: var(--zs-color-primary);
 
-  
+
 }

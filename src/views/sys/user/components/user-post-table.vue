@@ -22,7 +22,7 @@
             ref="treeSelectRef"
             v-model="row.sysDeptId"
             :data="deptTree"
-            check-strictly
+            :render-after-expand="false"
             :props="{
               label: 'deptName',
               value: 'sysDeptId',

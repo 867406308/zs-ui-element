@@ -68,13 +68,13 @@
               <el-tag
                 v-if="scope.row.loginStatus == 1"
                 type="success"
-                effect="dark"
+                effect="plain"
                 >成功</el-tag
               >
               <el-tag
                 v-if="scope.row.loginStatus == 2"
                 type="danger"
-                effect="dark"
+                effect="plain"
                 >失败</el-tag
               >
             </template>

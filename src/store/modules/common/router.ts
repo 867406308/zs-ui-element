@@ -4,6 +4,7 @@ export const routersStore = defineStore('routes', {
   state: () => {
     return {
       menuList: [],
+      isRouterAlive: true,
     };
   },
   actions: {

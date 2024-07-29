@@ -37,7 +37,7 @@ const props = defineProps({
     .section-divider {
       width: 5px;
       height: 16px;
-      background-color: #2979ff;
+      background-color: var(--zs-color-primary);
       border-radius: 0px;
       margin-right: 6px;
     }

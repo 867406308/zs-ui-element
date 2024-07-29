@@ -38,3 +38,19 @@ export function getBySerialNoList(data: any) {
     data,
   });
 }
+
+export function getTotalPrice() {
+  return request({
+    url: `/fixedAssets/assets/info/getTotalPrice`,
+    method: 'get',
+  });
+}
+
+export function exportExcel(params: any) {
+  return request({
+    url: '/fixedAssets/assets/info/export',
+    method: 'get',
+    params,
+    responseType: 'blob',
+  });
+}

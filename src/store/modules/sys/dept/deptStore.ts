@@ -52,8 +52,8 @@ export const deptStore = defineStore('dept', {
     },
     toggleExpand() {
       this.refreshTable = false;
-      this.expand = !this.expand;
       nextTick(() => {
+        this.expand = !this.expand;
         this.refreshTable = true;
       });
     },

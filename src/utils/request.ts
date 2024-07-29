@@ -11,6 +11,24 @@ const instance = axios.create({
   },
 });
 
+let loadingInstance;
+
+// loading开始 方法
+function startLoading() {
+  // element-ui loading 服务调用方式
+  loadingInstance = ElLoading.service({
+    lock: true,
+    text: '拼命加载中...',
+    spinner: 'el-icon-loading', // 自定义图标
+    background: 'rgba(0, 0, 0, 0.8)',
+  });
+}
+
+// loading结束 方法
+function endLoading() {
+  loadingInstance.close();
+}
+
 // 添加请求拦截器
 instance.interceptors.request.use(
   (config) => {
@@ -20,9 +38,11 @@ instance.interceptors.request.use(
       // 添加 token 到请求头
       config.headers.Authorization = `Bearer ${token}`;
     }
+    startLoading();
     return config;
   },
   function (error) {
+    endLoading();
     // 对请求错误做些什么
     return Promise.reject(error);
   },
@@ -31,6 +51,7 @@ instance.interceptors.request.use(
 // 添加响应拦截器
 instance.interceptors.response.use(
   (response) => {
+    endLoading();
     // blob类型直接返回response
     if (
       response.request.responseType === 'blob' ||
@@ -54,6 +75,7 @@ instance.interceptors.response.use(
     return response.data;
   },
   (error) => {
+    endLoading();
     // 超出 2xx 范围的状态码都会触发该函数。
     // 对响应错误做点什么
     const status: number = error.response?.status;

@@ -2,43 +2,36 @@
   <div class="dept-container">
     <el-container>
       <el-main>
-        <el-space :fill="true" style="width: 100%; margin-bottom: 8px">
-          <el-row justify="space-between">
-            <el-col :xl="12" :lg="12" :md="12" :sm="24">
-              <div>
-                <el-button
-                  type="primary"
-                  v-permission="'sys:dept:save'"
-                  @click="useDeptStore.handleAddOrEdit($event)"
-                  >新增
-                </el-button>
-                <el-button
-                  type="primary"
-                  @click="useDeptStore.toggleExpand()"
-                  >{{ expand ? '收缩' : '展开' }}</el-button
-                >
-              </div>
-            </el-col>
-            <el-col :xl="12" :lg="12" :md="12" :sm="24" class="form-right">
-              <el-space>
-                <el-input
-                  v-model="form.deptName"
-                  placeholder="请输入部门名称"
-                  class="input-with-select"
-                >
-                  <template #append>
-                    <el-button :icon="Search" @click="useDeptStore.queryData" />
-                  </template>
-                </el-input>
-              </el-space>
-            </el-col>
-          </el-row>
-        </el-space>
+        <ZsToolbar>
+          <template #left>
+            <el-button
+              type="primary"
+              v-permission="'sys:dept:save'"
+              @click="useDeptStore.handleAddOrEdit($event)"
+              :icon="Plus"
+            >
+              新增
+            </el-button>
+            <el-button type="primary" @click="useDeptStore.toggleExpand()">{{
+              expand ? '全部收缩' : '全部展开'
+            }}</el-button>
+          </template>
+          <template #right>
+            <el-input
+              v-model="form.deptName"
+              placeholder="请输入部门名称"
+              class="input-with-select"
+            >
+              <template #append>
+                <el-button :icon="Search" @click="useDeptStore.queryData" />
+              </template>
+            </el-input>
+          </template>
+        </ZsToolbar>
         <el-table
           v-if="refreshTable"
           :data="tableData"
           row-key="id"
-          border
           :default-expand-all="expand"
           v-loading="loading"
         >
@@ -57,14 +50,14 @@
                 v-if="scope.row.status === 0"
                 type="danger"
                 label="禁用"
-                effect="dark"
+                effect="plain"
                 >禁用</el-tag
               >
               <el-tag
                 v-if="scope.row.status === 1"
                 type="primary"
                 label="启用"
-                effect="dark"
+                effect="plain"
                 >启用</el-tag
               >
             </template>
@@ -111,7 +104,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { Search } from '@element-plus/icons-vue';
+import { Plus, Search } from '@element-plus/icons-vue';
 import DeptAddOrEdit from './components/dept-add-or-edit.vue';
 import { deptStore } from '@/store/modules/sys/dept/deptStore';
 import { storeToRefs } from 'pinia';
@@ -131,8 +124,12 @@ onMounted(() => {
 });
 </script>
 <style lang="scss" scoped>
-.form-right {
-  display: flex;
-  justify-content: end;
+.input-with-select {
+  width: 300px !important;
+}
+.zs-table {
+  height: calc(
+    $main-box-height + $header-box-height + $footer-box-height
+  ) !important;
 }
 </style>

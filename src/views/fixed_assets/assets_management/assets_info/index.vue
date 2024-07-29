@@ -14,14 +14,14 @@
                   @click="useAssetsInfoStore.handleStockIn"
                   >入库</el-button
                 >
-                <el-button
+                <!-- <el-button
                   type="primary"
                   @click="useAssetsInfoStore.handleAddOrEdit"
                   >调拨</el-button
-                >
+                > -->
                 <el-button
                   type="primary"
-                  @click="useAssetsInfoStore.handleAddOrEdit"
+                  @click="useAssetsInfoStore.handleExport"
                   >导出</el-button
                 >
               </div>
@@ -42,14 +42,6 @@
                     />
                   </template>
                 </el-input>
-                <!-- <el-radio-group
-                  v-model="assetsInfoForm.saveState"
-                  @change="useAssetsInfoStore.queryData()"
-                >
-                  <el-radio-button label="">全部</el-radio-button>
-                  <el-radio-button label="0">预登记</el-radio-button>
-                  <el-radio-button label="1">已入账</el-radio-button>
-                </el-radio-group> -->
                 <el-button
                   type="primary"
                   :icon="Filter"
@@ -114,6 +106,7 @@ const {
 } = storeToRefs(useAssetsInfoStore);
 onMounted(() => {
   useAssetsInfoStore.queryData();
+  useAssetsInfoStore.queryTotalPrice();
 });
 </script>
 <style lang="scss" scoped>

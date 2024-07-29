@@ -1,0 +1,18 @@
+
+// 自定义loading图标
+.el-loading-spinner {
+  margin-top: 0 !important;
+  transform: translateY(-50%);
+
+  .el-loading-text {
+    padding-top: 56px;
+    background-image: url('../assets/img/pic-loading.svg');
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: 40px auto;
+  }
+
+  .circular {
+    display: none;
+  }
+}

@@ -38,6 +38,7 @@ export const assetsDepreciationDetailsStore = defineStore(
         this.loading = false;
       },
       close() {
+        this.$reset();
         this.assetsDepreciationDetailsVisible = false;
       },
       handleSizeChange(val: number) {

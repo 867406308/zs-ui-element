@@ -109,6 +109,7 @@ export default defineComponent({
           try {
             state.loading = true;
             await login(state.form);
+
             router.push('/home');
           } finally {
             state.loading = false;

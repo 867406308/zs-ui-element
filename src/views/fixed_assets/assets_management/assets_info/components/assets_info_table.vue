@@ -86,24 +86,32 @@
         <ZsEmpty />
       </template>
     </el-table>
-    <el-footer height="40">
-      <el-pagination
-        background
-        :current-page="assetsInfoForm.page"
-        layout="total, sizes, prev, pager, next"
-        :page-size="assetsInfoForm.size"
-        :total="total"
-        @current-change="useAssetsInfoStore.handleCurrentChange"
-        @size-change="useAssetsInfoStore.handleSizeChange"
-      />
+    <el-footer>
+      <div class="footer-style">
+        <el-space wrap>
+          <el-statistic title="资产总数量：" :value="total" />
+          <el-statistic title="资产总金额：" :value="totalPrice" />
+        </el-space>
+        <el-pagination
+          background
+          :current-page="assetsInfoForm.page"
+          layout="total, prev, pager, next"
+          :page-size="assetsInfoForm.size"
+          :total="total"
+          @current-change="useAssetsInfoStore.handleCurrentChange"
+          @size-change="useAssetsInfoStore.handleSizeChange"
+        />
+      </div>
     </el-footer>
     <assets-info-card ref="assetsInfoCardRef" />
   </el-container>
 </template>
 <script lang="ts" setup>
 import AssetsInfoCard from './assets_info_card.vue';
+import { useTransition } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
 import { assetsInfoStore } from '@/store/modules/fixed_assets/assets_management/assets_info/assetsInfoStore';
+
 const useAssetsInfoStore = assetsInfoStore();
 const {
   loading,
@@ -112,6 +120,7 @@ const {
   assetsInfoForm,
   assetsInfoCardRef,
   selectedAssetsInfoList,
+  totalPrice,
 } = storeToRefs(useAssetsInfoStore);
 const priceFormatter = (row: any) => {
   return row.buyPrice ? row.buyPrice.toFixed(2) : 0;
@@ -139,7 +148,29 @@ defineExpose({
 .table-style {
   height: calc($main-box-height - 60px) !important;
 }
-.zs-pagination {
-  margin-top: 20px;
+.zs-footer {
+  margin-left: -20px;
+  margin-right: -20px;
+}
+.footer-style {
+  margin-top: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.zs-statistic {
+  display: inline-flex;
+  align-items: center;
+
+  :deep() {
+    .zs-statistic__head {
+      margin-bottom: 0 !important;
+      font-size: var(--zs-font-size-medium) !important;
+    }
+    .zs-statistic__content {
+      font-size: var(--zs-font-size-medium) !important;
+    }
+  }
 }
 </style>

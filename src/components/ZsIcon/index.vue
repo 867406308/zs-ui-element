@@ -28,7 +28,7 @@ const props = defineProps({
   },
   size: {
     type: String,
-    default: '1em',
+    default: '',
   },
 });
 const form = reactive({
@@ -81,6 +81,7 @@ watch(
     svg {
       height: 1em;
       width: 1em;
+      font-size: var(--zs-font-size-medium);
     }
   }
 }

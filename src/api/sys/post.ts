@@ -46,3 +46,20 @@ export function del(id: String) {
     method: 'delete',
   });
 }
+
+export function batchDel(data: any) {
+  return request({
+    url: '/system/sys/post',
+    method: 'delete',
+    data,
+  });
+}
+
+export function exportExcel(params: any) {
+  return request({
+    url: '/system/sys/post/export',
+    method: 'get',
+    params,
+    responseType: 'blob',
+  });
+}

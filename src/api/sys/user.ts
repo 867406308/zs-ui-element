@@ -61,6 +61,14 @@ export function del(id: string) {
   });
 }
 
+export function batchDel(data: any) {
+  return request({
+    url: '/system/sys/user',
+    method: 'delete',
+    data,
+  });
+}
+
 export function exportExcel(params: any) {
   return request({
     url: '/system/sys/user/export',

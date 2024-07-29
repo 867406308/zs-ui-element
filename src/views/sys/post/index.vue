@@ -2,75 +2,88 @@
   <div class="post-container">
     <el-container>
       <el-aside>
-        <!-- <el-scrollbar>
-          <el-tree
-            ref="deptRef"
-            :data="deptTreeData"
-            :props="defaultProps"
-            :default-expanded-keys="expandedKeys"
-            accordion
-            node-key="sysDeptId"
-            :expand-on-click-node="false"
-            @node-click="usePostStore.handleNodeClick"
-        /></el-scrollbar> -->
         <ZsDept @node-click="usePostStore.handleNodeClick" />
       </el-aside>
       <el-container>
+        <el-header>
+          <el-form ref="ruleFormRef" :inline="true" :model="form">
+            <el-form-item label="岗位名称" prop="postName">
+              <el-input
+                v-model="form.postName"
+                placeholder="请输入岗位名称"
+                class="input-with-select"
+              >
+              </el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="usePostStore.queryData()">
+                查询
+              </el-button>
+              <el-button @click="usePostStore.resetForm(ruleFormRef)">
+                重置
+              </el-button>
+            </el-form-item>
+          </el-form>
+        </el-header>
         <el-main>
-          <el-space :fill="true" style="width: 100%; margin-bottom: 8px">
-            <el-row justify="space-between">
-              <el-col :xl="12" :lg="12" :md="12" :sm="24">
-                <div>
-                  <el-button
-                    type="primary"
-                    v-permission="'sys:post:save'"
-                    @click="usePostStore.handleAddOrEdit"
-                    >新增
-                  </el-button>
-                </div>
-              </el-col>
-              <el-col :xl="12" :lg="12" :md="12" :sm="24" class="form-right">
-                <el-space>
-                  <el-input
-                    v-model="form.postName"
-                    placeholder="请输入资产岗位名称"
-                    class="input-with-select"
-                  >
-                    <template #append>
-                      <el-button
-                        :icon="Search"
-                        @click="usePostStore.queryData"
-                      />
-                    </template>
-                  </el-input>
-                  <el-button type="primary" @click="usePostStore.queryData()">
-                    高级查询
-                  </el-button>
-                </el-space>
-              </el-col>
-            </el-row>
-          </el-space>
+          <ZsToolbar>
+            <template #left>
+              <el-button
+                type="primary"
+                v-permission="'sys:post:save'"
+                @click="usePostStore.handleAddOrEdit"
+                :icon="Plus"
+              >
+                新增岗位
+              </el-button>
+              <el-button
+                type="danger"
+                v-permission="'sys:post:batchDelete'"
+                @click="usePostStore.handleBatchDelete()"
+                :icon="Delete"
+                :disabled="multipleSelection.length === 0"
+              >
+                批量删除
+              </el-button>
+            </template>
+            <template #right>
+              <el-tooltip content="导出" placement="top">
+                <el-button text @click="usePostStore.handleExport">
+                  <template #icon>
+                    <ZsIcon
+                      icon="download-2"
+                      v-permission="'sys:post:export'"
+                    />
+                  </template>
+                </el-button>
+              </el-tooltip>
+            </template>
+          </ZsToolbar>
           <el-table
-            class="table-style"
             :data="tableData"
             style="width: 100%"
             row-key="id"
-            border
             v-loading="loading"
+            @sort-change="usePostStore.handleSortChange"
+            @selection-change="usePostStore.handleSelectionChange"
+            border
           >
+            <el-table-column type="selection" width="55" align="center" />
             <el-table-column
               align="center"
               label="序号"
               type="index"
               width="55"
             />
-            <el-table-column prop="postName" label="岗位名称" />
+            <el-table-column prop="postName" label="岗位名称" sortable />
+            <el-table-column prop="deptName" label="所属部门" sortable />
             <el-table-column prop="remark" label="备注" width="200" />
             <el-table-column
               prop="sort"
               label="排序"
               align="center"
               width="100"
+              sortable
             ></el-table-column>
             <el-table-column
               prop="status"
@@ -82,16 +95,16 @@
                 <el-tag
                   v-if="scope.row.status === 0"
                   type="danger"
-                  effect="dark"
+                  effect="plain"
                   label="禁用"
                   >禁用</el-tag
                 >
                 <el-tag
                   v-if="scope.row.status === 1"
                   type="primary"
-                  effect="dark"
-                  label="启用"
-                  >启用</el-tag
+                  effect="plain"
+                  label="正常"
+                  >正常</el-tag
                 >
               </template>
             </el-table-column>
@@ -131,21 +144,18 @@
             layout="total, sizes, prev, pager, next"
             :page-size="form.size"
             :total="total"
+            :hide-on-single-page="true"
             @current-change="usePostStore.handleCurrentChange"
             @size-change="usePostStore.handleSizeChange"
           />
         </el-footer>
       </el-container>
     </el-container>
-    <post-add-or-edit
-      ref="addEditRef"
-      :key="+new Date()"
-      @query-data="usePostStore.queryData"
-    />
+    <post-add-or-edit ref="addEditRef" @query-data="usePostStore.queryData" />
   </div>
 </template>
 <script lang="ts" setup>
-import { Search } from '@element-plus/icons-vue';
+import { Search, Plus, Delete } from '@element-plus/icons-vue';
 import PostAddOrEdit from './components/post-add-or-edit.vue';
 import { postStore } from '@/store/modules/sys/position/postStore';
 import { storeToRefs } from 'pinia';
@@ -153,15 +163,16 @@ import { storeToRefs } from 'pinia';
 const usePostStore = postStore();
 const emits = defineEmits(['query-data']);
 const {
+  addEditRef,
   ruleFormRef,
   deptRef,
-  addEditRef,
   tableData,
   deptTreeData,
   expandedKeys,
   loading,
   total,
   form,
+  multipleSelection,
 } = storeToRefs(usePostStore);
 
 const defaultProps = {
@@ -175,9 +186,4 @@ onMounted(() => {
   usePostStore.queryData();
 });
 </script>
-<style lang="scss" scoped>
-.form-right {
-  display: flex;
-  justify-content: end;
-}
-</style>
+<style lang="scss" scoped></style>

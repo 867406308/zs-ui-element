@@ -8,7 +8,7 @@
     </div>
     <div class="right-side">
       <el-space :size="15">
-        <ZsIcon icon="refresh" @click="onSubmitForm" />
+        <ZsIcon icon="refresh-right" @click="onSubmitForm" />
         <ZsIcon icon="search" />
         <el-switch
           v-model="theme.dark"
@@ -52,6 +52,21 @@ import PersonalCenter from '@/views/sys/my/personalCenter/index.vue';
 import Layout from '@/layout/index.vue';
 
 import { tabsStore } from '@/store/modules/common/tabs';
+
+import { routersStore } from '@/store/modules/common/router';
+
+const useRouterStore = routersStore();
+const { isRouterAlive } = storeToRefs(useRouterStore);
+const reload: any = inject('reload');
+// 刷新页面
+const onSubmitForm = () => {
+  console.log('刷新页面');
+  isRouterAlive.value = false;
+  nextTick(() => {
+    isRouterAlive.value = true;
+  });
+};
+
 const useTabsStore = tabsStore();
 
 // 监听 isDark 的变化
@@ -76,11 +91,6 @@ const handleCommand = (command: string | number | object) => {
     default:
       break;
   }
-};
-const reload: any = inject('reload');
-// 刷新页面
-const onSubmitForm = () => {
-  reload();
 };
 
 const router = useRouter();

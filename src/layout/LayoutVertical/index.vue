@@ -64,7 +64,7 @@ const { collapse } = storeToRefs(useSettingStore);
     .zs-main {
       background-color: var(--zs-bg-color-page);
       padding: $base-padding;
-      height: calc($app-main-height + 20px);
+      height: calc($app-main-height);
     }
   }
 }
