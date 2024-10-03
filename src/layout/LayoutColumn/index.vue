@@ -87,7 +87,7 @@ const { menuList } = storeToRefs(useRouterStore);
         }
       }
       .zs-tabs {
-        height: calc(100vh - $nav-height) !important;
+        height: calc(100vh - var(--zs-custom-nav-height)) !important;
 
         :deep() {
           .zs-tabs__header {
@@ -97,7 +97,7 @@ const { menuList } = storeToRefs(useRouterStore);
               margin-right: 0px !important;
               .zs-tabs__nav-scroll {
                 .zs-tabs__nav {
-                  height: calc(100vh - $nav-height) !important;
+                  height: calc(100vh - var(--zs-custom-nav-height)) !important;
                   border-right: 1px solid var(--zs-border-color);
                   overflow-y: auto;
                   width: 80px;
@@ -152,7 +152,7 @@ const { menuList } = storeToRefs(useRouterStore);
                 margin-top: 10px;
 
                 .zs-menu {
-                  background-color: var(--zs-bg-color);
+                  // background-color: var(--zs-bg-color);
                   border-right: 0px !important;
                   .zs-menu-item {
                     height: 50px;
@@ -225,11 +225,13 @@ const { menuList } = storeToRefs(useRouterStore);
   }
   .zs-main {
     padding: 0 !important;
+
     .right-box {
+      height: 100vh;
       .zs-header {
         padding: 0px;
-        height: $nav-height + $tabs-height;
-        z-index: 999;
+        height: var(--zs-custom-nav-height) + var(--zs-custom-tabs-height);
+        // z-index: 999;
 
         :deep(.nav-collapse) {
           display: none;

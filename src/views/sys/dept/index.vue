@@ -108,6 +108,9 @@ import { Plus, Search } from '@element-plus/icons-vue';
 import DeptAddOrEdit from './components/dept-add-or-edit.vue';
 import { deptStore } from '@/store/modules/sys/dept/deptStore';
 import { storeToRefs } from 'pinia';
+
+import { cryptoStore } from '@/store/modules/common/cryptoStore';
+
 const useDeptStore = deptStore();
 const {
   form,
@@ -121,6 +124,7 @@ const {
 
 onMounted(() => {
   useDeptStore.queryData();
+  console.log('部门aaa: ', cryptoStore().sm4Key);
 });
 </script>
 <style lang="scss" scoped>

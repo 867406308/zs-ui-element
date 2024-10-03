@@ -50,7 +50,25 @@
           class="w-percent-100"
           style="width: 100%"
           size="large"
+          :disabled="!checked"
           >登录</el-button
+        >
+      </el-form-item>
+      <el-form-item>
+        <el-checkbox v-model="checked"></el-checkbox>
+        <span style="margin-left: 1px">我已阅读并同意</span>
+        <el-link
+          type="primary"
+          :underline="false"
+          @click="handlePrivacyPolicy()"
+          >《用户协议》</el-link
+        >
+        <span style="margin-left: 1px">和</span>
+        <el-link
+          type="primary"
+          :underline="false"
+          @click="handleTermsOfService()"
+          >《隐私政策》</el-link
         >
       </el-form-item>
     </el-form>
@@ -76,6 +94,7 @@ export default defineComponent({
       }
     };
     const state = reactive({
+      checked: false,
       loading: false,
       formRef: null,
       form: {
@@ -116,9 +135,21 @@ export default defineComponent({
           }
       });
     };
+    // 隐私政策
+    const handlePrivacyPolicy = () => {
+      // 在新的页面打开并且显示内容
+      window.open('/privacy-policy', '_blank');
+    };
+    // 服务条款
+    const handleTermsOfService = () => {
+      // 在新的页面打开并且显示内容
+      window.open('/terms-of-service', '_blank');
+    };
     return {
       ...toRefs(state),
       handleLogin,
+      handlePrivacyPolicy,
+      handleTermsOfService,
     };
   },
 });
@@ -147,5 +178,8 @@ export default defineComponent({
       }
     }
   }
+}
+.zs-checkbox {
+  margin-right: 5px;
 }
 </style>

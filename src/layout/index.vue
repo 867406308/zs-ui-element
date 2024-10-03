@@ -6,6 +6,7 @@
 import LayoutHorizontal from './LayoutHorizontal/index.vue';
 import LayoutVertical from './LayoutVertical/index.vue';
 import LayoutColumn from './LayoutColumn/index.vue';
+import LayoutVerticalMix from './LayoutVerticalMix/index.vue';
 import { storeToRefs } from 'pinia';
 
 import { settingStore } from '@/store/modules/config/setting';
@@ -18,6 +19,8 @@ const dynamicComponent = (item: any) => {
     return LayoutHorizontal;
   } else if (item === 'vertical') {
     return LayoutVertical;
+  } else if (item === 'verticalMix') {
+    return LayoutVerticalMix;
   } else if (item === 'column') {
     return LayoutColumn;
   }

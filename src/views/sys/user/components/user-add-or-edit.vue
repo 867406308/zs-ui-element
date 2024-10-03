@@ -229,17 +229,17 @@ const {
   deptPostData,
 } = storeToRefs(useUserAddOrEditStore);
 
-const titleType = ref('新增');
+const titleType = ref('新增用户');
 
 const emits = defineEmits(['query-data']);
 
 const changeTitle = (type: String) => {
   if (type === 'add') {
-    titleType.value = '新增';
+    titleType.value = '新增用户';
   } else if (type === 'detail') {
     titleType.value = '基本信息';
   } else if (type === 'edit') {
-    titleType.value = '编辑';
+    titleType.value = '编辑用户';
   }
 };
 

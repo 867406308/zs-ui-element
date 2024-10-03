@@ -175,7 +175,7 @@
           <el-pagination
             background
             :currentPage="form.page"
-            layout="total, sizes,prev, pager, next, jumper"
+            layout="total, prev, pager, next, sizes,jumper"
             :page-size="form.size"
             :total="total"
             @current-change="useUserStore.handleCurrentChange"

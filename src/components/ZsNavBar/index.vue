@@ -7,18 +7,20 @@
       <ZsBreadcrumb v-if="theme.breadcrumb" />
     </div>
     <div class="right-side">
-      <el-space :size="15">
-        <ZsIcon icon="refresh-right" @click="onSubmitForm" />
+      <el-space :size="10">
         <ZsIcon icon="search" />
+        <el-badge is-dot>
+          <ZsIcon icon="bell" />
+        </el-badge>
+        <ZsIcon icon="setting" @click="useSettingStore.openSetting" />
+        <ZsIcon icon="refresh-right" @click="onSubmitForm" />
+
         <el-switch
           v-model="theme.dark"
           :inactive-action-icon="Sunny"
           :active-action-icon="Moon"
           @change="toggleDark"
         />
-        <el-badge is-dot>
-          <ZsIcon icon="bell-filled" />
-        </el-badge>
         <el-dropdown @command="handleCommand">
           <div class="userInfo">
             <el-avatar
@@ -36,7 +38,6 @@
             </el-dropdown-menu>
           </template>
         </el-dropdown>
-        <ZsIcon icon="setting" @click="useSettingStore.openSetting" />
       </el-space>
     </div>
     <Setting ref="settingRef" />
@@ -145,14 +146,12 @@ const personalCenterRouter = () => {
 </script>
 <style lang="scss" scoped>
 .nav-bar {
-  height: $nav-height;
+  height: var(--zs-custom-nav-height);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  // background-color: #ffffff;
   box-sizing: border-box;
   border-bottom: 1px solid var(--zs-border-color);
-  // filter: drop-shadow(1px 2px 4px hsl(225, 7%, 88%));
 
   .left-side {
     width: 100%;
@@ -188,6 +187,7 @@ const personalCenterRouter = () => {
 
               .username {
                 font-size: 15px;
+                // color: var(--zs-menu-text-color);
               }
             }
 

@@ -7,7 +7,7 @@
       />
     </div>
     <span
-      v-if="expand && !collapse"
+      v-if="!collapse || !expand"
       class="title"
       :style="{ color: titleColor, fontSize: titleSize }"
     >
@@ -39,6 +39,7 @@ const props = defineProps({
     type: String,
     default: '30px',
   },
+  // 是否根据collapse控制展开收缩
   expand: {
     type: Boolean,
     default: true,
@@ -47,7 +48,7 @@ const props = defineProps({
 </script>
 <style lang="scss" scoped>
 .logo {
-  height: $nav-height;
+  height: var(--zs-custom-nav-height);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -70,7 +71,7 @@ const props = defineProps({
     align-items: center;
     justify-content: center;
     margin-left: 10px;
-    // color: #fff;
+    color: var(--zs-menu-text-color);
     font-size: 20px;
   }
 }

@@ -1,7 +1,10 @@
 import axios from 'axios';
 import { ElMessage } from 'element-plus';
 import router from '@/router';
-import { removeToken, getToken } from '@/utils/token';
+import { removeToken, getAccessToken, getRefreshToken } from '@/utils/token';
+import { randomSm4Key } from '@/utils/cryptoUtils';
+import { cryptoStore } from '@/store/modules/common/cryptoStore';
+import { sm2Encrypt } from '@/utils/cryptoUtils';
 
 const instance = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL, //'http://39.101.195.100:8085/api', //
@@ -11,38 +14,26 @@ const instance = axios.create({
   },
 });
 
-let loadingInstance;
-
-// loading开始 方法
-function startLoading() {
-  // element-ui loading 服务调用方式
-  loadingInstance = ElLoading.service({
-    lock: true,
-    text: '拼命加载中...',
-    spinner: 'el-icon-loading', // 自定义图标
-    background: 'rgba(0, 0, 0, 0.8)',
-  });
-}
-
-// loading结束 方法
-function endLoading() {
-  loadingInstance.close();
-}
-
 // 添加请求拦截器
 instance.interceptors.request.use(
-  (config) => {
-    // 在发送请求之前做些什么
-    const token = getToken();
-    if (token) {
-      // 添加 token 到请求头
-      config.headers.Authorization = `Bearer ${token}`;
+  (request) => {
+    // 登录接口，添加sm4key
+    if (request.url === '/auth/login') {
+      // 生成随机sm4key
+      cryptoStore().setSm4Key(randomSm4Key());
+      // 添加sm4key到请求头
+      request.headers.cryptoKey = sm2Encrypt(cryptoStore().sm4Key);
+      console.log('aaa ', cryptoStore().sm4Key);
     }
-    startLoading();
-    return config;
+    // 在发送请求之前做些什么
+    const accessToken = getAccessToken();
+    if (accessToken) {
+      // 添加 accessToken 到请求头
+      request.headers.Authorization = `Bearer ${accessToken}`;
+    }
+    return request;
   },
   function (error) {
-    endLoading();
     // 对请求错误做些什么
     return Promise.reject(error);
   },
@@ -51,12 +42,8 @@ instance.interceptors.request.use(
 // 添加响应拦截器
 instance.interceptors.response.use(
   (response) => {
-    endLoading();
     // blob类型直接返回response
-    if (
-      response.request.responseType === 'blob' ||
-      response.request.responseType === 'arraybuffer'
-    ) {
+    if (['blob', 'arraybuffer'].includes(response.request.responseType)) {
       return response.data;
     }
     // 2xx 范围内的状态码都会触发该函数。
@@ -67,7 +54,7 @@ instance.interceptors.response.use(
         return response?.data;
       default:
         ElMessage({
-          message: `${response.data.msg} ${response.data.data ?? ''}`,
+          message: `${response.data.msg}`,
           type: 'warning',
         });
         return;
@@ -75,7 +62,6 @@ instance.interceptors.response.use(
     return response.data;
   },
   (error) => {
-    endLoading();
     // 超出 2xx 范围的状态码都会触发该函数。
     // 对响应错误做点什么
     const status: number = error.response?.status;

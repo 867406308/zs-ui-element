@@ -1,38 +1,40 @@
 <template>
   <div class="log-container">
     <el-container>
+      <el-header>
+        <el-form :model="form" :inline="true" ref="loginFormRef">
+          <el-form-item label="登录用户名" prop="username">
+            <el-input v-model="form.username" placeholder="请输入登录用户名" />
+          </el-form-item>
+          <el-form-item label="登录IP" prop="ipAddress">
+            <el-input v-model="form.ipAddress" placeholder="请输入登录ip" />
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="useLoginLogStore.queryData()">
+              查询
+            </el-button>
+            <el-button @click="useLoginLogStore.resetForm(loginFormRef)">
+              重置
+            </el-button>
+          </el-form-item>
+        </el-form>
+      </el-header>
       <el-main>
-        <el-space :fill="true" style="width: 100%; margin-bottom: 8px">
-          <el-row justify="space-between">
-            <el-col :xl="12" :lg="12" :md="12" :sm="24">
-              <div>
-                <el-button type="primary">导出 </el-button>
-              </div>
-            </el-col>
-            <el-col :xl="12" :lg="12" :md="12" :sm="24" class="form-right">
-              <el-space>
-                <el-input
-                  v-model="form.username"
-                  placeholder="请输入登录用户名"
-                  class="input-with-select"
-                >
-                  <template #append>
-                    <el-button
-                      :icon="Search"
-                      @click="useLoginLogStore.queryData"
-                    />
-                  </template>
-                </el-input>
-              </el-space>
-            </el-col>
-          </el-row>
-        </el-space>
-        <el-table
-          class="table-style"
-          :data="tableData"
-          border
-          v-loading="loading"
-        >
+        <ZsToolbar>
+          <template #left>
+            <el-button
+              type="primary"
+              @click="useLoginLogStore.handleExport()"
+              v-permission="'sys:loglogin:export'"
+            >
+              <template #icon>
+                <ZsIcon icon="download-2" />
+              </template>
+              <template #default> 导出日志 </template>
+            </el-button>
+          </template>
+        </ZsToolbar>
+        <el-table :data="tableData" border v-loading="loading">
           <el-table-column
             align="center"
             label="序号"
@@ -54,7 +56,7 @@
           <el-table-column
             align="center"
             prop="ipAddress"
-            label="登录IP"
+            label="登录IP地址"
             width="150"
           />
           <el-table-column align="center" prop="city" label="登录地址" />
@@ -109,12 +111,6 @@
               }}</span>
             </template>
           </el-table-column>
-          <!-- <el-table-column prop="failureReason" label="登录原因" show-overflow-tooltip />
-          <el-table-column prop="loginMethod" label="登录方式" show-overflow-tooltip />
-          <el-table-column prop="loginSource" label="登录来源" show-overflow-tooltip />
-          <el-table-column align="center" prop="os" label="操作系统" show-overflow-tooltip width="260" />
-          <el-table-column align="center" prop="browser" label="浏览器" />
-          <el-table-column prop="userAgent" label="代理" show-overflow-tooltip /> -->
           <template #empty>
             <ZsEmpty />
           </template>
@@ -124,7 +120,7 @@
         <el-pagination
           background
           :current-page="form.page"
-          layout="total, sizes, prev, pager, next"
+          layout="total, sizes, prev, pager, next, jumper"
           :page-size="form.size"
           :total="total"
           @current-change="useLoginLogStore.handleCurrentChange"
@@ -146,10 +142,4 @@ onMounted(() => {
   useLoginLogStore.queryData();
 });
 </script>
-<style lang="scss" scoped>
-.form-right {
-  display: flex;
-  justify-content: end;
-}
-</style>
-@/store/modules/sys/log/loginLogStore
+<style lang="scss" scoped></style>

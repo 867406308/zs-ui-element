@@ -26,7 +26,7 @@
     </ZsSection>
     <ZsToolbar>
       <template #left>
-        <el-text>配色</el-text>
+        <el-text>主题色</el-text>
       </template>
       <template #right>
         <el-color-picker
@@ -35,6 +35,20 @@
           color-format="hex"
           :predefine="predefineColors"
           @active-change="activeChange"
+        />
+      </template>
+    </ZsToolbar>
+    <ZsToolbar v-if="!theme.dark">
+      <template #left>
+        <el-text>导航栏主题色</el-text>
+      </template>
+      <template #right>
+        <el-color-picker
+          v-model="theme.navTheme"
+          show-alpha
+          color-format="hex"
+          :predefine="predefineColors"
+          @active-change="activeNavThemeChange"
         />
       </template>
     </ZsToolbar>
@@ -73,12 +87,31 @@
         />
       </template>
     </ZsToolbar>
+    <ZsToolbar>
+      <template #left>
+        <el-text>是否开启页脚</el-text>
+      </template>
+      <template #right>
+        <el-switch
+          v-model="theme.footer"
+          @change="useSettingStore.changeFooter"
+        />
+      </template>
+    </ZsToolbar>
     <template #footer>
       <span class="dialog-footer">
         <el-button type="primary" @click="useSettingStore.saveTheme">
-          保存配置
+          <template #icon>
+            <ZsIcon icon="save" />
+          </template>
+          <template #default> 保存配置 </template>
         </el-button>
-        <el-button @click="useSettingStore.resetTheme">恢复默认</el-button>
+        <el-button @click="useSettingStore.resetTheme">
+          <template #icon>
+            <ZsIcon icon="reset-left-fill" />
+          </template>
+          <template #default> 恢复默认</template>
+        </el-button>
       </span>
     </template>
   </el-drawer>
@@ -87,6 +120,7 @@
 import vertical from '@/assets/layout/vertical.jpg';
 import horizontal from '@/assets/layout/horizontal.jpg';
 import column from '@/assets/layout/column.jpg';
+import verticalMix from '@/assets/layout/vertical_mix.jpg';
 import { settingStore } from '@/store/modules/config/setting';
 import { storeToRefs } from 'pinia';
 import { url } from 'inspector';
@@ -111,8 +145,13 @@ const layoutList = [
     value: 'column',
     url: column,
   },
+  {
+    label: '纵向混合布局',
+    value: 'verticalMix',
+    url: verticalMix,
+  },
 ];
-const color = ref('#409eff');
+
 const predefineColors = ref([
   '#ff4500',
   '#ff8c00',
@@ -130,9 +169,15 @@ const predefineColors = ref([
   '#c7158577',
 ]);
 
+// 主题颜色选择
 const activeChange = (color: string) => {
   useSettingStore.changeColor(color);
 };
+// 导航栏主题颜色选择
+const activeNavThemeChange = (color: string) => {
+  useSettingStore.changeNavTheme(color);
+};
+
 const changeBreadcrumb = (val: boolean) => {
   useSettingStore.changeBreadcrumb(val);
 };

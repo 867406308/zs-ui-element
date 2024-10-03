@@ -4,7 +4,7 @@
     :collapse="collapse"
     :router="true"
     :collapse-transition="false"
-    :mode="theme.layout === 'horizontal' ? 'horizontal' : 'vertical'"
+    :mode="mode"
   >
     <SubMenu
       v-for="(item, index) in menuList"
@@ -26,6 +26,10 @@ const useRoutersStore = routersStore();
 const useSettingStore = settingStore();
 const { collapse, theme } = storeToRefs(useSettingStore);
 const menuList = ref([]);
+
+defineProps({
+  mode: { type: String, default: 'vertical' },
+});
 onMounted(() => {
   menuList.value = useRoutersStore.menuList;
 });

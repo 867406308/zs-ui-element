@@ -5,7 +5,7 @@
       <div class="header">
         <div class="logoMenu">
           <ZsLogo />
-          <ZsMenu />
+          <ZsMenu mode="horizontal" />
         </div>
         <ZsNavBar />
       </div>
@@ -24,14 +24,15 @@ const { theme } = storeToRefs(useSettingStore);
 </script>
 <style lang="scss" scoped>
 .zs-container {
+  height: 100vh;
   .zs-header {
     padding: 0px;
-    height: $nav-height + $tabs-height;
-    z-index: 999;
+    height: var(--zs-custom-nav-height) + var(--zs-custom-tabs-height);
+    // z-index: 999;
     .header {
       display: flex;
       justify-content: space-between;
-      background-color: var(--zs-bg-color);
+      background-color: var(--zs-menu-bg-color);
       border-bottom: 1px solid var(--zs-border-color);
       .logoMenu {
         display: flex;
@@ -43,7 +44,7 @@ const { theme } = storeToRefs(useSettingStore);
         }
         :deep() {
           .zs-menu {
-            height: $nav-height !important;
+            height: var(--zs-custom-nav-height) !important;
             width: 100%;
             border-bottom: none;
             width: calc(100% - 350px);
@@ -59,7 +60,8 @@ const { theme } = storeToRefs(useSettingStore);
       }
       .nav-bar {
         width: 350px;
-        background-color: var(--zs-bg-color);
+        background-color: var(--zs-menu-bg-color);
+        color: var(--zs-menu-text-color);
         border: none;
       }
     }
@@ -67,7 +69,7 @@ const { theme } = storeToRefs(useSettingStore);
   .zs-main {
     background-color: var(--zs-bg-color-page);
     padding: $base-padding;
-    height: calc($app-main-height + 20px);
+    height: calc($app-main-height);
   }
 }
 </style>

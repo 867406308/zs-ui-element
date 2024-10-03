@@ -1,10 +1,11 @@
 import { defineStore } from 'pinia';
-import { setToken, removeToken } from '@/utils/token';
+import { setAccessToken, setRefreshToken, removeToken } from '@/utils/token';
 import { userLogin } from '@/api/login/login';
 import { getUserInfo } from '@/api/sys/user';
 import { routersStore } from '@/store/modules/common/router';
 import { tabsStore } from '@/store/modules/common/tabs';
 import router from '@/router';
+import { sm2Encrypt, sm2Decrypt } from '@/utils/cryptoUtils';
 import { websocketStore } from '@/store/modules/common/websocketStore';
 
 export const loginStore = defineStore('loginStore', {
@@ -13,7 +14,8 @@ export const loginStore = defineStore('loginStore', {
       username: '',
       realName: '',
       avatar: '',
-      token: '',
+      accessToken: '',
+      refreshToken: '',
       permissions: [],
     };
   },
@@ -23,13 +25,18 @@ export const loginStore = defineStore('loginStore', {
     },
   },
   actions: {
-    setToken(token: string) {
-      this.token = token;
-      setToken(token);
+    setAccessToken(token: string) {
+      this.accessToken = token;
+      setAccessToken(token);
+    },
+    setRefreshToken(token: string) {
+      this.refreshToken = token;
+      setRefreshToken(token);
     },
     async login(form: any) {
-      const { data } = await userLogin(form);
-      this.setToken(data);
+      const { data } = await userLogin(sm2Encrypt(form));
+      this.setAccessToken(data?.accessToken);
+      this.setRefreshToken(data?.refreshToken);
     },
     async getUserInfo() {
       const { data } = await getUserInfo();

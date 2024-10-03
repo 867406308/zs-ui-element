@@ -126,15 +126,16 @@ onBeforeMount(() => {
 <style lang="scss" scoped>
 .nav-tabs {
   padding-left: 20px;
-  height: $tabs-height;
+  height: var(--zs-custom-tabs-height);
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid var(--zs-border-color);
+  box-sizing: border-box;
 
   .zs-tabs {
     width: calc(100% - 60px);
-    height: $tabs-height;
+    height: var(--zs-custom-tabs-height);
     :deep() {
       .zs-tabs__header {
         border-bottom: none !important;
@@ -146,13 +147,13 @@ onBeforeMount(() => {
             display: flex;
             align-items: center;
             justify-content: center;
-            height: $tabs-height;
+            height: var(--zs-custom-tabs-height);
           }
           .zs-tabs__nav-next {
             display: flex;
             align-items: center;
             justify-content: center;
-            height: $tabs-height;
+            height: var(--zs-custom-tabs-height);
           }
           .zs-tabs__nav-scroll {
             .zs-tabs__nav {
@@ -169,7 +170,7 @@ onBeforeMount(() => {
         background-color: transparent !important;
       }
       .zs-tabs__item {
-        height: $tabs-height;
+        height: var(--zs-custom-tabs-height);
         padding-left: 20px !important;
         padding-right: 20px !important;
 

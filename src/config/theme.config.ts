@@ -10,7 +10,11 @@ export const themeConfig = {
   // 是否开启标签页图标显示
   tabsIcon: true,
   // 主题色
-  color: '#16A085',
+  color: '#0C8A72', //'#16A085',
+  // 导航栏主题色
+  navTheme: '#000000',
   // 是否开启色弱模式
   colorWeak: false,
+  // 是否显示页脚
+  footer: true,
 };

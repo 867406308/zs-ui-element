@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
-import { logLoginPage, logLoginToday } from '@/api/sys/log';
+import { logLoginPage, logLoginToday, exportExcel } from '@/api/sys/logLogin';
+import download from '@/utils/fileDownload';
 
 export const loginLogStore = defineStore('loginLog', {
   state: () => {
@@ -43,6 +44,14 @@ export const loginLogStore = defineStore('loginLog', {
     async queryTodayList() {
       const data = await logLoginToday();
       this.todayList = data?.data ?? [];
+    },
+    // 导出
+    async handleExport() {
+      const excelName = '登录日志';
+      const data = await exportExcel({
+        excelName: excelName,
+      });
+      download.excel(data, excelName + '.xlsx');
     },
   },
 });

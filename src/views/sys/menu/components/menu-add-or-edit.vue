@@ -15,9 +15,9 @@
         <el-col>
           <el-form-item label="菜单类型">
             <el-radio-group v-model="form.type">
-              <el-radio :value="1">目录</el-radio>
-              <el-radio :value="2">菜单</el-radio>
-              <el-radio :value="3">按钮</el-radio>
+              <el-radio-button :value="1">目录</el-radio-button>
+              <el-radio-button :value="2">菜单</el-radio-button>
+              <el-radio-button :value="3">按钮</el-radio-button>
             </el-radio-group>
           </el-form-item>
         </el-col>
@@ -41,7 +41,16 @@
       </el-row>
       <el-row>
         <el-col>
-          <el-form-item label="菜单名称" prop="title">
+          <el-form-item
+            :label="
+              form.type === 3
+                ? '按钮名称'
+                : form.type === 2
+                  ? '菜单名称'
+                  : '目录名称'
+            "
+            prop="title"
+          >
             <el-input
               v-model="form.title"
               placeholder="请输入菜单名称"

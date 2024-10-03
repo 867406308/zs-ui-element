@@ -16,7 +16,7 @@
         <el-tree-select
           v-model="form.sysDeptId"
           :data="treeData"
-          check-strictly
+          :render-after-expand="false"
           :props="{
             label: 'deptName',
             value: 'sysDeptId',

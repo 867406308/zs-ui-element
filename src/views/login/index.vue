@@ -1,99 +1,117 @@
 <template>
   <div class="login">
-    <el-row>
-      <el-col
-        :xl="12"
-        :lg="12"
-        :md="12"
-        :sm="12"
-        class="login-background"
-      ></el-col>
-      <el-col :xl="12" :lg="12" :md="12" :sm="12" class="login-main">
-        <div class="login-container">
-          <!-- <div class="login-logo">
-            <div class="login-title">hello,欢迎登陆ZsAdmin</div>
-          </div> -->
-          <div class="login-title">用户登录</div>
-          <loginUsername />
-          <div class="main-footer">
-            <el-divider>其他方式登录</el-divider>
-            <div class="login-icon">
-              <img src="@/assets/icons/login/alipay.svg" />
-              <img src="@/assets/icons/login/wechat.svg" />
-              <img src="@/assets/icons/login/gitee.svg" />
-              <img src="@/assets/icons/login/github.svg" />
-            </div>
-          </div>
+    <div class="container">
+      <div class="login-body">
+        <div class="login-left">
+          <ZsLogo />
         </div>
-      </el-col>
-    </el-row>
+        <div class="login-right">
+          <div class="login-title">欢迎登录</div>
+          <loginUsername />
+        </div>
+      </div>
+      <div class="login-footer">
+        <ZsFooter />
+      </div>
+    </div>
   </div>
 </template>
 <script lang="ts" setup>
 import loginUsername from './components/login-username.vue';
+import { storeToRefs } from 'pinia';
 </script>
 <style lang="scss" scoped>
 .login {
   height: 100%;
-  background-color: var(--zs-bg-color);
+  // background-color: var(--zs-color-primary);
+  background-image: url('@/assets/images/bj26.png');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
 
-  .zs-row {
-    height: 100%;
-    overflow: auto;
+  .container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 643px;
+    width: 1000px;
+    padding: 0;
+    z-index: 1;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
 
-    .login-background {
-      background-image: url('@/assets/25.png');
-      background-repeat: round;
-      background-size: contain;
-    }
-
-    .login-main {
+    .login-body {
+      height: 574px;
       display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
+      margin: auto;
+      width: inherit;
+      position: relative;
+      -webkit-box-shadow: 0px 20px 80px 0px rgba(0, 0, 0, 0.3);
+      box-shadow: 0px 20px 80px 0px rgba(0, 0, 0, 0.3);
 
-      .login-container {
+      .login-left {
+        margin: 0 auto;
         width: 50%;
         height: 100%;
-        background-color: var(--zs-bg-color);
-        border-radius: 8px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
+        box-sizing: border-box;
+        color: #fff;
+        position: relative;
+        padding: 80px 80px 48px;
+        // background: linear-gradient(0deg, #3a485a 0%, #607089 100%);
+        background-image: url('@/assets/images/d14.png');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        position: relative;
 
-        .login-logo {
-          display: flex;
-          justify-content: flex-start;
-          margin-bottom: 20px;
-          align-items: center;
-          img {
-            width: 2em;
-            height: 2em;
-          }
-          .login-title {
-            font-size: 2em;
-            // color: #0064c8;
-          }
-        }
-        .login-title {
-          // color: #0064c8;
-          font-size: 30px;
-        }
-        .main-footer {
+        &::after {
+          content: '';
           width: 100%;
+          height: 100%;
+          position: absolute;
+          top: 0;
+          left: 0;
+          background-image: url('@/assets/images/c1.png');
+          background-repeat: no-repeat;
+          background-size: 100%;
+          background-position: center;
+          position: relative;
+        }
 
-          .login-icon {
-            display: flex;
-            justify-content: space-between;
-            img {
-              cursor: pointer;
-              margin-left: 10px;
-              width: 2em;
-              height: 2em;
-            }
+        .logo {
+          position: absolute;
+          top: 10px;
+          left: 10px;
+        }
+      }
+      .login-right {
+        margin: 0 auto;
+        width: 50%;
+        height: 100%;
+        padding: 64px 70px 48px;
+        position: relative;
+        box-sizing: border-box;
+        background-color: var(--zs-bg-color);
+
+        .login-title {
+          font-size: 24px;
+          font-weight: 600;
+          margin-bottom: 40px;
+          color: var(--zs-text-color-primary);
+          text-align: left;
+          @media screen and (max-width: 768px) {
+            font-size: 18px;
           }
         }
+      }
+    }
+    .login-footer {
+      margin-top: 50px;
+      text-align: center;
+      color: var(--zs-text-color-primary);
+
+      .footer-text {
+        background-color: transparent;
       }
     }
   }

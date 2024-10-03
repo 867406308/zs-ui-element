@@ -3,7 +3,7 @@ import { getById, save, edit } from '@/api/sys/user';
 import { getDeptTree } from '@/api/sys/dept';
 import { getList as getRoleData } from '@/api/sys/role';
 import { getList as getPostList } from '@/api/sys/post';
-import { da } from 'element-plus/es/locale';
+import { sm4Decrypt, sm4Encrypt } from '@/utils/cryptoUtils';
 
 export const userAddOrEditStore = defineStore('userAddOrEditStore', {
   state: () => {
@@ -85,14 +85,16 @@ export const userAddOrEditStore = defineStore('userAddOrEditStore', {
     // 获取详情
     async getInfoById() {
       const { data } = await getById(this.form.sysUserId);
-      this.deptRef.$emit('change', data.sysDeptId);
-      this.deptPostTableData = data.deptPostList.map((newDeptPost) => {
+      const decryptData = sm4Decrypt(data);
+      console.log('newData', decryptData);
+      this.deptRef.$emit('change', decryptData.sysDeptId);
+      this.deptPostTableData = decryptData?.deptPostList.map((newDeptPost) => {
         return this.postData.filter(
           (item) => item.sysDeptId === newDeptPost.sysDeptId,
         );
       });
 
-      Object.assign(this.form, data);
+      Object.assign(this.form, decryptData);
     },
     // 部门树型
     async getDeptList() {
@@ -125,7 +127,7 @@ export const userAddOrEditStore = defineStore('userAddOrEditStore', {
             if (!this.form.sysUserId) {
               await save(this.form);
             } else {
-              await edit(this.form);
+              await edit(sm4Encrypt(this.form));
             }
             this.dialogFormVisible = false;
             this.loading = false;

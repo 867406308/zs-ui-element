@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { save, getById } from '@/api/sys/notice';
+import { save, edit, getById } from '@/api/sys/notice';
 import { postStore } from '@/store/modules/sys/position/postStore';
 
 export const noticeAddOrEditStore = defineStore('noticeAddOrEdit', {
@@ -51,7 +51,7 @@ export const noticeAddOrEditStore = defineStore('noticeAddOrEdit', {
       }
     },
     async getInfoById() {
-      const data = await getById(this.form.sysPostId);
+      const data = await getById(this.form.sysNoticeId);
       Object.assign(this.form, data?.data);
     },
     handleSaveDraft(formRef, emits) {

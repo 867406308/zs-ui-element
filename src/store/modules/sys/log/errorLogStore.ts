@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
-import { logErrorPage } from '@/api/sys/log';
+import { logErrorPage, exportExcel } from '@/api/sys/logError';
+import download from '@/utils/fileDownload';
 
 export const errorLogStore = defineStore('errorLog', {
   state: () => {
@@ -37,6 +38,14 @@ export const errorLogStore = defineStore('errorLog', {
       if (!formEl) return;
       formEl.resetFields();
       this.queryData();
+    },
+    // 导出
+    async handleExport() {
+      const excelName = '异常日志';
+      const data = await exportExcel({
+        excelName: excelName,
+      });
+      download.excel(data, excelName + '.xlsx');
     },
   },
 });

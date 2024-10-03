@@ -1,32 +1,36 @@
 <template>
   <div class="log-error-container">
     <el-container>
+      <el-header>
+        <el-form :model="form" :inline="true" ref="errorFormRef">
+          <el-form-item label="登录用户名" prop="username">
+            <el-input v-model="form.username" placeholder="请输入操作用户名" />
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="useErrorLogStore.queryData()">
+              查询
+            </el-button>
+            <el-button @click="useErrorLogStore.resetForm(errorFormRef)">
+              重置
+            </el-button>
+          </el-form-item>
+        </el-form>
+      </el-header>
       <el-main>
-        <el-space :fill="true" style="width: 100%; margin-bottom: 8px">
-          <el-row justify="space-between">
-            <el-col :xl="12" :lg="12" :md="12" :sm="24">
-              <div>
-                <el-button type="primary">导出 </el-button>
-              </div>
-            </el-col>
-            <el-col :xl="12" :lg="12" :md="12" :sm="24" class="form-right">
-              <el-space>
-                <el-input
-                  v-model="form.username"
-                  placeholder="请输入操作用户名"
-                  class="input-with-select"
-                >
-                  <template #append>
-                    <el-button
-                      :icon="Search"
-                      @click="useErrorLogStore.queryData"
-                    />
-                  </template>
-                </el-input>
-              </el-space>
-            </el-col>
-          </el-row>
-        </el-space>
+        <ZsToolbar>
+          <template #left>
+            <el-button
+              type="primary"
+              @click="useErrorLogStore.handleExport()"
+              v-permission="'sys:logerror:export'"
+            >
+              <template #icon>
+                <ZsIcon icon="download-2" />
+              </template>
+              <template #default> 导出日志 </template>
+            </el-button>
+          </template>
+        </ZsToolbar>
         <el-table
           class="table-style"
           :data="tableData"
@@ -44,7 +48,7 @@
           <el-table-column
             align="center"
             prop="module"
-            label="模块"
+            label="所属模块"
             width="150"
           />
           <el-table-column
@@ -58,6 +62,7 @@
             prop="requestPath"
             label="请求接口"
             width="200"
+            show-overflow-tooltip
           />
           <el-table-column
             align="center"
@@ -74,8 +79,8 @@
           <el-table-column
             align="center"
             prop="ipAddress"
-            label="IP地址"
-            width="120"
+            label="请求IP地址"
+            width="150"
           />
           <el-table-column
             align="center"
@@ -101,7 +106,7 @@
         <el-pagination
           background
           :current-page="form.page"
-          layout="total, sizes, prev, pager, next"
+          layout="total, sizes, prev, pager, next, jumper"
           :page-size="form.size"
           :total="total"
           @current-change="useErrorLogStore.handleCurrentChange"
@@ -123,9 +128,4 @@ onMounted(() => {
   useErrorLogStore.queryData();
 });
 </script>
-<style lang="scss" scoped>
-.form-right {
-  display: flex;
-  justify-content: end;
-}
-</style>
+<style lang="scss" scoped></style>

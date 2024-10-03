@@ -1,8 +1,9 @@
 import { defineStore } from 'pinia';
-import { noticePage, getLimit } from '@/api/sys/notice';
+import { noticePage, getLimit, del } from '@/api/sys/notice';
 
 export const noticeStore = defineStore('notice', {
   state: () => ({
+    ruleFormRef: ref<FormInstance>(),
     addEditRef: ref<HTMLFormElement | null>(null),
     infoRef: ref<HTMLFormElement | null>(null),
     form: {
@@ -39,6 +40,7 @@ export const noticeStore = defineStore('notice', {
       this.queryData();
     },
     handleAddOrEdit(row: any) {
+      console.log(row.sysNoticeId);
       if (this.addEditRef) {
         this.addEditRef.form.sysNoticeId = row?.sysNoticeId;
         this.addEditRef.init();
@@ -50,8 +52,25 @@ export const noticeStore = defineStore('notice', {
         this.infoRef.init();
       }
     },
-    reset() {
-      this.$reset();
+    // 删除
+    handleDelete(row: any) {
+      if (row.sysNoticeId) {
+        ElMessageBox.confirm('您将进行删除操作,是否继续?', '温馨提示', {
+          confirmButtonText: '确认',
+          cancelButtonText: '取消',
+          type: 'warning',
+        })
+          .then(async () => {
+            await del(row.sysNoticeId);
+            this.queryData();
+          })
+          .catch(() => {});
+      }
+    },
+    // 重置表单
+    resetForm(formEl: FormInstance | undefined) {
+      if (!formEl) return;
+      formEl.resetFields();
       this.queryData();
     },
     async queryLimit() {

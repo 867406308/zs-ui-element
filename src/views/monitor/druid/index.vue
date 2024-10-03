@@ -18,7 +18,7 @@ const url = import.meta.env.VITE_BASE_URL + '/druid/index.html';
 
   .iframe {
     width: 100%;
-    height: 100vh;
+    height: 100%;
   }
 }
 </style>

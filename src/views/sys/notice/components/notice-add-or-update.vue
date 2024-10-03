@@ -1,7 +1,7 @@
 <template>
   <el-drawer
     v-model="noticeAddOrEditVisible"
-    :title="!form.sysNoticeId ? '新增' : '修改'"
+    :title="!form.sysNoticeId ? '新增通知公告' : '修改通知公告'"
     :close-on-click-modal="false"
     size="60%"
   >
@@ -30,7 +30,7 @@
         </el-col>
       </el-row>
       <el-form-item label="公告内容" prop="content">
-        <ZsEditor @change="handleEditorChange" />
+        <ZsEditor @change="handleEditorChange" v-model="form.content" />
       </el-form-item>
       <el-form-item label="附件">
         <el-upload

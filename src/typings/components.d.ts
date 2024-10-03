@@ -86,6 +86,7 @@ declare module 'vue' {
     ZsDept: typeof import('./../components/ZsDept/index.vue')['default']
     ZsEditor: typeof import('./../components/ZsEditor/index.vue')['default']
     ZsEmpty: typeof import('./../components/ZsEmpty/index.vue')['default']
+    ZsFooter: typeof import('./../components/ZsFooter/index.vue')['default']
     ZsGap: typeof import('./../components/ZsGap/index.vue')['default']
     ZsIcon: typeof import('./../components/ZsIcon/index.vue')['default']
     ZsLogo: typeof import('./../components/ZsLogo/index.vue')['default']

@@ -13,6 +13,7 @@
 import { settingStore } from '@/store/modules/config/setting';
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs';
 import en from 'element-plus/dist/locale/en.js';
+
 const locale = ref(zhCn);
 const refreshKey = ref(0);
 const isRouter = ref(true);

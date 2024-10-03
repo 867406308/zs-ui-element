@@ -1,26 +1,41 @@
 import Cookies from 'js-cookie';
 
-const TokenKey = 'zs_admin_token';
+const accessToken = 'access_token';
+const refreshToken = 'refresh_token';
 /**
- * 获取token
+ * 获取accessToken
  */
-export function getToken() {
-  return Cookies.get(TokenKey);
+export function getAccessToken() {
+  return Cookies.get(accessToken);
 }
 /**
- * 设置token
+ * 设置accessToken
  */
-export function setToken(token: string) {
-  Cookies.set(TokenKey, token);
+export function setAccessToken(token: string) {
+  Cookies.set(accessToken, token);
+}
+
+/**
+ * 获取refreshToken
+ */
+export function getRefreshToken() {
+  return Cookies.get(refreshToken);
+}
+/**
+ * 设置refreshToken
+ */
+export function setRefreshToken(token: string) {
+  Cookies.set(refreshToken, token);
 }
 
 /**
  * 移除token
  */
 export function removeToken() {
-  Cookies.remove(TokenKey);
+  Cookies.remove(accessToken);
+  Cookies.remove(refreshToken);
 }
 
 export function hashToken() {
-  return !!Cookies.get(TokenKey);
+  return !!Cookies.get(accessToken);
 }

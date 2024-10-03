@@ -12,7 +12,6 @@ import topLevelAwait from 'vite-plugin-top-level-await';
 import fs from 'fs';
 
 const pathSrc = path.resolve(__dirname, 'src');
-console.log('aa', __dirname);
 
 const optimizeDepsElementPlusIncludes = ['element-plus/es'];
 const componentsDir = 'node_modules/element-plus/es/components';
@@ -35,7 +34,6 @@ const promises = fs.readdirSync(componentsDir).map((dirname) => {
 
 (async () => {
   await Promise.all(promises); // 等待所有Promise完成
-  console.log('bb', optimizeDepsElementPlusIncludes);
 })();
 
 export default defineConfig({

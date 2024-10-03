@@ -18,6 +18,8 @@
         <!--内容-->
         <zs-app-main />
       </el-main>
+
+      <ZsFooter />
     </el-container>
   </el-container>
 </template>
@@ -42,7 +44,6 @@ const { collapse } = storeToRefs(useSettingStore);
     }
 
     .zs-scrollbar {
-      // background-color: $menu-left-bg-color;
       height: calc($menu-left-height);
       .zs-scrollbar__wrap {
         .zs-scrollbar__view {
@@ -58,8 +59,8 @@ const { collapse } = storeToRefs(useSettingStore);
   .zs-container {
     .zs-header {
       padding: 0px;
-      height: $nav-height + $tabs-height;
-      z-index: 999;
+      height: clac(#{var(--zs-custom-nav-height)}) +
+        var(--zs-custom-tabs-height);
     }
     .zs-main {
       background-color: var(--zs-bg-color-page);

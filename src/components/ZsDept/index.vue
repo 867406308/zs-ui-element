@@ -23,11 +23,11 @@
     @node-click="handleNodeClick"
   >
     <template #default="{ node, data }">
-      <ZsIcon
+      <!-- <ZsIcon
         v-if="data.children.length > 0"
         icon="organization-chart"
         style="margin-right: 8px"
-      />
+      /> -->
       <ZsIcon
         v-if="data.children.length === 0"
         icon="organization-chart"

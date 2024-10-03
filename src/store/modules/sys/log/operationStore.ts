@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
-import { logOperationPage } from '@/api/sys/log';
+import { logOperationPage, exportExcel } from '@/api/sys/logOperation';
+import download from '@/utils/fileDownload';
 
 export const operationStore = defineStore('operation', {
   state: () => {
@@ -37,6 +38,14 @@ export const operationStore = defineStore('operation', {
       if (!formEl) return;
       formEl.resetFields();
       this.queryData();
+    },
+    // 导出
+    async handleExport() {
+      const excelName = '操作日志';
+      const data = await exportExcel({
+        excelName: excelName,
+      });
+      download.excel(data, excelName + '.xlsx');
     },
   },
 });

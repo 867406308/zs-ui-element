@@ -4,10 +4,18 @@
 @import './common.scss';
 
 :root {
+  // 底部授权信息高度
+  --zs-auth-footer-height: 30px;
+  // tabs高度
+  --zs-custom-tabs-height: 40px;
+  // nav-bar高度
+  --zs-custom-nav-height: 50px;
   // --zs-menu-hover-bg-color: var(--zs-color-primary) !important;
   // --zs-menu-bg-color: #141414 !important;
   // --zs-menu-text-color: #f3f3f8 !important;
   // --zs-menu-active-color: #fff !important;
+  --custom-menu-bg-color: var(--zs-bg-color);
+  --custom-menu-text-color: var(--zs-text-color-primary);
 }
 html,
 body {
@@ -23,7 +31,7 @@ body {
   position: relative;
 }
 .aside-btn{
-  z-index: 100;
+  // z-index: 100;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -37,14 +45,14 @@ body {
   cursor: pointer;
 }
 a {
-  color: var(--ep-color-primary);
+  color: var(--zs-color-primary);
 }
 
 code {
   border-radius: 2px;
   padding: 2px 4px;
-  background-color: var(--ep-color-primary-light-9);
-  color: var(--ep-color-primary);
+  background-color: var(--zs-color-primary-light-9);
+  color: var(--zs-color-primary);
 }
 
 .zs-button:focus-visible{
@@ -59,6 +67,11 @@ code {
     background-color: var(--zs-bg-color);
     font-weight: var(--zs-font-weight-primary);
     padding: 15px !important;
+
+    .zs-drawer__title{
+      font-weight: bold;
+      font-size: var(--zs-font-size-large);
+    }
   }
   .zs-drawer__footer{
     display: flex;
@@ -118,22 +131,23 @@ code {
   justify-content: flex-end;
   align-items: center;
 }
-.zs-menu{
 
-}
 
 // 暗黑模式下的样式
 html.dark {
   --zs-bg-color: #141414;
   --zs-aside-bg-color: #141414;
+  --w-e-textarea-bg-color: #333;
+  --w-e-textarea-color: #fff;
   
 }
 // 正常模式下样式
 html.light {
-  // --zs-menu-hover-bg-color: var(--zs-color-primary);
-  // --zs-menu-bg-color: #141414;
-  // --zs-menu-text-color: #fff;
-  // --zs-menu-active-color: var(--zs-color-primary);
-
+  
+  --zs-menu-bg-color: var(--custom-menu-bg-color) !important;
+  --zs-menu-text-color: var(--custom-menu-text-color) !important;
+  --zs-menu-active-color: var(--zs-color-primary-dark-2);
+  --zs-menu-hover-text-color: var(--zs-color-primary);
+  --zs-menu-hover-bg-color: var(--zs-color-primary-light-5);
 
 }

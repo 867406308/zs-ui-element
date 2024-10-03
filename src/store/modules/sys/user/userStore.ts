@@ -9,6 +9,7 @@ import {
 } from '@/api/sys/user.ts';
 import { getDeptTree } from '@/api/sys/dept.ts';
 import download from '@/utils/fileDownload';
+import { sm4Decrypt, sm4Encrypt } from '@/utils/cryptoUtils';
 
 export const userStore = defineStore('sysuser', {
   state: () => ({
@@ -75,8 +76,9 @@ export const userStore = defineStore('sysuser', {
     async queryData() {
       this.loading = true;
       const data = await userPage(this.form);
-      this.tableData = data?.data?.list ?? [];
-      this.total = data?.data?.total;
+      const decryptData = sm4Decrypt(data?.data);
+      this.tableData = decryptData?.list ?? [];
+      this.total = decryptData?.total;
       this.loading = false;
     },
     reset() {
@@ -134,7 +136,6 @@ export const userStore = defineStore('sysuser', {
     },
     // 重置表单
     resetForm(formEl: FormInstance | undefined) {
-      console.log(formEl);
       if (!formEl) return;
       formEl.resetFields();
       this.queryData();
@@ -199,10 +200,12 @@ export const userStore = defineStore('sysuser', {
     },
     // 状态切换
     async handleStatusChange(row: any) {
-      await edit({
-        sysUserId: row.sysUserId,
-        status: row.status,
-      });
+      await edit(
+        sm4Encrypt({
+          sysUserId: row.sysUserId,
+          status: row.status,
+        }),
+      );
       this.queryData();
     },
   },

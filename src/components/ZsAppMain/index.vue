@@ -11,8 +11,6 @@
       </transition>
     </router-view>
   </section>
-
-  <!-- <div style="height: 100px">授权</div> -->
 </template>
 <script setup lang="ts">
 import { routersStore } from '@/store/modules/common/router';
