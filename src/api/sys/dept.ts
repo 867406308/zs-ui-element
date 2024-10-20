@@ -38,3 +38,10 @@ export function remove(id: string) {
     method: 'delete',
   });
 }
+
+export function getDeptPostTree() {
+  return request({
+    url: '/system/sys/dept/getDeptPostTree',
+    method: 'get',
+  });
+}

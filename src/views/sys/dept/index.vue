@@ -10,11 +10,14 @@
               @click="useDeptStore.handleAddOrEdit($event)"
               :icon="Plus"
             >
-              新增
+              新增部门
             </el-button>
-            <el-button type="primary" @click="useDeptStore.toggleExpand()">{{
-              expand ? '全部收缩' : '全部展开'
-            }}</el-button>
+            <el-button
+              type="primary"
+              @click="useDeptStore.toggleExpand()"
+              :icon="expand ? SortUp : SortDown"
+              >{{ expand ? '全部收缩' : '全部展开' }}</el-button
+            >
           </template>
           <template #right>
             <el-input
@@ -30,7 +33,7 @@
         </ZsToolbar>
         <el-table
           v-if="refreshTable"
-          :data="tableData"
+          :data="deptTreeData"
           row-key="id"
           :default-expand-all="expand"
           v-loading="loading"
@@ -50,14 +53,14 @@
                 v-if="scope.row.status === 0"
                 type="danger"
                 label="禁用"
-                effect="plain"
+                effect="dark"
                 >禁用</el-tag
               >
               <el-tag
                 v-if="scope.row.status === 1"
                 type="primary"
                 label="启用"
-                effect="plain"
+                effect="dark"
                 >启用</el-tag
               >
             </template>
@@ -67,16 +70,9 @@
             align="center"
             fixed="right"
             label="操作"
-            width="200"
+            width="120"
           >
             <template #default="{ row }">
-              <el-button
-                link
-                type="primary"
-                @click="useDeptStore.handleAddOrEdit(row)"
-                >部门成员</el-button
-              >
-              <el-divider direction="vertical" />
               <el-button
                 link
                 v-permission="'sys:dept:update'"
@@ -104,7 +100,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { Plus, Search } from '@element-plus/icons-vue';
+import { Plus, Search, SortUp, SortDown } from '@element-plus/icons-vue';
 import DeptAddOrEdit from './components/dept-add-or-edit.vue';
 import { deptStore } from '@/store/modules/sys/dept/deptStore';
 import { storeToRefs } from 'pinia';
@@ -119,12 +115,11 @@ const {
   refreshTable,
   expand,
   loading,
-  tableData,
+  deptTreeData,
 } = storeToRefs(useDeptStore);
 
 onMounted(() => {
   useDeptStore.queryData();
-  console.log('部门aaa: ', cryptoStore().sm4Key);
 });
 </script>
 <style lang="scss" scoped>

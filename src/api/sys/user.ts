@@ -24,6 +24,14 @@ export function getUserList(params: any) {
   });
 }
 
+export function getUserListByIds(data: any) {
+  return request({
+    url: '/system/sys/user/getUserListByIds',
+    method: 'post',
+    data,
+  });
+}
+
 export function getById(id: string) {
   return request({
     url: `/system/sys/user/${id}`,

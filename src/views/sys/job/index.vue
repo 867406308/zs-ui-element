@@ -14,7 +14,7 @@
               clearable
             >
               <el-option label="全部" value="" />
-              <el-option label="正常" :value="1" />
+              <el-option label="启用" :value="1" />
               <el-option label="暂停" :value="0" />
             </el-select>
           </el-form-item>
@@ -26,7 +26,7 @@
               clearable
             >
               <el-option label="全部" value="" />
-              <el-option label="正常" :value="1" />
+              <el-option label="启用" :value="1" />
               <el-option label="暂停" :value="0" />
             </el-select>
           </el-form-item>
@@ -99,7 +99,7 @@
             width="120"
           >
             <template #default="scope">
-              <el-tag v-if="scope.row.status === 1" type="primary">正常</el-tag>
+              <el-tag v-if="scope.row.status === 1" type="primary">启用</el-tag>
               <el-tag v-if="scope.row.status === 0" type="warning">
                 暂停
               </el-tag>

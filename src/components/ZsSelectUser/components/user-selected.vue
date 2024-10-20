@@ -13,7 +13,7 @@
     </div>
     <el-scrollbar :noresize="true" height="427">
       <div
-        v-for="(item, index) in selectedData"
+        v-for="(item, index) in tableAddUserData"
         :key="index"
         class="scrollbar-demo-item"
       >
@@ -31,7 +31,7 @@
       </div>
     </el-scrollbar>
     <div class="user-selected-footer">
-      {{ '共' + selectedData.length + '条' }}
+      {{ '共' + tableAddUserData.length + '条' }}
     </div>
   </div>
 </template>
@@ -40,7 +40,7 @@ import { Delete } from '@element-plus/icons-vue';
 import { storeToRefs } from 'pinia';
 import { userSelectStore } from '@/store/modules/sys/user/userSelectStore';
 const useUserSelectStore = userSelectStore();
-const { tableData, total, form, formRef, selectedData } =
+const { tableData, total, form, formRef, tableAddUserData } =
   storeToRefs(useUserSelectStore);
 </script>
 <style lang="scss" scoped>

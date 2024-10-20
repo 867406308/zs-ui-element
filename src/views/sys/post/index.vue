@@ -15,11 +15,32 @@
               >
               </el-input>
             </el-form-item>
+            <el-form-item label="状态" prop="status">
+              <el-select
+                v-model="form.status"
+                :empty-values="[null, undefined]"
+                :value-on-clear="null"
+                placeholder="请选择状态"
+                style="width: 200px"
+              >
+                <el-option label="全部" value="" />
+                <el-option label="启用" value="1" />
+                <el-option label="禁用" value="0" />
+              </el-select>
+            </el-form-item>
+
             <el-form-item>
-              <el-button type="primary" @click="usePostStore.queryData()">
+              <el-button
+                type="primary"
+                @click="usePostStore.queryData()"
+                :icon="Search"
+              >
                 查询
               </el-button>
-              <el-button @click="usePostStore.resetForm(ruleFormRef)">
+              <el-button
+                @click="usePostStore.resetForm(ruleFormRef)"
+                :icon="Refresh"
+              >
                 重置
               </el-button>
             </el-form-item>
@@ -95,16 +116,16 @@
                 <el-tag
                   v-if="scope.row.status === 0"
                   type="danger"
-                  effect="plain"
+                  effect="dark"
                   label="禁用"
                   >禁用</el-tag
                 >
                 <el-tag
                   v-if="scope.row.status === 1"
                   type="primary"
-                  effect="plain"
-                  label="正常"
-                  >正常</el-tag
+                  effect="dark"
+                  label="启用"
+                  >启用</el-tag
                 >
               </template>
             </el-table-column>
@@ -144,7 +165,6 @@
             layout="total, sizes, prev, pager, next"
             :page-size="form.size"
             :total="total"
-            :hide-on-single-page="true"
             @current-change="usePostStore.handleCurrentChange"
             @size-change="usePostStore.handleSizeChange"
           />
@@ -155,7 +175,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { Search, Plus, Delete } from '@element-plus/icons-vue';
+import { Search, Plus, Delete, Refresh } from '@element-plus/icons-vue';
 import PostAddOrEdit from './components/post-add-or-edit.vue';
 import { postStore } from '@/store/modules/sys/position/postStore';
 import { storeToRefs } from 'pinia';

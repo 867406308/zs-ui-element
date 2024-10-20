@@ -1,11 +1,11 @@
 import { defineStore } from 'pinia';
-import { getDeptTree, remove } from '@/api/sys/dept.ts';
+import { getDeptTree, remove, getDeptPostTree } from '@/api/sys/dept.ts';
 
 export const deptStore = defineStore('dept', {
   state: () => ({
     addEditRef: ref<HTMLFormElement | null>(null),
     ruleFormRef: ref<FormInstance>(),
-    tableData: [],
+    deptTreeData: [],
     refreshTable: true,
     expand: true,
     loading: true,
@@ -19,11 +19,14 @@ export const deptStore = defineStore('dept', {
     async queryData() {
       this.loading = true;
       const data = await getDeptTree(this.form);
-      this.tableData = data?.data ?? [];
-      this.tableData.forEach((element: any) => {
+      this.deptTreeData = data?.data ?? [];
+      this.deptTreeData.forEach((element: any) => {
         this.expandedKeys.push(element.sysDeptId as never);
       });
+      console.log('***', this.deptTreeData);
       this.loading = false;
+
+      const data1 = await getDeptPostTree();
     },
     handleAddOrEdit(row: any) {
       if (this.addEditRef) {

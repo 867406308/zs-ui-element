@@ -12,10 +12,15 @@
             </el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="useRoleStore.queryData"
+            <el-button
+              type="primary"
+              @click="useRoleStore.queryData"
+              :icon="Search"
               >查询</el-button
             >
-            <el-button @click="useRoleStore.resetForm(ruleFormRef)"
+            <el-button
+              @click="useRoleStore.resetForm(ruleFormRef)"
+              :icon="Refresh"
               >重置</el-button
             >
           </el-form-item>
@@ -96,14 +101,14 @@
                 v-if="scope.row.status === 0"
                 type="danger"
                 label="禁用"
-                effect="plain"
+                effect="dark"
                 >禁用</el-tag
               >
               <el-tag
                 v-if="scope.row.status === 1"
                 type="primary"
                 label="启用"
-                effect="plain"
+                effect="dark"
                 >启用</el-tag
               >
             </template>
@@ -160,7 +165,7 @@
         <el-pagination
           background
           :current-page="form.page"
-          layout="total, sizes, prev, pager, next, jumper"
+          layout="total, sizes, prev, pager, next"
           :page-size="form.size"
           :total="total"
           @current-change="useRoleStore.handleCurrentChange"
@@ -177,6 +182,7 @@ import {
   Grid,
   FullScreen,
   Search,
+  Refresh,
   ArrowDown,
   Plus,
   Delete,

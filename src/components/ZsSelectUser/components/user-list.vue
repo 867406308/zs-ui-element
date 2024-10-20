@@ -41,7 +41,7 @@
               size="small"
               color="#626aef"
               plain
-              @click="useUserSelectStore.addSelectedUser(scope.row)"
+              @click="addSelectedUser(scope.row)"
             >
               添加
             </el-button>
@@ -54,9 +54,7 @@
     </el-main>
     <el-footer>
       <el-pagination
-        small
         background
-        :pager-count="5"
         :currentPage="form.page"
         layout="total, prev, pager, next"
         :page-size="form.size"
@@ -71,7 +69,40 @@
 import { storeToRefs } from 'pinia';
 import { userSelectStore } from '@/store/modules/sys/user/userSelectStore';
 const useUserSelectStore = userSelectStore();
-const { tableData, total, form } = storeToRefs(useUserSelectStore);
+const { tableData, total, form, tableAddUserData } =
+  storeToRefs(useUserSelectStore);
+
+const props = defineProps({
+  multiple: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+const addSelectedUser = (row: any) => {
+  // 如果是多选模式，则直接添加用户
+  if (props.multiple) {
+    useUserSelectStore.addSelectedUser(row);
+    return;
+  }
+
+  // 检查是否已经有用户被添加，如果有则显示警告信息
+  if (tableAddUserData.value.length > 0) {
+    ElMessage({
+      message: '最多只能选择一个用户',
+      type: 'warning',
+      duration: 2000,
+    });
+    return;
+  }
+
+  // 单选模式并且没有其他用户被添加，则添加用户
+  useUserSelectStore.addSelectedUser(row);
+};
+
+onMounted(() => {
+  useUserSelectStore.queryData();
+});
 </script>
 <style lang="scss" scoped>
 .user-select-center {

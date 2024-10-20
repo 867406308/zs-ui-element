@@ -17,10 +17,17 @@
               <el-input v-model="form.realName" placeholder="请输入姓名" />
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="useUserStore.queryData()">
+              <el-button
+                type="primary"
+                @click="useUserStore.queryData()"
+                :icon="Search"
+              >
                 查询
               </el-button>
-              <el-button @click="useUserStore.resetForm(ruleFormRef)">
+              <el-button
+                @click="useUserStore.resetForm(ruleFormRef)"
+                :icon="Refresh"
+              >
                 重置
               </el-button>
             </el-form-item>
@@ -101,7 +108,7 @@
             </el-table-column>
             <el-table-column prop="realName" label="用户姓名" sortable>
             </el-table-column>
-            <el-table-column prop="sex" label="性别" sortable>
+            <el-table-column prop="sex" label="性别" sortable width="80">
               <template #default="scope">
                 <span v-if="scope.row.sex === 0">男</span>
                 <span v-if="scope.row.sex === 1">女</span>
@@ -175,7 +182,7 @@
           <el-pagination
             background
             :currentPage="form.page"
-            layout="total, prev, pager, next, sizes,jumper"
+            layout="total, sizes, prev, pager, next"
             :page-size="form.size"
             :total="total"
             @current-change="useUserStore.handleCurrentChange"
@@ -189,7 +196,13 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { Search, Plus, Delete, RefreshRight } from '@element-plus/icons-vue';
+import {
+  Search,
+  Refresh,
+  Plus,
+  Delete,
+  RefreshRight,
+} from '@element-plus/icons-vue';
 import { storeToRefs } from 'pinia';
 import UserAddOrEdit from './components/user-add-or-edit.vue';
 import UserResetPassword from './components/user-reset-password.vue';

@@ -14,7 +14,7 @@
   <ZsGap height="20" />
   <el-tree
     ref="deptRef"
-    :data="tableData"
+    :data="deptTreeData"
     :props="defaultProps"
     :default-expanded-keys="expandedKeys"
     accordion
@@ -43,7 +43,7 @@ import ZsCustomIcon from '@/components/ZsCustomIcon/index.vue';
 import { deptStore } from '@/store/modules/sys/dept/deptStore';
 import { storeToRefs } from 'pinia';
 const useDetpStore = deptStore();
-const { tableData, expandedKeys, form } = storeToRefs(useDetpStore);
+const { deptTreeData, expandedKeys, form } = storeToRefs(useDetpStore);
 
 const defaultProps = {
   children: 'children',

@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia';
 import { save, edit, getById } from '@/api/sys/notice';
-import { postStore } from '@/store/modules/sys/position/postStore';
 
 export const noticeAddOrEditStore = defineStore('noticeAddOrEdit', {
   state: () => {
@@ -18,7 +17,7 @@ export const noticeAddOrEditStore = defineStore('noticeAddOrEdit', {
         // 接收人
         receiverIds: [],
       },
-      deptList: [],
+      deptData: [],
     };
   },
   getters: {
@@ -42,13 +41,23 @@ export const noticeAddOrEditStore = defineStore('noticeAddOrEdit', {
     },
   },
   actions: {
-    init() {
+    async init() {
       this.noticeAddOrEditVisible = true;
       if (this.form.sysNoticeId) {
         nextTick(async () => {
           await this.getInfoById();
         });
       }
+    },
+    handleData(list: any) {
+      const data = list.map((item: any) => {
+        return {
+          label: item.deptName,
+          value: item.sysDeptId,
+          children: item.children ? this.handleData(item.children) : [],
+        };
+      });
+      return data;
     },
     async getInfoById() {
       const data = await getById(this.form.sysNoticeId);
@@ -74,6 +83,10 @@ export const noticeAddOrEditStore = defineStore('noticeAddOrEdit', {
     },
     handleReceivingTypeChange(value: any) {
       switch (value) {
+        case 1:
+          // 全部用户
+          this.form.receiverIds = [];
+          break;
         case 2:
           // 指定用户
           this.form.receiverIds = [];
@@ -84,9 +97,7 @@ export const noticeAddOrEditStore = defineStore('noticeAddOrEdit', {
           break;
         case 4:
           // 指定部门
-          const usePostStore = postStore();
-          usePostStore.getDeptList();
-          this.deptList = usePostStore.deptTreeData;
+          this.form.receiverIds = [];
           break;
         case 5:
           // 指定岗位

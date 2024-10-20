@@ -9,10 +9,15 @@
           <el-input v-model="form.dictValue" placeholder="请输入字典键值" />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="useDictDataStore.queryData"
+          <el-button
+            type="primary"
+            @click="useDictDataStore.queryData"
+            :icon="Search"
             >查询</el-button
           >
-          <el-button @click="useDictDataStore.resetForm(dictDataFormRef)"
+          <el-button
+            @click="useDictDataStore.resetForm(dictDataFormRef)"
+            :icon="Refresh"
             >重置</el-button
           >
         </el-form-item>
@@ -90,14 +95,14 @@
             <el-tag
               v-if="scope.row.status === 0"
               type="danger"
-              effect="plain"
+              effect="dark"
               label="禁用"
               >禁用</el-tag
             >
             <el-tag
               v-if="scope.row.status === 1"
               type="primary"
-              effect="plain"
+              effect="dark"
               label="启用"
               >启用</el-tag
             >
@@ -132,7 +137,7 @@
       <el-pagination
         background
         :current-page="form.page"
-        layout="total,sizes, prev, pager, next, jumper"
+        layout="total,sizes, prev, pager, next"
         :page-size="form.size"
         :total="total"
         @current-change="useDictDataStore.handleCurrentChange"
@@ -146,7 +151,7 @@
   />
 </template>
 <script lang="ts" setup>
-import { Search, Plus, Delete } from '@element-plus/icons-vue';
+import { Search, Refresh, Plus, Delete } from '@element-plus/icons-vue';
 import DictDataAddOrEdit from './dict-data-add-or-edit.vue';
 import { dictDataStore } from '@/store/modules/sys/dict/dictDataStore';
 import { storeToRefs } from 'pinia';

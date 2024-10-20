@@ -1,7 +1,7 @@
 <template>
   <el-drawer
     v-model="dialogFormVisible"
-    :title="!form.sysDeptId ? '新增' : '修改'"
+    :title="!form.sysDeptId ? '新增部门' : '修改部门'"
     @close="useDeptAddOrEditStore.close"
     :close-on-click-modal="false"
   >
@@ -32,16 +32,12 @@
         ></el-input>
       </el-form-item>
       <el-form-item label="部门负责人" prop="sysUserId">
-        <dept-head
-          :sysUserId="form.sysUserId"
-          :realName="form.deptHeadName"
-          @onClick="handleOnClick"
-        />
+        <ZsSelectUser v-model="form.sysUserId" :multiple="false" />
       </el-form-item>
       <el-form-item label="状态" prop="status">
         <el-radio-group v-model="form.status">
-          <el-radio :value="1">正常</el-radio>
-          <el-radio :value="0">停用</el-radio>
+          <el-radio :value="1">启用</el-radio>
+          <el-radio :value="0">禁用</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="排序" prop="sort">
@@ -77,6 +73,7 @@ const handleOnClick = (row: any) => {
   form.value.sysUserId = row.sysUserId;
   form.value.deptHeadName = row.realName;
 };
+
 defineExpose({
   form,
   init: useDeptAddOrEditStore.init,

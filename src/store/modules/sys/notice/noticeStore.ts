@@ -40,7 +40,6 @@ export const noticeStore = defineStore('notice', {
       this.queryData();
     },
     handleAddOrEdit(row: any) {
-      console.log(row.sysNoticeId);
       if (this.addEditRef) {
         this.addEditRef.form.sysNoticeId = row?.sysNoticeId;
         this.addEditRef.init();

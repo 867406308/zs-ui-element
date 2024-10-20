@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
-import { userPage } from '@/api/sys/user.ts';
+import { userPage, getUserListByIds } from '@/api/sys/user.ts';
+import { sm4Decrypt } from '@/utils/cryptoUtils';
 
 export const userSelectStore = defineStore('userSelectStore', {
   state: () => {
@@ -19,15 +20,18 @@ export const userSelectStore = defineStore('userSelectStore', {
         sysRoleId: '',
       },
       tableData: [],
-      // 已选中用户列表
-      selectedData: [],
+      // 选择用户中已选用户列表
+      tableAddUserData: [],
+      // 已添加的用户列表
+      selectedUser: [],
     };
   },
   actions: {
     async queryData() {
       const data = await userPage(this.form);
-      this.tableData = data?.data?.list ?? [];
-      this.total = data?.data?.total;
+      const decryptData = sm4Decrypt(data?.data);
+      this.tableData = decryptData?.list ?? [];
+      this.total = decryptData?.total;
     },
     handleSizeChange(val: number) {
       this.form.size = val;
@@ -60,7 +64,9 @@ export const userSelectStore = defineStore('userSelectStore', {
       this.queryData();
     },
     addSelectedUser(row: any) {
-      if (this.selectedData.some((item) => item.sysUserId === row.sysUserId)) {
+      if (
+        this.tableAddUserData.some((item) => item.sysUserId === row.sysUserId)
+      ) {
         ElMessage({
           message: '该用户已存在,请勿重复添加！',
           type: 'warning',
@@ -68,18 +74,30 @@ export const userSelectStore = defineStore('userSelectStore', {
         });
         return;
       }
-      this.selectedData.push(row);
+      this.tableAddUserData.push(row);
+      console.log('bbb', this.tableAddUserData);
     },
     addAllSelectedUser() {
-      this.selectedData.push(...this.tableData);
+      this.tableAddUserData.push(...this.tableData);
     },
     removeSelectedUser(row: any) {
-      this.selectedData = this.selectedData.filter(
+      this.tableAddUserData = this.tableAddUserData.filter(
         (item) => item.sysUserId !== row.sysUserId,
       );
     },
     removeAllSelectedUser() {
-      this.selectedData = [];
+      this.tableAddUserData = [];
+    },
+    async initSelectedData(val: Array | String) {
+      const array = val instanceof Array ? val : [val];
+      const data = await getUserListByIds(array ?? []);
+      this.tableAddUserData = data?.data ?? [];
+      this.selectedUser = [...this.tableAddUserData];
+    },
+    handleRemove(val: any) {
+      // 移除
+      this.selectedUser.splice(val, 1);
+      this.tableAddUserData.splice(val, 1);
     },
   },
 });

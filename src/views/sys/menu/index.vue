@@ -11,9 +11,12 @@
               :icon="Plus"
               >新增菜单
             </el-button>
-            <el-button type="primary" @click="useMenuStore.toggleExpand()">{{
-              expand ? '全部收缩' : '全部展开'
-            }}</el-button>
+            <el-button
+              type="primary"
+              @click="useMenuStore.toggleExpand()"
+              :icon="expand ? SortUp : SortDown"
+              >{{ expand ? '全部收缩' : '全部展开' }}</el-button
+            >
           </template>
           <template #right>
             <el-input
@@ -114,7 +117,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { Plus, Search } from '@element-plus/icons-vue';
+import { Plus, Search, SortUp, SortDown } from '@element-plus/icons-vue';
 import MenuAddOrEdit from './components/menu-add-or-edit.vue';
 import { menuStore } from '@/store/modules/sys/menu/menuStore';
 import { storeToRefs } from 'pinia';

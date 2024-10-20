@@ -4,7 +4,7 @@
     title="密码重置"
     @close="useUserResetPasswordStore.resetPasswordCancel"
     :close-on-click-modal="false"
-    width="40%"
+    width="30%"
   >
     <el-form
       :model="passwordForm"

@@ -47,10 +47,15 @@
             </el-select>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="useNoticeStore.queryData"
+            <el-button
+              type="primary"
+              @click="useNoticeStore.queryData"
+              :icon="Search"
               >查询</el-button
             >
-            <el-button @click="useNoticeStore.resetForm(ruleFormRef)"
+            <el-button
+              @click="useNoticeStore.resetForm(ruleFormRef)"
+              :icon="Refresh"
               >重置</el-button
             >
           </el-form-item>
@@ -125,19 +130,16 @@
             align="center"
           >
             <template #default="scope">
-              <el-tag v-if="scope.row.status === 0" type="danger"
+              <el-tag v-if="scope.row.status === 0" type="danger" effect="dark"
                 >已撤销</el-tag
               >
-              <el-tag
-                v-if="scope.row.status === 1"
-                type="warning"
-                effect="plain"
+              <el-tag v-if="scope.row.status === 1" type="warning" effect="dark"
                 >草稿箱</el-tag
               >
               <el-tag
                 v-if="scope.row.status === 2"
                 type="primary"
-                effect="plain"
+                effect="dark"
               >
                 已发布
               </el-tag>
@@ -215,7 +217,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { Plus } from '@element-plus/icons-vue';
+import { Plus, Search, Refresh } from '@element-plus/icons-vue';
 import NoticeAddOrEdit from './components/notice-add-or-update.vue';
 import NoticeInfo from './components/notice-info.vue';
 import { noticeStore } from '@/store/modules/sys/notice/noticeStore';

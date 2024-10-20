@@ -46,6 +46,7 @@ export default defineConfig({
     preprocessorOptions: {
       scss: {
         additionalData: `@use "@/styles/element/index.scss" as *;`, //`@use "@/styles/element/index.scss" as *;`, //`@use "element-plus/theme-chalk/src/index.scss" as *;`
+        api: 'modern-compiler', // or 'modern'
       },
     },
   },
@@ -96,6 +97,7 @@ export default defineConfig({
     open: true, // 服务启动是否自动打开浏览器
     cors: true, // 允许跨域
     strictPort: false,
+    host: '0.0.0.0',
   },
   build: {
     emptyOutDir: true, // 打包时先清空上一次构建生成的目录.
