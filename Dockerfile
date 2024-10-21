@@ -1,4 +1,4 @@
-FROM zs-nginx
+FROM registry.cn-beijing.aliyuncs.com/my-admin/zs-nginx:1.26.2
 # 删除基础镜像中的 Nginx 配置文件
 #RUN rm /etc/nginx/conf.d/default.conf
 # 配置文件替换成自己写的
