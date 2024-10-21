@@ -23,7 +23,6 @@ instance.interceptors.request.use(
       cryptoStore().setSm4Key(randomSm4Key());
       // 添加sm4key到请求头
       request.headers.cryptoKey = sm2Encrypt(cryptoStore().sm4Key);
-      console.log('aaa ', cryptoStore().sm4Key);
     }
     // 在发送请求之前做些什么
     const accessToken = getAccessToken();
@@ -34,6 +33,7 @@ instance.interceptors.request.use(
     return request;
   },
   function (error) {
+    console.log('error', error);
     // 对请求错误做些什么
     return Promise.reject(error);
   },
@@ -42,6 +42,7 @@ instance.interceptors.request.use(
 // 添加响应拦截器
 instance.interceptors.response.use(
   (response) => {
+    console.log('response', response);
     // blob类型直接返回response
     if (['blob', 'arraybuffer'].includes(response.request.responseType)) {
       return response.data;
