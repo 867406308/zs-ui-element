@@ -4,5 +4,5 @@ FROM registry.cn-beijing.aliyuncs.com/my-admin/zs-nginx:1.26.2
 # 配置文件替换成自己写的
 #ADD ./zs-vue.conf /etc/nginx/conf.d/
 # 打包文件放置docker目录下
-#COPY ./zs-vue.conf /etc/nginx/conf.d/zs-vue.conf
-COPY ./dist /usr/share/nginx/html/zs-element/
+COPY ./zs-vue.conf /etc/nginx/conf.d/zs-element.conf
+COPY ./dist /usr/share/nginx/html/
