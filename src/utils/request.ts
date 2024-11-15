@@ -42,7 +42,7 @@ instance.interceptors.request.use(
 // 添加响应拦截器
 instance.interceptors.response.use(
   (response) => {
-    console.log('response', response);
+    // console.log('response', response);
     // blob类型直接返回response
     if (['blob', 'arraybuffer'].includes(response.request.responseType)) {
       return response.data;
