@@ -1,6 +1,6 @@
 
-@import './common.scss';
-@import './mixin.scss';
-@import './global.scss';
-@import './1.scss';
+@use './common.scss' as * ;
+@use './mixin.scss' as * ;
+@use './global.scss' as * ;
+@use './1.scss' as * ;
 // @import './2.scss';
