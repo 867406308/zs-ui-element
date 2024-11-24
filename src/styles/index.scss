@@ -1,7 +1,7 @@
 // import dark theme
 @use "element-plus/theme-chalk/src/dark/css-vars.scss" as *;
 @use './mixin.scss' as *;
-@use './common.scss' as *;
+@use './common.scss'  as *;
 
 :root {
   // 底部授权信息高度
@@ -97,6 +97,8 @@ code {
   }
   .zs-dialog__body{
     padding: var(--zs-dialog-padding-primary);
+    height: 60vh;
+    overflow-y: auto;
   }
   .zs-dialog__footer{
     padding: var(--zs-dialog-padding-primary);

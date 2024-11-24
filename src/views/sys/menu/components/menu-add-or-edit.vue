@@ -101,6 +101,10 @@
               placeholder="请选择图标"
               :readonly="true"
             >
+              <template #prefix>
+                <ZsIcon :icon="form.icon" size="24" />
+                <!-- <Icon :icon="form.icon" width="24" height="24" /> -->
+              </template>
               <template #append>
                 <el-button type="primary" @click="openIconDialog"
                   >选择</el-button

@@ -20,12 +20,10 @@ const { website } = storeToRefs(useWebsiteStore);
 <style lang="scss" scoped>
 .footer-text {
   height: calc($zs-footer-height - 0px);
-  // background-color: var(--zs-bg-color);
   border-radius: var(--zs-border-radius-base);
   display: flex;
   justify-content: center;
   align-items: center;
-  // margin-top: 10px;
 
   .zs-link {
     margin-left: 10px;

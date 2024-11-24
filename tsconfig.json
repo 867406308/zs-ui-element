@@ -21,7 +21,7 @@
     // "emitDeclarationOnly": true,
     "allowJs": true,
     "allowImportingTsExtensions": true,
-    "types": ["element-plus/global"]
+    // "types": ["element-plus/global","unplugin-icons/types/vue"]
   },
   "vueCompilerOptions": {
     "target": 3,

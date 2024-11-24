@@ -1,250 +1,109 @@
 <template>
   <div class="icon-select">
     <el-dialog
-      title="选择图标"
+      title="图标选择"
       v-model="visible"
-      :align-center="true"
+      align-center
       @close="handleClose"
-      width="900px"
-      :show-close="false"
-      :fullscreen="fullscreen"
+      width="50%"
+      :show-close="true"
     >
-      <template #header="{ close }">
-        <div class="my-header">
-          <div>选择图标</div>
-          <div class="icons">
-            <ZsIcon icon="full-screen" @click="handleFullScreen" />
-            <ZsIcon icon="close" @click="close" />
-          </div>
-        </div>
-      </template>
-      <ZsGap height="10" />
-      <el-input v-model="state.iconName" @input="updateFilteredIcons">
+      <el-input
+        v-model="search"
+        placeholder="请输入搜索内容"
+        clearable
+        style="width: 100%; height: 32px"
+      >
       </el-input>
-      <div class="icon-body">
-        <el-space class="icon-list">
-          <div
-            v-for="(icon, index) in iconsList"
-            :key="index"
-            class="icon-item"
-            @click="handleClick(icon)"
-          >
-            <div class="icon-wrapper">
-              <div class="icon-svg" v-html="icon.svg ?? ''"></div>
-              <div class="icon-name">{{ icon.name }}</div>
-            </div>
-          </div>
-        </el-space>
-      </div>
+      <ZsGap height="10" />
+      <el-tabs :tab-position="tabPosition" class="demo-tabs">
+        <el-tab-pane
+          v-for="(iconSet, index) in filteredIconSets"
+          :key="index"
+          :label="iconSet.label"
+        >
+          <icon-selector
+            :icons="iconSet.icons"
+            :prefix="iconSet.prefix"
+            @select="handleClick"
+          />
+        </el-tab-pane>
+      </el-tabs>
       <template #footer>
-        <el-pagination
-          background
-          :currentPage="state.page"
-          :page-size="state.size"
-          :total="total"
-          :layout="layout"
-          @current-change="handleCurrentChange"
-          @size-change="handleSizeChange"
-        />
-        <div>
-          <span class="dialog-footer">
-            <el-button @click="handleClose">取消</el-button>
-          </span>
+        <div class="dialog-footer">
+          <el-button @click="handleClose">取消</el-button>
         </div>
       </template>
     </el-dialog>
   </div>
 </template>
 <script lang="ts" setup>
-import icons from '@/assets/icons.json';
-import {
-  quicklyValidateIconSet,
-  parseIconSet,
-  iconToSVG,
-  getIconData,
-  iconToHTML,
-  replaceIDs,
-} from '@iconify/utils';
-const fullscreen = ref(false);
+import { Search } from '@element-plus/icons-vue';
+import { Icon } from '@iconify/vue';
+import { icons as antDesignIcons } from '@iconify-json/ant-design';
+import { icons as epIcons } from '@iconify-json/ep';
+import { icons as icIcons } from '@iconify-json/ic';
+import { icons as tdesignIcons } from '@iconify-json/tdesign';
+
+const search = ref('');
 const visible = ref(false);
+const tabPosition = ref('top');
 
-const iconsList = ref([]);
-const total = ref(0);
-const layout = ref('total,prev, pager, next');
+const iconSets = computed(() => [
+  {
+    label: 'Element plus图标',
+    icons: Object.keys(epIcons.icons),
+    prefix: 'ep',
+  },
+  {
+    label: 'Ant Design图标',
+    icons: Object.keys(antDesignIcons.icons),
+    prefix: 'ant-design',
+  },
+  {
+    label: 'Tdesign图标',
+    icons: Object.keys(tdesignIcons.icons),
+    prefix: 'tdesign',
+  },
+  {
+    label: 'Google Material Icons图标',
+    icons: Object.keys(icIcons.icons),
+    prefix: 'ic',
+  },
+]);
 
-const state = reactive({
-  iconName: '',
-  page: 1,
-  size: 100,
+const filteredIconSets = computed(() => {
+  if (!search.value) {
+    return iconSets.value;
+  }
+  return iconSets.value.map((iconSet) => ({
+    ...iconSet,
+    icons: iconSet.icons.filter((iconName) => iconName.includes(search.value)),
+  }));
 });
-const value = ref('');
-const newIcons = ref([]);
-
-// 初始化处理图标数据
-const processIcons = () => {
-  icons.forEach((icon) => {
-    const iconSet = quicklyValidateIconSet(icon);
-    if (iconSet) {
-      parseIconSet(icon, (iconName, data) => {
-        const renderData = iconToSVG(data, { height: '1.5em', width: '1.5em' });
-        const svg = iconToHTML(
-          replaceIDs(renderData.body),
-          renderData.attributes,
-        );
-        newIcons.value.push({ name: iconName, svg: svg });
-      });
-    }
-  });
-};
-
-const pageData = () => {
-  // 过滤掉没有 svg 的图标
-  // 使用 iconName 进行过滤
-  const filteredIcons = ref([]);
-  filteredIcons.value = state.iconName
-    ? newIcons.value.filter((icon) => icon.name.includes(state.iconName))
-    : newIcons.value;
-
-  // 更新 total 的值
-  total.value = filteredIcons.value.length;
-
-  // 切片得到当前页的数据
-  iconsList.value = filteredIcons.value.slice(
-    (state.page - 1) * state.size,
-    state.page * state.size,
-  );
-};
-
-const updateFilteredIcons = (val) => {
-  state.page = 1;
-  pageData();
-};
-
-const handleCurrentChange = (val) => {
-  state.page = val;
-  pageData();
-};
-const handleSizeChange = () => {
-  state.size = val;
-  pageData();
-};
 
 const emits = defineEmits(['onChange']);
 
 const handleClick = (icon) => {
-  emits('onChange', icon?.name);
+  emits('onChange', icon);
   visible.value = false;
 };
 
 const handleClose = () => {
-  state.iconName = '';
-  state.page = 1;
-  fullscreen.value = false;
-  state.size = 100;
   visible.value = false;
-  pageData();
+  search.value = '';
 };
-
-const handleFullScreen = () => {
-  fullscreen.value = !fullscreen.value;
-  state.size = fullscreen.value ? 120 : 100;
-  pageData();
-};
-
-onMounted(() => {
-  processIcons();
-  pageData();
-});
 
 defineExpose({
   visible,
 });
 </script>
 <style lang="scss" scoped>
-// 全屏
-.icon-select :deep(.zs-dialog.is-fullscreen) {
-  .zs-dialog__header {
-    height: auto;
-  }
-  .icon-body {
-    height: calc(100vh - 160px);
-  }
-}
+.zs-tabs {
+  height: calc(100% - 42px);
 
-// 非全屏
-.icon-select :deep(.zs-dialog) {
-  .zs-dialog__body {
-    padding: 0 var(--zs-dialog-padding-primary);
-  }
-  .zs-dialog__footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-}
-
-// 头部
-.my-header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-
-  .icons {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    > * {
-      margin-left: 15px;
-    }
-  }
-}
-// 内容
-.icon-body {
-  height: 50vh;
-  overflow: auto;
-  .icon-list {
-    padding: 16px 16px 16px 0;
-    border-radius: 4px;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    grid-gap: 8px !important;
-    align-items: unset !important;
-
-    .icon-item {
-      width: 140px;
-      height: 70px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      &:hover {
-        background: #f5f7fa;
-      }
-
-      .icon-wrapper {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        border: 1px solid var(--zs-border-color);
-
-        .icon-svg {
-        }
-
-        .icon-name {
-          margin-top: 8px;
-          font-size: 13px;
-          color: var(--zs-text-color-regular);
-          text-align: center;
-        }
-      }
-      .icon-wrapper:hover {
-        background-color: var(--zs-color-primary);
-      }
-    }
+  :deep(.zs-tabs__content) {
+    overflow-y: auto;
   }
 }
 </style>

@@ -45,7 +45,7 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: `@use "@/styles/element/index.scss" as *;@use "@/styles/common.scss" as *;`, //`@use "@/styles/element/index.scss" as *;`, //`@use "element-plus/theme-chalk/src/index.scss" as *;`
+        additionalData: `@use "@/styles/element/index.scss" as *;@use "@/styles/common.scss" as *;`,
         api: 'modern-compiler', // or 'modern'
       },
     },
