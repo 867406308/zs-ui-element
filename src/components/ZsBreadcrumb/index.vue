@@ -1,8 +1,8 @@
 <template>
   <div class="breadcrumb-box">
     <div @click="useSettingStore.clickCollapse" class="nav-collapse">
-      <ZsIcon v-if="!collapse" icon="indent-left" size="1.2em" />
-      <ZsIcon v-if="collapse" icon="indent-right" size="1.2em" />
+      <ZsIcon v-if="!collapse" icon="tdesign--indent-left" size="1.2em" />
+      <ZsIcon v-if="collapse" icon="tdesign--indent-right" size="1.2em" />
     </div>
     <div class="nav-breadcrumb">
       <el-breadcrumb separator="/">

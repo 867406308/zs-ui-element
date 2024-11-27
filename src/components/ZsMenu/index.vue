@@ -1,6 +1,6 @@
 <template>
   <el-menu
-    default-active="2"
+    default-active="1"
     :collapse="collapse"
     :router="true"
     :collapse-transition="false"

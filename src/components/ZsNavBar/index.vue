@@ -8,12 +8,12 @@
     </div>
     <div class="right-side">
       <el-space :size="10">
-        <ZsIcon icon="search" />
+        <ZsIcon icon="ep-search" />
         <el-badge is-dot>
-          <ZsIcon icon="bell" />
+          <ZsIcon icon="ep-bell" />
         </el-badge>
-        <ZsIcon icon="setting" @click="useSettingStore.openSetting" />
-        <ZsIcon icon="refresh-right" @click="onSubmitForm" />
+        <ZsIcon icon="ep-setting" @click="useSettingStore.openSetting" />
+        <ZsIcon icon="ep-refresh-right" @click="onSubmitForm" />
 
         <el-switch
           v-model="theme.dark"

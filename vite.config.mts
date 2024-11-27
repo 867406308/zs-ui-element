@@ -10,6 +10,7 @@ import { FileSystemIconLoader } from 'unplugin-icons/loaders';
 import dynamicImportVars from 'vite-plugin-dynamic-import-vars';
 import topLevelAwait from 'vite-plugin-top-level-await';
 import fs from 'fs';
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
 
 const pathSrc = path.resolve(__dirname, 'src');
 
@@ -55,6 +56,10 @@ export default defineConfig({
   },
   plugins: [
     vue(),
+    createSvgIconsPlugin({
+      iconDirs: [path.resolve(__dirname, 'src/assets/icons/svg')],
+      symbolId: '[name]',
+    }),
     dynamicImportVars({
       include: './src/**/*.vue', // 设置需要匹配的文件路径
     }),

@@ -55,6 +55,40 @@ code {
   color: var(--zs-color-primary);
 }
 
+// .zs-menu{
+//   padding: 6px;
+//   padding-left: 6px !important;
+  
+//   &-item {
+//     &:hover {
+//       border-radius: var(--zs-border-radius-base);
+//     }
+//   }
+//   .zs-sub-menu__title{
+//     padding: 0 calc(var(--zs-menu-base-level-padding) - 6px);
+//     &:hover {
+//       border-radius: var(--zs-border-radius-base);
+//     }
+//   }
+//   .zs-menu--inline {
+//     .zs-menu-item{
+//       &:hover {
+//         border-radius: var(--zs-border-radius-base);
+//       }
+//     }
+//   }
+//   // .zs-sub-menu{
+//   //   .zs-sub-menu__title{
+//   //     padding: 0 calc(var(--zs-menu-base-level-padding) - 6px);
+//   //     height: calc(var(--zs-menu-item-height) - 6px);
+//   //     line-height: calc(var(--zs-menu-item-height) - 6px);
+
+//   //   }
+//   //   .zs-menu--inline{
+//   //     padding: 0;
+//   //   }
+//   // }
+// }
 .zs-button:focus-visible{
   outline: none !important;
 }

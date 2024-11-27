@@ -10,6 +10,7 @@ declare module 'vue' {
     CustomIcon: typeof import('./../components/ZsIcon/components/CustomIcon.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
+    ElBacktop: typeof import('element-plus/es')['ElBacktop']
     ElBadge: typeof import('element-plus/es')['ElBadge']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
     ElBreadcrumbItem: typeof import('element-plus/es')['ElBreadcrumbItem']
@@ -46,6 +47,7 @@ declare module 'vue' {
     ElRadioGroup: typeof import('element-plus/es')['ElRadioGroup']
     ElRow: typeof import('element-plus/es')['ElRow']
     ElScrollbar: typeof import('element-plus/es')['ElScrollbar']
+    ElSegmented: typeof import('element-plus/es')['ElSegmented']
     ElSelect: typeof import('element-plus/es')['ElSelect']
     ElSpace: typeof import('element-plus/es')['ElSpace']
     ElStatistic: typeof import('element-plus/es')['ElStatistic']
@@ -64,12 +66,14 @@ declare module 'vue' {
     ElTreeSelect: typeof import('element-plus/es')['ElTreeSelect']
     ElUpload: typeof import('element-plus/es')['ElUpload']
     IconSelector: typeof import('./../components/ZsSelectIcon/components/IconSelector.vue')['default']
+    Index1: typeof import('./../components/ZsIcon/index1.vue')['default']
     Item: typeof import('./../components/ZsSelectIcon/components/Item.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Setting: typeof import('./../components/ZsNavBar/components/setting.vue')['default']
     SettingDrawer: typeof import('./../components/ZsThemeSetting/components/setting-drawer.vue')['default']
     SubMenu: typeof import('./../components/ZsMenu/components/SubMenu.vue')['default']
+    SvgIcon: typeof import('./../components/ZsSelectIcon/components/svg-icon.vue')['default']
     UserList: typeof import('./../components/ZsSelectUser/components/user-list.vue')['default']
     UserSelected: typeof import('./../components/ZsSelectUser/components/user-selected.vue')['default']
     ZsAppMain: typeof import('./../components/ZsAppMain/index.vue')['default']
@@ -96,6 +100,7 @@ declare module 'vue' {
     ZsUser: typeof import('./../components/ZsUser/index.vue')['default']
   }
   export interface ComponentCustomProperties {
+    vInfiniteScroll: typeof import('element-plus/es')['ElInfiniteScroll']
     vLoading: typeof import('element-plus/es')['ElLoadingDirective']
   }
 }

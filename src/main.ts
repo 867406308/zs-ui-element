@@ -9,6 +9,8 @@ import directive from '@/directive';
 import VXETable from 'vxe-table';
 import 'vxe-table/lib/style.css';
 import 'default-passive-events';
+import 'virtual:svg-icons-register';
+import iconSprite from '@/assets/icons/svgSprite/sprite.svg';
 
 console.log('%cZsAdmin', 'font-size: 54px;font-weight: bold; color: #16A085;');
 function useTable(app: App) {
@@ -16,6 +18,10 @@ function useTable(app: App) {
 }
 
 const app = createApp(App);
+
+// 挂载
+app.config.globalProperties.$iconSprite = iconSprite;
+
 app.use(pinia);
 app.use(router);
 app.use(directive);

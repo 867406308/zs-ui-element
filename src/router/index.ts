@@ -30,7 +30,7 @@ const routes = [
         component: () => import('@/views/sys/my/personalCenter/index.vue'),
         meta: {
           title: '个人中心',
-          icon: 'user-filled',
+          icon: 'ep-user',
         },
       },
     ],

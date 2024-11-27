@@ -1,16 +1,7 @@
 <template>
-  <Icon
-    :icon="icon"
-    :color="color"
-    class="svg-icon"
-    :width="size"
-    :height="size"
-  />
-  <!-- <div
-    v-html="form.svg"
-    :style="{ color: color, fontSize: size }"
-    class="svg-icon"
-  ></div> -->
+  <div class="svg-icon">
+    <SvgIcon :icon="icon" :color="color" :size="size" />
+  </div>
 </template>
 <script lang="ts" setup>
 import { Icon } from '@iconify/vue';
@@ -19,7 +10,7 @@ const props = defineProps({
   icon: {
     type: String,
     required: true,
-    default: 'ep:document',
+    default: 'ep-document',
   },
   color: {
     type: String,
@@ -27,7 +18,7 @@ const props = defineProps({
   },
   size: {
     type: String,
-    default: '',
+    default: '1em',
   },
 });
 </script>
